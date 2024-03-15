@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sah_food_industries/screens/login_register_screen.dart/register_screen.dart';
-
 import '../../Constants.dart';
 import '../dashboard/home_screen.dart';
 
@@ -55,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30, bottom: 5),
               child: Card(
-                color: Color(0xffDEDCFF),
+                color: const Color(0xffDEDCFF),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 child: TextFormField(
@@ -82,8 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Navigator.push(context,
                   //     MaterialPageRoute(builder: (context) => ForgotPage()));
                 },
-                child: Text(
-                  "Forgot Password?",
+                child: const Text(
+                  "Forgot Password?  ",
                   style: TextStyle(color: Color(0xFF5663FF)),
                 ),
               ),
@@ -102,10 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   // shadowColor: MaterialStateProperty.all(color), //Defines shadowColor
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
                 },
                 child: const Text(
                   'Login',
