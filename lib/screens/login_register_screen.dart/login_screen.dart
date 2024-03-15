@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   //     MaterialPageRoute(builder: (context) => ForgotPage()));
                 },
                 child: const Text(
-                  "Forgot Password?  ",
+                  "Forgot Password?",
                   style: TextStyle(color: Color(0xFF5663FF)),
                 ),
               ),
