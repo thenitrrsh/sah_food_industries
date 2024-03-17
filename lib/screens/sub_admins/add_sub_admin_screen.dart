@@ -1,8 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sah_food_industries/Constants.dart';
+import 'package:sah_food_industries/providers/admin_subadmin_provider.dart';
 
 import '../../ReusableContents/reusable_contents.dart';
+import '../../utils/toast_helper.dart';
 
 class AddSubAdminScreen extends StatefulWidget {
   const AddSubAdminScreen({super.key});
@@ -22,6 +24,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController tvIDController = TextEditingController();
   String docID = "";
+  AdminSubAdminProvider userProvider = AdminSubAdminProvider();
 
   // @override
   // void initState() {
@@ -139,17 +142,18 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                       ),
                       Center(
                         child: GestureDetector(
-                          // onTap: () {
-                          //   UserScreenProvider userScreenProvider =
-                          //   Provider.of(context, listen: false);
-                          //
-                          //   userScreenProvider.isUpdateUser == true
-                          //       ? onUserUpdate()
-                          //       : onUserAdd();
-                          //   userScreenProvider.isUpdateUser = false;
-                          //   userScreenProvider.docID = "";
-                          //   print("311 tvIDController: ${tvIDController.text}");
-                          // },
+                          onTap: () {
+                            // UserScreenProvider userScreenProvider =
+                            // Provider.of(context, listen: false);
+                            //
+                            // userScreenProvider.isUpdateUser == true
+                            //     ? onUserUpdate()
+                            //     : onUserAdd();
+                            // userScreenProvider.isUpdateUser = false;
+                            // userScreenProvider.docID = "";
+                            onUserAdd();
+
+                          },
                           child: Container(
                               height: 35,
                               width: width / 5,
@@ -182,26 +186,24 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
     );
   }
 
-  // onUserAdd() async {
-  //   if (emailController.text.isEmpty ||
-  //       phoneController.text.isEmpty ||
-  //       nameController.text.isEmpty ||
-  //       tvIDController.text.isEmpty ||
-  //       passwordController.text.isEmpty) {
-  //     ToastHelper.showToast("All fields are required");
-  //     return;
-  //   }
-  //   var response = await _userBloc.createUser(
-  //       phoneController.text,
-  //       passwordController.text,
-  //       nameController.text,
-  //       tvIDController.text,
-  //       emailController.text);
-  //   if (response && mounted) {
-  //     Navigator.pop(context);
-  //   }
-  // }
-  //
+  onUserAdd() async {
+    if (emailController.text.isEmpty ||
+        phoneController.text.isEmpty ||
+        nameController.text.isEmpty ||
+        passwordController.text.isEmpty) {
+      ToastHelper.showToast("All fields are required");
+      return;
+    }
+    var response = await userProvider.createAdmin(
+        phoneController.text,
+        passwordController.text,
+        nameController.text,
+        emailController.text);
+    if (response && mounted) {
+      Navigator.pop(context);
+    }
+  }
+
   // onUserUpdate() async {
   //   if (emailController.text.isEmpty ||
   //       phoneController.text.isEmpty ||

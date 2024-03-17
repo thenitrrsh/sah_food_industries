@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1083669233472",
+    "project_id": "sah-food-industry",
+    "storage_bucket": "sah-food-industry.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083669233472:android:491d50298cda5774d4c4a5",
+        "android_client_info": {
+          "package_name": "com.sah_food_industries.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzGu6jVftCRqHAwFEAf0pIt8_QPcbAf5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

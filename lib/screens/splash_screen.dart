@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sah_food_industries/app/shared_preferences_helper.dart';
+import 'package:sah_food_industries/screens/dashboard/home_screen.dart';
 
 import 'login_register_screen.dart/login_screen.dart';
 
@@ -15,10 +17,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(
         const Duration(seconds: 2),
-        () => Navigator.pushReplacement(
+        (){
+          if(SharedPreferencesHelper.isLogin()){
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );
+          }else{
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const LoginScreen()),
-            ));
+            );
+          }
+        });
   }
 
   @override

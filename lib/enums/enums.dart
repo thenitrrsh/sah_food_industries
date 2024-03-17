@@ -1,0 +1,1 @@
+enum AdminType{admin, subAdmin}

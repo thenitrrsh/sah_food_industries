@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sah_food_industries/app/shared_preferences_helper.dart';
 
 import '../../Constants.dart';
 import '../catalogue_screen/catalogue_screen.dart';
@@ -138,7 +139,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   DrawerListTile(
@@ -405,7 +406,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                       onPressed: () async {
                         // final sp = await SharedPreferences.getInstance();
                         // sp.clear();
-
+                        SharedPreferencesHelper.clearSharedPreferences();
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
