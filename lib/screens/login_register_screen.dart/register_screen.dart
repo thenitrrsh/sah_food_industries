@@ -138,6 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 child: TextFormField(
+                  obscureText: true,
                   // style: TextStyle(backgroundColor: Color(0xFF848DFF)),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -157,10 +158,11 @@ class _RegisterPageState extends State<RegisterPage> {
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30, bottom: 50),
               child: Card(
-                color: Color(0xffDEDCFF),
+                color: const Color(0xffDEDCFF),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 child: TextFormField(
+                  obscureText: true,
                   // style: TextStyle(backgroundColor: Color(0xFF848DFF)),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),

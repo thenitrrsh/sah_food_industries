@@ -1,29 +1,72 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sah_food_industries/Constants.dart';
-import 'package:sah_food_industries/providers/admin_subadmin_provider.dart';
 
 import '../../ReusableContents/reusable_contents.dart';
 import '../../helper.dart';
-import '../../utils/toast_helper.dart';
+import '../../providers/admin_subadmin_provider.dart';
 
-class AddSubAdminScreen extends StatefulWidget {
-  const AddSubAdminScreen({super.key});
+class CreateRegionScreen extends StatefulWidget {
+  const CreateRegionScreen({super.key});
 
   @override
-  State<AddSubAdminScreen> createState() => _AddSubAdminScreenState();
+  State<CreateRegionScreen> createState() => _CreateRegionScreenState();
 }
 
-class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
+class _CreateRegionScreenState extends State<CreateRegionScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  // List<String> indianStates = [
+  //   'Andhra Pradesh',
+  //   'Arunachal Pradesh',
+  //   'Assam',
+  //   'Bihar',
+  //   'Chhattisgarh',
+  //   'Goa',
+  //   'Gujarat',
+  //   'Haryana',
+  //   'Himachal Pradesh',
+  //   'Jharkhand',
+  //   'Karnataka',
+  //   'Kerala',
+  //   'Madhya Pradesh',
+  //   'Maharashtra',
+  //   'Manipur',
+  //   'Meghalaya',
+  //   'Mizoram',
+  //   'Nagaland',
+  //   'Odisha',
+  //   'Punjab',
+  //   'Rajasthan',
+  //   'Sikkim',
+  //   'Tamil Nadu',
+  //   'Telangana',
+  //   'Tripura',
+  //   'Uttar Pradesh',
+  //   'Uttarakhand',
+  //   'West Bengal'
+  // ];
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
   TextEditingController regionController = TextEditingController();
+  TextEditingController statesController = TextEditingController();
+
   String docID = "";
   AdminSubAdminProvider userProvider = AdminSubAdminProvider();
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   // UserScreenProvider userScreenProvider = Provider.of(context, listen: false);
+  //   nameController.text = userScreenProvider.userName;
+  //   phoneController.text = userScreenProvider.phoneNumber;
+  //   emailController.text = userScreenProvider.email;
+  //   passwordController.text = userScreenProvider.password;
+  //   tvIDController.text = userScreenProvider.tvID;
+  //   docID = userScreenProvider.docID;
+  //   print("40 working-- ${tvIDController.text} -- ${userScreenProvider.tvID}");
+  //   print(
+  //       "40 working-- ${passwordController.text} -- ${userScreenProvider.password}");
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +104,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
           ),
           backgroundColor: Constants.bgBlueColor,
           title: const Text(
-            'Add Sub-Admin',
+            'Create Region',
             style: TextStyle(fontSize: 20, color: Colors.white),
           )),
       body: Column(
@@ -95,30 +138,6 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      ReusableTextfield(
-                        hintText: "Enter Name",
-                        headingName: "Name",
-                        controller: nameController,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      ReusableTextfield(
-                        headingName: "Phone Number",
-                        hintText: "Enter Phone Number",
-                        controller: phoneController,
-                        keyboardType: TextInputType.phone,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      ReusableTextfield(
-                          headingName: "Region/Area",
-                          hintText: "Enter Region/Area",
-                          controller: regionController),
-                      const SizedBox(
-                        height: 10,
-                      ),
                       const Padding(
                         padding: EdgeInsets.only(left: 15),
                         child: Text(
@@ -127,7 +146,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                               fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ),
-                      SizedBox(
+                      Container(
                         width: width / 1.1,
                         child: Card(
                             color: Colors.white,
@@ -161,10 +180,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                                       (String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(),
-                                  ),
+                                  child: Text(value),
                                 );
                               }).toList(),
                             )),
@@ -173,20 +189,16 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                         height: 10,
                       ),
                       ReusableTextfield(
-                          headingName: "Email",
-                          hintText: "Enter Email",
-                          controller: emailController),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      ReusableTextfield(
-                          headingName: "Password",
-                          hintText: "Enter Password",
-                          controller: passwordController),
+                          headingName: "Region",
+                          hintText: "Enter Region",
+                          controller: regionController),
                       SizedBox(
                         height: height / 14,
                       ),
-                      SaveButton(width: width, onTap: () { onUserAdd(); },),
+                      SaveButton(
+                        width: width,
+                        onTap: () {},
+                      ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -201,41 +213,46 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
     );
   }
 
-  onUserAdd() async {
-    if (emailController.text.isEmpty ||
-        phoneController.text.isEmpty ||
-        nameController.text.isEmpty ||
-        passwordController.text.isEmpty) {
-      ToastHelper.showToast("All fields are required");
-      return;
-    }
-    var response = await userProvider.createAdmin(phoneController.text,
-        passwordController.text, nameController.text, emailController.text);
-    if (response && mounted) {
-      Navigator.pop(context);
-    }
-  }
-
-  // onUserUpdate() async {
-  //   if (emailController.text.isEmpty ||
-  //       phoneController.text.isEmpty ||
-  //       nameController.text.isEmpty ||
-  //       tvIDController.text.isEmpty ||
-  //       passwordController.text.isEmpty) {
-  //     ToastHelper.showToast("All fields are required");
-  //     return;
-  //   }
-  //   var response = await _userBloc.updateUser(
-  //     phoneController.text,
-  //     passwordController.text,
-  //     nameController.text,
-  //     tvIDController.text,
-  //     emailController.text,
-  //     docID,
-  //   );
-  //   if (response && mounted) {
-  //     Navigator.pop(context);
-  //   }
-  //   print(response);
-  // }
+// onUserAdd() async {
+//   if (emailController.text.isEmpty ||
+//       phoneController.text.isEmpty ||
+//       nameController.text.isEmpty ||
+//       tvIDController.text.isEmpty ||
+//       passwordController.text.isEmpty) {
+//     ToastHelper.showToast("All fields are required");
+//     return;
+//   }
+//   var response = await _userBloc.createUser(
+//       phoneController.text,
+//       passwordController.text,
+//       nameController.text,
+//       tvIDController.text,
+//       emailController.text);
+//   if (response && mounted) {
+//     Navigator.pop(context);
+//   }
+// }
+//
+// onUserUpdate() async {
+//   if (emailController.text.isEmpty ||
+//       phoneController.text.isEmpty ||
+//       nameController.text.isEmpty ||
+//       tvIDController.text.isEmpty ||
+//       passwordController.text.isEmpty) {
+//     ToastHelper.showToast("All fields are required");
+//     return;
+//   }
+//   var response = await _userBloc.updateUser(
+//     phoneController.text,
+//     passwordController.text,
+//     nameController.text,
+//     tvIDController.text,
+//     emailController.text,
+//     docID,
+//   );
+//   if (response && mounted) {
+//     Navigator.pop(context);
+//   }
+//   print(response);
+// }
 }

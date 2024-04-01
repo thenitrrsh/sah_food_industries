@@ -75,7 +75,7 @@ class _CreateNotesScreenState extends State<CreateNotesScreen> {
           ),
           backgroundColor: Constants.bgBlueColor,
           title: const Text(
-            'Create Note',
+            'Create Region',
             style: TextStyle(fontSize: 20, color: Colors.white),
           )),
       body: Column(
@@ -160,37 +160,7 @@ class _CreateNotesScreenState extends State<CreateNotesScreen> {
                       SizedBox(
                         height: height / 14,
                       ),
-                      Center(
-                        child: GestureDetector(
-                          // onTap: () {
-                          //   UserScreenProvider userScreenProvider =
-                          //   Provider.of(context, listen: false);
-                          //
-                          //   userScreenProvider.isUpdateUser == true
-                          //       ? onUserUpdate()
-                          //       : onUserAdd();
-                          //   userScreenProvider.isUpdateUser = false;
-                          //   userScreenProvider.docID = "";
-                          //   print("311 tvIDController: ${tvIDController.text}");
-                          // },
-                          child: Container(
-                              height: 35,
-                              width: width / 5,
-                              decoration: BoxDecoration(
-                                  color: Constants.bgBlueColor,
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(15)),
-                              child: const Center(
-                                child: Text(
-                                  "Save",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                        ),
-                      ),
+                      SaveButton(width: width, onTap: () {  },),
                       const SizedBox(
                         height: 15,
                       ),

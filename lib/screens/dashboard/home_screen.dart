@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sah_food_industries/Constants.dart';
-
 import '../../ReusableContents/reusable_contents.dart';
 import '../../helper.dart';
 import '../catalogue_screen/catalogue_screen.dart';
@@ -111,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Today's Report",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -120,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               "Date: ",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -214,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.purple.shade50,
                                   borderRadius:
                                       BorderRadiusDirectional.circular(8))),
-                              child: Center(
+                              child: const Center(
                                   child: Text(
                                 "200",
                                 style: TextStyle(
@@ -233,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(

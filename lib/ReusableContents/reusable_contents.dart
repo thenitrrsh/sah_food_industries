@@ -17,16 +17,18 @@ class ReusableDashboardSmallText extends StatelessWidget {
 }
 
 class ReusableTextfield extends StatelessWidget {
-  const ReusableTextfield({
+  ReusableTextfield({
     super.key,
     required this.controller,
     required this.headingName,
     required this.hintText,
+    this.keyboardType,
   });
 
   final TextEditingController controller;
   final String headingName;
   final String hintText;
+  TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class ReusableTextfield extends StatelessWidget {
               side: const BorderSide(color: Constants.bgBlueColor, width: 1.5)),
           child: TextField(
             controller: controller,
+            keyboardType: keyboardType,
             decoration: InputDecoration(
               hintText: hintText,
               contentPadding: EdgeInsets.all(12),
@@ -141,6 +144,74 @@ class SearchTextField extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ReusableSaveButton extends StatelessWidget {
+  const ReusableSaveButton({
+    super.key,
+    required this.width,
+  });
+
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 40,
+        width: width / 3.5,
+        decoration: BoxDecoration(
+            color: Constants.bgBlueColor,
+            borderRadius: BorderRadiusDirectional.circular(10)),
+        child: const Center(
+          child: Text(
+            "Save",
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+          ),
+        ));
+  }
+}
+
+class SaveButton extends StatelessWidget {
+  SaveButton({super.key, required this.width, required this.onTap});
+
+  final double width;
+  void Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: GestureDetector(
+        onTap: onTap,
+        // onTap: () {
+        //   UserScreenProvider userScreenProvider =
+        //   Provider.of(context, listen: false);
+        //
+        //   userScreenProvider.isUpdateUser == true
+        //       ? onUserUpdate()
+        //       : onUserAdd();
+        //   userScreenProvider.isUpdateUser = false;
+        //   userScreenProvider.docID = "";
+        //   print("311 tvIDController: ${tvIDController.text}");
+        // },
+        child: Container(
+            height: 50,
+            width: width / 2,
+            decoration: BoxDecoration(
+                color: Constants.bgBlueColor,
+                borderRadius: BorderRadiusDirectional.circular(15)),
+            child: const Center(
+              child: Text(
+                "Save",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500),
+              ),
+            )),
       ),
     );
   }

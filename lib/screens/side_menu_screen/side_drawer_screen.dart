@@ -6,6 +6,7 @@ import '../catalogue_screen/catalogue_screen.dart';
 import '../dashboard/home_screen.dart';
 import '../login_register_screen.dart/login_screen.dart';
 import '../notes_screen/notes_screen.dart';
+import '../region_screen/region_list_screen.dart';
 import '../reports_screen/reports_screen.dart';
 import '../sales_screen/sales_screen.dart';
 import '../staffs/staff_list_screen.dart';
@@ -149,6 +150,30 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const HomeScreen()));
+                    },
+                  ),
+                  Center(
+                    child: Container(
+                      height: 1,
+                      width: 80,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                            Colors.white12,
+                            Colors.white70,
+                            Colors.white10
+                          ])),
+                    ),
+                  ),
+                  DrawerListTile(
+                    text: 'Regions',
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RegionListScreen()));
                     },
                   ),
                   Center(

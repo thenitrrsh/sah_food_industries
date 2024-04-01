@@ -14,12 +14,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final formkey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final ValueNotifier<bool> loading = ValueNotifier<bool>(false);
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: "Email",
                       hintStyle: TextStyle(color: Constants.bgBlueColor),
 
-
                       // fillColor: Color(0xFF848DFF),
                       // contentPadding: EdgeInsets.only(left: 10, right: 5)
                     ),
@@ -79,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(15)),
                   child: TextFormField(
                     controller: passwordController,
+                    obscureText: true,
                     // style: TextStyle(backgroundColor: Color(0xFF848DFF)),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -129,7 +127,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     // shadowColor: MaterialStateProperty.all(color), //Defines shadowColor
                   ),
                   onPressed: () {
-                    _onLogin();
+                    // _onLogin();
+
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()),
+                        (route) => false);
                   },
                   child: const Text(
                     'Login',
@@ -157,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               MaterialPageRoute(
                                   builder: (context) => const RegisterPage()));
                         },
-                        child: Text(
+                        child: const Text(
                           "Sign Up ",
                           style: TextStyle(
                               color: Constants.bgBlueColor,
@@ -181,15 +185,15 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     if (formkey.currentState!.validate()) {
       loading.value = true;
-      var response =
-      await LoginProvider().login(emailController.text, passwordController.text);
+      var response = await LoginProvider()
+          .login(emailController.text, passwordController.text);
       loading.value = false;
       if (response && mounted) {
         SharedPreferencesHelper.setIsLogin(true);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const HomeScreen()),
-                (route) => false);
+            (route) => false);
       }
     }
   }

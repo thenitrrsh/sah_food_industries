@@ -77,11 +77,14 @@ class _StaffListScreenState extends State<StaffListScreen> {
               child: const Center(
                 child: Text(
                   " Total: 5 ",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.green),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
             Padding(

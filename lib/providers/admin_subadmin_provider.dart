@@ -20,10 +20,15 @@ class AdminSubAdminProvider extends ChangeNotifier {
   bool loading = false;
   bool paginationLoading = false;
   bool allDataLoaded = false;
+  String _selectedStates = "Bihar";
+  String get selectedStates => _selectedStates;
+  void updateSelectedStates(String states) {
+    _selectedStates = states;
+    notifyListeners();
+  }
 
-
-
-  Future<bool> createAdmin(String phone, String password, String name, String email) async {
+  Future<bool> createAdmin(
+      String phone, String password, String name, String email) async {
     bool? response = await _firebaseServices.checkUserExist(phone);
     if (response == null) {
       ToastHelper.showToast("Something went wrong");
@@ -35,12 +40,11 @@ class AdminSubAdminProvider extends ChangeNotifier {
     }
 
     bool userResponse = await _firebaseServices.createNewAdmin(
-      email: email,
-      type: AdminType.subAdmin,
-      password: password,
-      phone: phone,
-      name: name
-    );
+        email: email,
+        type: AdminType.subAdmin,
+        password: password,
+        phone: phone,
+        name: name);
     if (userResponse) {
       ToastHelper.showToast("Created Successfully");
       return true;
@@ -72,44 +76,43 @@ class AdminSubAdminProvider extends ChangeNotifier {
   }
 
   Future<void> getAdminList({String query = '', bool isReset = false}) async {
-    if(isReset){
+    if (isReset) {
       loading = true;
       lastDocument = null;
       _allAdminList.clear();
       adminData = null;
       allDataLoaded = false;
-    }else{
+    } else {
       paginationLoading = true;
     }
-    if(allDataLoaded){
+    if (allDataLoaded) {
       paginationLoading = false;
       return;
     }
     notifyListeners();
-   try{
-     adminData = await _firebaseServices.getAdminList(query, lastDocument, limit);
-     allDataLoaded = adminData?.allDataLoaded ?? false;
-     loading = false;
-     paginationLoading = false;
-     lastDocument = adminData?.lastDocument;
-     _allAdminList.addAll(adminData?.data ?? []);
-     adminData?.data = _allAdminList;
+    try {
+      adminData =
+          await _firebaseServices.getAdminList(query, lastDocument, limit);
+      allDataLoaded = adminData?.allDataLoaded ?? false;
+      loading = false;
+      paginationLoading = false;
+      lastDocument = adminData?.lastDocument;
+      _allAdminList.addAll(adminData?.data ?? []);
+      adminData?.data = _allAdminList;
 
-     notifyListeners();
-   }catch(e){
-     notifyListeners();
-
-   }
+      notifyListeners();
+    } catch (e) {
+      notifyListeners();
+    }
   }
 
-  searchData(String query){
+  searchData(String query) {
     adminData = null;
     notifyListeners();
-   timer?.cancel();
-   timer = Timer(const Duration(seconds: 1), () {
-     getAdminList(query: query, isReset: true);
-   });
-
+    timer?.cancel();
+    timer = Timer(const Duration(seconds: 1), () {
+      getAdminList(query: query, isReset: true);
+    });
 
     // if(query.trim() != ""){
     //   adminData?.data = _allAdminList.where((element) => element.name?.toLowerCase().contains(query.toLowerCase()) ?? false).toList();
@@ -118,10 +121,5 @@ class AdminSubAdminProvider extends ChangeNotifier {
     // }
 
     // notifyListeners();
-
-
   }
-
-
-
 }

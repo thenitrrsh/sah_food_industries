@@ -117,16 +117,16 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                         height: 10,
                       ),
                       ReusableTextfield(
-                          headingName: "Email",
-                          hintText: "Enter Email",
-                          controller: emailController),
+                          headingName: "Phone Number",
+                          hintText: "Enter Phone Number",
+                          controller: phoneController),
                       const SizedBox(
                         height: 10,
                       ),
                       ReusableTextfield(
-                          headingName: "Phone Number",
-                          hintText: "Enter Phone Number",
-                          controller: phoneController),
+                          headingName: "Email",
+                          hintText: "Enter Email",
+                          controller: emailController),
                       const SizedBox(
                         height: 10,
                       ),
@@ -137,36 +137,9 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                       SizedBox(
                         height: height / 14,
                       ),
-                      Center(
-                        child: GestureDetector(
-                          // onTap: () {
-                          //   UserScreenProvider userScreenProvider =
-                          //   Provider.of(context, listen: false);
-                          //
-                          //   userScreenProvider.isUpdateUser == true
-                          //       ? onUserUpdate()
-                          //       : onUserAdd();
-                          //   userScreenProvider.isUpdateUser = false;
-                          //   userScreenProvider.docID = "";
-                          //   print("311 tvIDController: ${tvIDController.text}");
-                          // },
-                          child: Container(
-                              height: 35,
-                              width: width / 5,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue,
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(15)),
-                              child: const Center(
-                                child: Text(
-                                  "Save",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                        ),
+                      SaveButton(
+                        width: width,
+                        onTap: () {},
                       ),
                       const SizedBox(
                         height: 15,
