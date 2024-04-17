@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sah_food_industries/enums/enums.dart';
+import 'package:sah_food_industries/models/country_model.dart';
+import 'package:sah_food_industries/models/region_model.dart';
+import 'package:sah_food_industries/models/state_model.dart';
 
 import '../constants/firebase_constants.dart';
 
@@ -124,7 +127,7 @@ class FirebaseServices {
 
 
   Future<bool> createNewAdmin(
-      {required String phone, required String name, required String password,required String email, required AdminType type}) async {
+      {required String phone, required String name, required String password,required String email, required AdminType type, required String regionId, required String stateId,required String regionName, required String stateName}) async {
     String adminType = 'sub-admin';
     if(type == AdminType.admin){
       adminType = 'admin';
@@ -139,7 +142,11 @@ class FirebaseServices {
         'phone': phone,
         'created_at': Timestamp.now(),
         'email': email,
-        'type' : adminType
+        'type' : adminType,
+        'region_id': regionId,
+        'region_name': regionName,
+        'state_name': stateName,
+        'state_id': stateId,
       });
       return true;
     } catch (e) {
@@ -232,6 +239,89 @@ class FirebaseServices {
 
     return finalResponse;
   }
+
+
+  // Future<CountryListModel> getCountries() async {
+  //
+  //   try {
+  //     var response = await firestore.collection(FirebaseConstants.countryCollection).get();
+  //     print("response.docs ${response.docs.length}");
+  //     return CountryListModel.fromMap(response.docs);
+  //   } catch (e) {
+  //     return CountryListModel.error("Something went wrong");
+  //     throw Exception(e);
+  //   }
+  // }
+  //
+  Future<RegionListModel> getRegions({String? stateId}) async {
+    List<RegionModel> regionList = [];
+    try {
+      var response ;
+      if(stateId != null){
+        response = await firestore.collection(FirebaseConstants.regionCollection).where('state_id', isEqualTo: stateId).get();}
+      else{
+        response = await firestore.collection(FirebaseConstants.regionCollection).get();
+      }
+      if (response.size > 0) {
+        var data= RegionListModel.fromMap(response.docs);
+        return data;
+      }
+      return RegionListModel(regionList: regionList);
+    } catch (e) {
+      return RegionListModel.error("Something went wrong");
+      throw Exception(e);
+    }
+  }
+
+
+
+  Future<String?> createRegion(String regionName, String stateId, String stateName) async {
+    try {
+      var existingRegion = await firestore.collection(FirebaseConstants.regionCollection).where('name', isEqualTo: regionName).where('state_id', isEqualTo:  stateId).get();
+      if(existingRegion.size > 0){
+        return "Region already exist";
+      }
+      var response = await firestore
+          .collection(FirebaseConstants.regionCollection)
+          .doc()
+          .set({
+        'name': regionName,
+        'state_id': stateId,
+        'state_name': stateName,
+        'created_at': Timestamp.now(),
+      });
+      return null;
+    } catch (e) {
+      return "Something went wrong";
+    }
+  }
+
+
+
+  Future<bool> deleteRegion(String docId) async {
+    try {
+      await firestore.collection(FirebaseConstants.regionCollection).doc(docId).delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<StateListModel> getStates() async {
+    try {
+      var response = await firestore.collection(FirebaseConstants.stateCollection).get();
+      if (response.size > 0) {
+        var data= StateListModel.fromMap(response.docs);
+        return data;
+      }
+      return StateListModel(regionList: []);
+    } catch (e) {
+      return StateListModel.error("Something went wrong");
+      throw Exception(e);
+    }
+  }
+
+
 
 
 

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sah_food_industries/enums/enums.dart';
@@ -28,7 +27,7 @@ class AdminSubAdminProvider extends ChangeNotifier {
   }
 
   Future<bool> createAdmin(
-      String phone, String password, String name, String email) async {
+      String phone, String password, String name, String email, String regionId, String stateId, String regionName, String stateName) async {
     bool? response = await _firebaseServices.checkUserExist(phone);
     if (response == null) {
       ToastHelper.showToast("Something went wrong");
@@ -44,7 +43,12 @@ class AdminSubAdminProvider extends ChangeNotifier {
         type: AdminType.subAdmin,
         password: password,
         phone: phone,
-        name: name);
+        name: name,
+      regionId: regionId,
+      stateId: stateId,
+      regionName: regionName,
+      stateName: stateName
+    );
     if (userResponse) {
       ToastHelper.showToast("Created Successfully");
       return true;

@@ -1,10 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sah_food_industries/Constants.dart';
+import 'package:sah_food_industries/models/state_model.dart';
+import 'package:sah_food_industries/services/firebase_services.dart';
 
 import '../../ReusableContents/reusable_contents.dart';
 import '../../helper.dart';
 import '../../providers/admin_subadmin_provider.dart';
+import '../../utils/toast_helper.dart';
 
 class CreateRegionScreen extends StatefulWidget {
   const CreateRegionScreen({super.key});
@@ -51,22 +54,23 @@ class _CreateRegionScreenState extends State<CreateRegionScreen> {
 
   String docID = "";
   AdminSubAdminProvider userProvider = AdminSubAdminProvider();
+  StateModel? selectedState;
+  StateListModel? stateListModel;
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   // UserScreenProvider userScreenProvider = Provider.of(context, listen: false);
-  //   nameController.text = userScreenProvider.userName;
-  //   phoneController.text = userScreenProvider.phoneNumber;
-  //   emailController.text = userScreenProvider.email;
-  //   passwordController.text = userScreenProvider.password;
-  //   tvIDController.text = userScreenProvider.tvID;
-  //   docID = userScreenProvider.docID;
-  //   print("40 working-- ${tvIDController.text} -- ${userScreenProvider.tvID}");
-  //   print(
-  //       "40 working-- ${passwordController.text} -- ${userScreenProvider.password}");
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+
+    super.initState();
+    init();
+  }
+
+  init() async{
+   stateListModel=  await FirebaseServices().getStates();
+
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +116,11 @@ class _CreateRegionScreenState extends State<CreateRegionScreen> {
           const SizedBox(
             height: 60,
           ),
+
           Expanded(
-            child: Container(
+            child: stateListModel == null ? Center(
+              child: CircularProgressIndicator(),
+            ):Container(
               // height: height / 1,
               width: width / 1,
               decoration: const BoxDecoration(
@@ -154,11 +161,11 @@ class _CreateRegionScreenState extends State<CreateRegionScreen> {
                                 borderRadius: BorderRadius.circular(22),
                                 side: const BorderSide(
                                     color: Constants.bgBlueColor, width: 1.5)),
-                            child: DropdownButton<String>(
+                            child: DropdownButton<StateModel>(
                               isExpanded: true,
                               padding:
                                   const EdgeInsets.only(left: 12, right: 10),
-                              value: userProvider.selectedStates,
+                              value: selectedState,
                               iconDisabledColor: Colors.transparent,
                               underline: Container(
                                 // width: width / 1.1,
@@ -170,17 +177,17 @@ class _CreateRegionScreenState extends State<CreateRegionScreen> {
                                   color: Colors.black54,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500),
-                              onChanged: (String? value) {
-                                userProvider.updateSelectedStates(value!);
+                              onChanged: (StateModel? value) {
+                               selectedState = value;
                                 // print(widget.adminDashboardProvider.selectedYear);
                                 setState(() {});
                               },
-                              items: Helper.indianStates
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                return DropdownMenuItem<String>(
+                              items: stateListModel?.regionList?.isEmpty ?? true ? [] : stateListModel!.regionList!
+                                  .map<DropdownMenuItem<StateModel>>(
+                                      (StateModel value) {
+                                return DropdownMenuItem<StateModel>(
                                   value: value,
-                                  child: Text(value),
+                                  child: Text(value.stateName ?? ""),
                                 );
                               }).toList(),
                             )),
@@ -197,7 +204,24 @@ class _CreateRegionScreenState extends State<CreateRegionScreen> {
                       ),
                       SaveButton(
                         width: width,
-                        onTap: () {},
+                        onTap: () async {
+
+                          if (regionController.text.isEmpty) {
+                            ToastHelper.showToast("Region is required");
+                            return;
+                          }
+                          if (selectedState == null) {
+                            ToastHelper.showToast("State is required");
+                            return;
+                          }
+                          String? data = await FirebaseServices().createRegion(regionController.text, selectedState?.docId ?? "", selectedState?.stateName ?? "");
+                          if (data == null) {
+                            ToastHelper.showToast("Region created successfully");
+                            Navigator.pop(context);
+                          } else {
+                            ToastHelper.showToast(data);
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 15,
