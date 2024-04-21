@@ -2,8 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sah_food_industries/providers/admin_subadmin_provider.dart';
+import 'package:sah_food_industries/providers/staffProvider.dart';
+import 'package:sah_food_industries/routes/routes.dart';
 import 'package:sah_food_industries/screens/login_register_screen.dart/login_screen.dart';
 import 'package:sah_food_industries/screens/splash_screen.dart';
+import 'package:sah_food_industries/screens/staffs/staff_list_screen.dart';
 
 import 'app/shared_preferences_helper.dart';
 
@@ -24,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AdminSubAdminProvider>( create: (context) => AdminSubAdminProvider()),
+        // ChangeNotifierProvider<StaffProvider>( create: (context) => StaffProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -31,7 +35,9 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        routes: Routes.routes,
+        initialRoute: Routes.splashScreen,
+        // home: const SplashScreen(),
       ),
     );
   }

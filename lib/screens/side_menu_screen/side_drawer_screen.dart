@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sah_food_industries/app/shared_preferences_helper.dart';
+import 'package:sah_food_industries/models/user_model.dart';
+import 'package:sah_food_industries/routes/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Constants.dart';
 import '../catalogue_screen/catalogue_screen.dart';
@@ -28,9 +31,12 @@ class DashboardDrawer extends StatefulWidget {
 
 class _DashboardDrawerState extends State<DashboardDrawer> {
   bool isButtonClick = false;
+
   @override
   Widget build(BuildContext context) {
     // LoginModel userData = SharedPreferencesHelper.getUserDetails();
+    UserModel? userData = SharedPreferencesHelper.getUserData();
+    String adminType = userData?.type ?? "";
     return Drawer(
       width: widget.width / 1.4,
       backgroundColor: Constants.drawerBackgroundColor,
@@ -156,55 +162,6 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                     child: Container(
                       height: 1,
                       width: 80,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                            Colors.white12,
-                            Colors.white70,
-                            Colors.white10
-                          ])),
-                    ),
-                  ),
-                  DrawerListTile(
-                    text: 'Regions',
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RegionListScreen()));
-                    },
-                  ),
-                  Center(
-                    child: Container(
-                      height: 1,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                            Colors.white12,
-                            Colors.white70,
-                            Colors.white10
-                          ])),
-                    ),
-                  ),
-                  DrawerListTile(
-                    text: 'Sub-Admins',
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const SubAdminsListScreen()));
-                    },
-                  ),
-                  Center(
-                    child: Container(
-                      height: 1,
-                      width: 80,
                       decoration: const BoxDecoration(
                           gradient: LinearGradient(
                               begin: Alignment.topLeft,
@@ -216,13 +173,65 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                           ])),
                     ),
                   ),
+                 if(adminType == 'admin') ...[
+                    DrawerListTile(
+                      text: 'Regions',
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegionListScreen()));
+                      },
+                    ),
+                    Center(
+                      child: Container(
+                        height: 1,
+                        width: 80,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Colors.white12,
+                                  Colors.white70,
+                                  Colors.white10
+                                ])),
+                      ),
+                    ),
+                    DrawerListTile(
+                      text: 'Sub-Admins',
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                const SubAdminsListScreen()));
+                      },
+                    ),
+                    Center(
+                      child: Container(
+                        height: 1,
+                        width: 80,
+                        decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Colors.white12,
+                                  Colors.white70,
+                                  Colors.white10
+                                ])),
+                      ),
+                    ),
+                  ],
                   DrawerListTile(
                     text: 'Staffs',
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const StaffListScreen()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const StaffListScreen()));
+                      Navigator.pushNamed(context, Routes.staffList);
                     },
                   ),
                   Center(
@@ -349,6 +358,16 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                       //     MaterialPageRoute(
                       //         builder: (context) => LoginScreen()),
                       //     (route) => false);
+
+                      final sp = await SharedPreferences.getInstance();
+                      sp.clear();
+
+
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                              (route) => false);
                     },
                   ),
                 ],

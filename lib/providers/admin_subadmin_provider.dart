@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sah_food_industries/app/shared_preferences_helper.dart';
 import 'package:sah_food_industries/enums/enums.dart';
 import '../models/admin_subadmin_model.dart';
 import '../models/user_model.dart';
@@ -28,13 +29,13 @@ class AdminSubAdminProvider extends ChangeNotifier {
 
   Future<bool> createAdmin(
       String phone, String password, String name, String email, String regionId, String stateId, String regionName, String stateName) async {
-    bool? response = await _firebaseServices.checkUserExist(phone);
+    bool? response = await _firebaseServices.checkUserExist(email, 'admin');
     if (response == null) {
       ToastHelper.showToast("Something went wrong");
       return false;
     }
     if (response == true) {
-      ToastHelper.showToast("User with provided phone already exist");
+      ToastHelper.showToast("User with provided email already exist");
       return false;
     }
 
@@ -95,6 +96,12 @@ class AdminSubAdminProvider extends ChangeNotifier {
     }
     notifyListeners();
     try {
+      UserModel? userModel = SharedPreferencesHelper.getUserData();
+      print("100 working");
+      if (userModel != null) {
+        print(userModel.toMap());
+      }
+
       adminData =
           await _firebaseServices.getAdminList(query, lastDocument, limit);
       allDataLoaded = adminData?.allDataLoaded ?? false;

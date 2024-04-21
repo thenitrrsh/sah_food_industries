@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sah_food_industries/app/shared_preferences_helper.dart';
+import 'package:sah_food_industries/models/user_model.dart';
 
 import '../services/firebase_services.dart';
 import '../utils/toast_helper.dart';
@@ -11,11 +13,13 @@ class LoginProvider {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       if (credential.user?.email != null) {
-        bool isAdminExist = await _firebaseServices.checkAdminExist(email);
-        if (!isAdminExist) {
-          ToastHelper.showToast("No user found for that email.");
+        UserModel? isAdminExist = await _firebaseServices.checkAdminExist(email);
+        if (isAdminExist == null) {
+          ToastHelper.showToast("No user found for this email.");
         }
-        return isAdminExist;
+        SharedPreferencesHelper.setUserData(isAdminExist!);
+
+        return true;
       }
       return false;
     } on FirebaseAuthException catch (e) {

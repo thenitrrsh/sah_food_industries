@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sah_food_industries/Constants.dart';
+import 'package:sah_food_industries/routes/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../ReusableContents/reusable_contents.dart';
 import '../../helper.dart';
+import '../../providers/staffProvider.dart';
 import '../catalogue_screen/catalogue_screen.dart';
+import '../login_register_screen.dart/login_screen.dart';
 import '../notes_screen/notes_screen.dart';
 import '../reports_screen/reports_screen.dart';
 import '../sales_screen/sales_screen.dart';
@@ -68,13 +73,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       // Provider.of(context, listen: false);
                       // timeSheetProvider.selectedEmployeeController.clear();
                       // _showLogoutAlertDialog();
-                      // final sp = await SharedPreferences.getInstance();
-                      // sp.clear();
-                      //
-                      // Navigator.pushAndRemoveUntil(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => LoginScreen()),
-                      //     (route) => false);
+                      final sp = await SharedPreferences.getInstance();
+                      sp.clear();
+
+
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                          (route) => false);
                     },
                     icon: const Icon(
                       Icons.logout,
@@ -265,11 +272,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const SubAdminsListScreen()));
                         } else {
                           if (index == 1) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const StaffListScreen()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             ChangeNotifierProvider(
+                            //               create: (context) => StaffProvider(),
+                            //                 child: const StaffListScreen())));
+
+                            Navigator.pushNamed(context, Routes.staffList);
                           } else {
                             if (index == 2) {
                               Navigator.push(

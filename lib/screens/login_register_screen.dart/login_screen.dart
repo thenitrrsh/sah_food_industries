@@ -128,12 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     // _onLogin();
+                    _onLogin();
 
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen()),
-                        (route) => false);
+
                   },
                   child: const Text(
                     'Login',

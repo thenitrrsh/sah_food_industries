@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sah_food_industries/app/shared_preferences_helper.dart';
 import 'package:sah_food_industries/enums/enums.dart';
-import 'package:sah_food_industries/models/country_model.dart';
 import 'package:sah_food_industries/models/region_model.dart';
 import 'package:sah_food_industries/models/state_model.dart';
 
@@ -21,26 +22,45 @@ class FirebaseServices {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   ///user
-  Future<bool> checkAdminExist(String email) async {
+  Future<UserModel?> checkAdminExist(String email) async {
     try {
       var response = await firestore
-          .collection(FirebaseConstants.subAdminCollection)
+          .collection(FirebaseConstants.adminCollection)
           .where('email', isEqualTo: email)
           .get();
+
       if (response.size > 0) {
-        return true;
+        UserModel userModel = UserModel();
+
+        userModel.name = response.docs.first.data()['name'];
+        userModel.email = response.docs.first.data()['email'];
+        userModel.phone = response.docs.first.data()['phone'].toString();
+        userModel.docId = response.docs.first.id;
+        userModel.password = response.docs.first.data()['password'];
+        userModel.regionId = response.docs.first.data()['region_id'];
+        userModel.regionName = response.docs.first.data()['region_name'];
+        userModel.stateId = response.docs.first.data()['state_id'];
+        userModel.stateName = response.docs.first.data()['state_name'];
+        userModel.type = response.docs.first.data()['type'];
+
+        return userModel;
       }
-      return false;
+      return null;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 
-  Future<bool?> checkUserExist(String phone) async {
+  Future<bool?> checkUserExist(String email, String type) async {
+    String userCollection = FirebaseConstants.adminCollection;
+    if(type == 'staff'){
+      userCollection = FirebaseConstants.staffCollection;
+
+    }
     try {
       var response = await firestore
-          .collection(FirebaseConstants.userCollection)
-          .where('phone', isEqualTo: phone)
+          .collection(userCollection)
+          .where('email', isEqualTo: email)
           .get();
       if (response.size > 0) {
         return true;
@@ -51,31 +71,30 @@ class FirebaseServices {
     }
   }
 
-  Future<bool> createNewUser(String phone, String name, String password,
-      String tvId, String email) async {
-    try {
-      var response = await firestore
-          .collection(FirebaseConstants.userCollection)
-          .doc()
-          .set({
-        'name': name,
-        'password': password,
-        'phone': phone,
-        'created_at': Timestamp.now(),
-        'email': email,
-        'tv_id_final': tvId
-      });
+
+
+  Future<bool?> handleSignUp(String email, String password) async {
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+    //10
+    try{
+
+      final result = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      //11
       return true;
-    } catch (e) {
-      return false;
+    }catch(e){
+      return null;
     }
   }
 
-  Future<bool> updateUser(String phone, String name, String password,
+
+
+  Future<bool> updateStaff(String phone, String name, String password,
       String tvId, String email, String docId) async {
     try {
       var response = await firestore
-          .collection(FirebaseConstants.userCollection)
+          .collection(FirebaseConstants.staffCollection)
           .doc(docId)
           .update({
         'name': name,
@@ -91,10 +110,10 @@ class FirebaseServices {
     }
   }
 
-  Future<bool> deleteUser(String docId) async {
+  Future<bool> deleteStaff(String docId) async {
     try {
       var response = await firestore
-          .collection(FirebaseConstants.userCollection)
+          .collection(FirebaseConstants.staffCollection)
           .doc(docId)
           .delete();
       return true;
@@ -103,11 +122,11 @@ class FirebaseServices {
     }
   }
 
-  Future<List<UserModel>> getUserList() async {
+  Future<List<UserModel>> getStaffList() async {
     List<UserModel> userList = [];
     try {
       var response =
-      await firestore.collection(FirebaseConstants.userCollection).get();
+      await firestore.collection(FirebaseConstants.staffCollection).get();
       if (response.size > 0) {
         for (var i in response.docs) {
           UserModel userModel = UserModel();
@@ -116,6 +135,7 @@ class FirebaseServices {
           userModel.phone = i.data()['phone'].toString();
           userModel.docId = i.id;
           userModel.password = i.data()['password'];
+          userModel.status = i.data()['status'];
           userList.add(userModel);
         }
       }
@@ -133,8 +153,13 @@ class FirebaseServices {
       adminType = 'admin';
     }
     try {
+
+      bool? userCreateResponse = await handleSignUp(email, password);
+      if(userCreateResponse == null || userCreateResponse == false){
+        return false;
+      }
       var response = await firestore
-          .collection(FirebaseConstants.subAdminCollection)
+          .collection(FirebaseConstants.adminCollection)
           .doc()
           .set({
         'name': name,
@@ -157,7 +182,7 @@ class FirebaseServices {
   Future<bool> updateAdmin(String phone, String name, String password, String email, String docId) async {
     try {
       var response = await firestore
-          .collection(FirebaseConstants.subAdminCollection)
+          .collection(FirebaseConstants.adminCollection)
           .doc(docId)
           .update({
         'name': name,
@@ -175,7 +200,7 @@ class FirebaseServices {
   Future<bool> deleteAdmin(String docId) async {
     try {
       var response = await firestore
-          .collection(FirebaseConstants.userCollection)
+          .collection(FirebaseConstants.staffCollection)
           .doc(docId)
           .delete();
       return true;
@@ -193,7 +218,7 @@ class FirebaseServices {
     }
     try {
 
-      var firestoreQuery = firestore.collection(FirebaseConstants.subAdminCollection).where("");
+      var firestoreQuery = firestore.collection(FirebaseConstants.adminCollection).where("");
       if(query != ""){
         firestoreQuery = firestoreQuery.where("name", isEqualTo: query);
       }
@@ -201,6 +226,7 @@ class FirebaseServices {
       firestoreQuery = firestoreQuery.limit(limit);
 
       firestoreQuery = firestoreQuery.orderBy('created_at', descending: true);
+      firestoreQuery = firestoreQuery.where('type', isEqualTo: 'sub-admin');
       if(lastDoc != null){
         firestoreQuery = firestoreQuery.startAfterDocument(lastDoc!);
 
@@ -221,7 +247,7 @@ class FirebaseServices {
 
 
           AggregateQuerySnapshot aggregateQuerySnapshot =
-           await firestore.collection(FirebaseConstants.userCollection).where('created_by', isEqualTo: userModel.docId).count().get(source: AggregateSource.server);
+           await firestore.collection(FirebaseConstants.staffCollection).where('created_by', isEqualTo: userModel.docId).count().get(source: AggregateSource.server);
           userModel.totalStaff = aggregateQuerySnapshot.count ?? 0;
 
           userList.add(userModel);
@@ -239,6 +265,38 @@ class FirebaseServices {
 
     return finalResponse;
   }
+
+  Future<bool> createStaff({required String name, required String phone, required String email, required String password}) async{
+    UserModel? userModel = SharedPreferencesHelper.getUserData();
+    try{
+      bool? isUserExist = await checkUserExist(email, 'staff');
+      if(isUserExist == true){
+        return false;
+      }
+
+      bool? userCreateResponse = await handleSignUp(email, password);
+      if(userCreateResponse == null || userCreateResponse == false){
+        return false;
+      }
+      var response = await firestore.collection(FirebaseConstants.staffCollection).doc().set({
+        'phone': phone,
+        'name': name,
+        'email': email,
+        'password': password,
+        'created_at': Timestamp.now(),
+        'created_by': userModel!.docId,
+        'region_id': userModel.regionId,
+        'region_name': userModel.regionName,
+        'state_id': userModel.stateId,
+        'state_name': userModel.stateName,
+        'status': 'offline'
+      });
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
 
 
   // Future<CountryListModel> getCountries() async {

@@ -1,8 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sah_food_industries/Constants.dart';
+import 'package:sah_food_industries/services/firebase_services.dart';
 
 import '../../ReusableContents/reusable_contents.dart';
+import '../../utils/toast_helper.dart';
 
 class AddStaffScreen extends StatefulWidget {
   const AddStaffScreen({super.key});
@@ -20,7 +22,6 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController tvIDController = TextEditingController();
   String docID = "";
 
   // @override
@@ -139,7 +140,9 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                       ),
                       SaveButton(
                         width: width,
-                        onTap: () {},
+                        onTap: () {
+                          onUserAdd();
+                        },
                       ),
                       const SizedBox(
                         height: 15,
@@ -155,31 +158,25 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
     );
   }
 
-// onUserAdd() async {
-//   if (emailController.text.isEmpty ||
-//       phoneController.text.isEmpty ||
-//       nameController.text.isEmpty ||
-//       tvIDController.text.isEmpty ||
-//       passwordController.text.isEmpty) {
-//     ToastHelper.showToast("All fields are required");
-//     return;
-//   }
-//   var response = await _userBloc.createUser(
-//       phoneController.text,
-//       passwordController.text,
-//       nameController.text,
-//       tvIDController.text,
-//       emailController.text);
-//   if (response && mounted) {
-//     Navigator.pop(context);
-//   }
-// }
-//
+onUserAdd() async {
+  if (emailController.text.isEmpty ||
+      phoneController.text.isEmpty ||
+      nameController.text.isEmpty ||
+      passwordController.text.isEmpty) {
+    ToastHelper.showToast("All fields are required");
+    return;
+  }
+  var response = await FirebaseServices().createStaff(name: nameController.text, phone: phoneController.text
+      , email: emailController.text, password: emailController.text);
+  if (response && mounted) {
+    Navigator.pop(context);
+  }
+}
+
 // onUserUpdate() async {
 //   if (emailController.text.isEmpty ||
 //       phoneController.text.isEmpty ||
 //       nameController.text.isEmpty ||
-//       tvIDController.text.isEmpty ||
 //       passwordController.text.isEmpty) {
 //     ToastHelper.showToast("All fields are required");
 //     return;
