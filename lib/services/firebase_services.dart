@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sah_food_industries/app/shared_preferences_helper.dart';
 import 'package:sah_food_industries/enums/enums.dart';
+import 'package:sah_food_industries/models/product_category_model.dart';
+import 'package:sah_food_industries/models/product_model.dart';
 import 'package:sah_food_industries/models/region_model.dart';
 import 'package:sah_food_industries/models/state_model.dart';
 
@@ -376,6 +378,138 @@ class FirebaseServices {
     } catch (e) {
       return StateListModel.error("Something went wrong");
       throw Exception(e);
+    }
+  }
+
+  Future<ProductListModel> getProductList() async {
+    try {
+      var response = await firestore.collection(FirebaseConstants.stateCollection).get();
+      if (response.size > 0) {
+        var data= ProductListModel.fromMap(response.docs);
+        return data;
+      }
+      return ProductListModel(regionList: []);
+    } catch (e) {
+      return ProductListModel.error("Something went wrong");
+      throw Exception(e);
+    }
+  }
+
+
+  Future<bool> createProduct(String productName, String productPrice, String productDescription, String productImage) async {
+    try {
+      var response = await firestore
+          .collection(FirebaseConstants.productCollection)
+          .doc()
+          .set({
+        'name': productName,
+        'price': productPrice,
+        'description': productDescription,
+        'image': productImage,
+        'created_at': Timestamp.now(),
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> updateProduct(String productName, String productPrice, String productDescription, String productImage, String docId) async {
+    try {
+      var response = await firestore
+          .collection(FirebaseConstants.productCollection)
+          .doc(docId)
+          .update({
+        'name': productName,
+        'price': productPrice,
+        'description': productDescription,
+        'image': productImage,
+        'created_at': Timestamp.now(),
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteProduct(String docId) async {
+    try {
+      await firestore.collection(FirebaseConstants.productCollection).doc(docId).delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+
+  Future<bool> createProductCategory(String categoryName) async {
+    try {
+      var response = await firestore
+          .collection(FirebaseConstants.productCategoryCollection)
+          .doc()
+          .set({
+        'name': categoryName,
+        'created_at': Timestamp.now(),
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<ProductCategoryModelList> getProductsCategory() async {
+    try {
+      var response = await firestore.collection(FirebaseConstants.productCategoryCollection).get();
+      if (response.size > 0) {
+        var data= ProductCategoryModelList.fromMap(response.docs);
+        return data;
+      }
+      return ProductCategoryModelList(categoryList: []);
+    } catch (e) {
+      return ProductCategoryModelList.error("Something went wrong");
+      throw Exception(e);
+    }
+  }
+
+
+  Future<bool> updateProductCategory(String categoryName, String docId) async {
+    try {
+      var response = await firestore
+          .collection(FirebaseConstants.productCategoryCollection)
+          .doc(docId)
+          .update({
+        'name': categoryName,
+        'created_at': Timestamp.now(),
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteProductCategory(String docId) async {
+    try {
+      await firestore.collection(FirebaseConstants.productCategoryCollection).doc(docId).delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+
+  Future<bool> updateRegion(String regionName, String stateId, String docId) async {
+    try {
+      var response = await firestore
+          .collection(FirebaseConstants.regionCollection)
+          .doc(docId)
+          .update({
+        'name': regionName,
+        'state_id': stateId,
+        'created_at': Timestamp.now(),
+      });
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 

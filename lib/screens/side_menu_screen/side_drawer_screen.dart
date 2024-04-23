@@ -223,6 +223,8 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                                 ])),
                       ),
                     ),
+
+
                   ],
                   DrawerListTile(
                     text: 'Staffs',
@@ -310,6 +312,27 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                     child: Container(
                       height: 1,
                       width: 80,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.white12,
+                                Colors.white70,
+                                Colors.white10
+                              ])),
+                    ),
+                  ),
+                  DrawerListTile(
+                    text: 'Product Category',
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.productCategoryListScreen);
+                    },
+                  ),
+                  Center(
+                    child: Container(
+                      height: 1,
+                      width: 80,
                       decoration: const BoxDecoration(
                           gradient: LinearGradient(
                               begin: Alignment.topLeft,
@@ -334,7 +357,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                     child: Container(
                       height: 1,
                       width: 80,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,

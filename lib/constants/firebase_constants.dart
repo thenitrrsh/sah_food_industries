@@ -4,5 +4,7 @@ class FirebaseConstants {
   static const String staffCollection = 'staff';
   static const String stateCollection = 'state';
   static const String regionCollection = 'city';
+  static const String productCollection = 'product';
+  static const String productCategoryCollection = 'product_category';
 
 }
