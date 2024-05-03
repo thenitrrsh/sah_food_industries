@@ -15,18 +15,18 @@ import 'add_staff_screen.dart';
 enum SampleItem { Edit }
 
 class StaffListScreen extends StatefulWidget {
- // final StaffProvider staffProvider;
-  const StaffListScreen({super.key,
+  // final StaffProvider staffProvider;
+  const StaffListScreen({
+    super.key,
     // required this.staffProvider
   });
 
-  static ChangeNotifierProvider<StaffProvider> builder(BuildContext context){
+  static ChangeNotifierProvider<StaffProvider> builder(BuildContext context) {
     return ChangeNotifierProvider<StaffProvider>(
         create: (context) => StaffProvider(),
-      builder: (context, snapshot) {
-        return const StaffListScreen();
-      }
-    );
+        builder: (context, snapshot) {
+          return const StaffListScreen();
+        });
   }
 
   @override
@@ -69,7 +69,6 @@ class _StaffListScreenState extends State<StaffListScreen> {
   Widget build(BuildContext context) {
     StaffProvider staffProvider = context.watch<StaffProvider>();
 
-
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -89,10 +88,10 @@ class _StaffListScreenState extends State<StaffListScreen> {
             Container(
               height: 30,
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child:  Center(
+                  color: Colors.white, borderRadius: BorderRadius.circular(5)),
+              child: Center(
                 child: Text(
-                  " Total: ${staffProvider.staffListSearch?.length ?? 0}",
+                  " Total: ${staffProvider.staffListSearch?.length ?? 0} ",
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -103,44 +102,45 @@ class _StaffListScreenState extends State<StaffListScreen> {
             const SizedBox(
               width: 5,
             ),
-         if(SharedPreferencesHelper.getUserData()?.type == 'sub-admin')   Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Center(
-                child: Container(
-                  height: 30,
-                  width: 60,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.circular(10),
-                      color: Colors.white),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () async {
-                        // UserScreenProvider userScreenProvider =
-                        // Provider.of(context, listen: false);
-                        // userScreenProvider.isUpdateUser = false;
-                        //
-                        await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddStaffScreen()));
+            if (SharedPreferencesHelper.getUserData()?.type == 'sub-admin')
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Center(
+                  child: Container(
+                    height: 30,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.circular(10),
+                        color: Colors.white),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () async {
+                          // UserScreenProvider userScreenProvider =
+                          // Provider.of(context, listen: false);
+                          // userScreenProvider.isUpdateUser = false;
+                          //
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddStaffScreen()));
 
-                        staffProvider.getStaff();
-                        // setState(() {
-                        //   init();
-                        // });
-                      },
-                      child: Text(
-                        "Add",
-                        style: TextStyle(
-                            fontSize: 17,
-                            color: Constants.bgBlueColor,
-                            fontWeight: FontWeight.w600),
+                          staffProvider.getStaff();
+                          // setState(() {
+                          //   init();
+                          // });
+                        },
+                        child: Text(
+                          "Add",
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Constants.bgBlueColor,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
+              )
 
             // Padding(
             //   padding: const EdgeInsets.only(right: 10),
@@ -218,7 +218,7 @@ class _StaffListScreenState extends State<StaffListScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                     staffProvider.changeStatus(StaffStatus.all);
+                      staffProvider.changeStatus(StaffStatus.all);
                     },
                     child: Container(
                         height: 40,
@@ -242,7 +242,7 @@ class _StaffListScreenState extends State<StaffListScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                     staffProvider.changeStatus(StaffStatus.active);
+                      staffProvider.changeStatus(StaffStatus.active);
                     },
                     child: Container(
                         height: 40,
@@ -268,139 +268,134 @@ class _StaffListScreenState extends State<StaffListScreen> {
               ),
             ),
           ),
-          if(staffProvider.staffListSearch == null)
+          if (staffProvider.staffListSearch == null)
             Expanded(
-              child: Center(
-                child: CircularProgressIndicator()),
+              child: Center(child: CircularProgressIndicator()),
             ),
-          if(staffProvider.staffListSearch?.isEmpty ?? true )
+          if (staffProvider.staffListSearch?.isEmpty ?? true)
             Expanded(
-              child: Center(
-                child: Text("No Data")),
-            )else
+              child: Center(child: Text("No Data")),
+            )
+          else
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     Padding(
+                    //       padding: const EdgeInsets.only(right: 10),
+                    //       child: MaterialButton(
+                    //         shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadiusDirectional.circular(15)),
+                    //         color: Colors.blue,
+                    //         onPressed: () {
+                    //           Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                   builder: (context) => AddUserScreen()));
+                    //         },
+                    //         child: Text(
+                    //           " Add",
+                    //           style: TextStyle(color: Colors.white, fontSize: 16),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
 
-
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Padding(
-                  //       padding: const EdgeInsets.only(right: 10),
-                  //       child: MaterialButton(
-                  //         shape: RoundedRectangleBorder(
-                  //             borderRadius: BorderRadiusDirectional.circular(15)),
-                  //         color: Colors.blue,
-                  //         onPressed: () {
-                  //           Navigator.push(
-                  //               context,
-                  //               MaterialPageRoute(
-                  //                   builder: (context) => AddUserScreen()));
-                  //         },
-                  //         child: Text(
-                  //           " Add",
-                  //           style: TextStyle(color: Colors.white, fontSize: 16),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-
-                  // if (userList.isNotEmpty)
+                    // if (userList.isNotEmpty)
 
                     ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: staffProvider.staffListSearch?.length ?? 0  ,
+                        itemCount: staffProvider.staffListSearch?.length ?? 0,
                         itemBuilder: (context, index) {
                           // print("137 checking userlist${userList.length}");
-                          UserModel userData = staffProvider.staffListSearch![index];
+                          UserModel userData =
+                              staffProvider.staffListSearch![index];
                           return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(20)),
-                              elevation: 3,
-                              child: GestureDetector(
-
-                                child: Container(
-                                  height: height / 8,
-                                  decoration: BoxDecoration(
-                                      color: staffProvider.status == StaffStatus.active ? Colors.green.shade300: Constants.bgBlueColor,
-                                      borderRadius:
-                                          BorderRadiusDirectional.circular(20)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2),
-                                    child: Row(
-                                      children: [
-                                        const CircleAvatar(
-                                          radius: 30,
-                                          backgroundColor: Colors.white,
-                                          child: CircleAvatar(
-                                            radius: 40,
-                                            backgroundImage: ExactAssetImage(
-                                              "assets/profile.jpg",
-                                            ),
-                                          ),
+                            padding: const EdgeInsets.all(5),
+                            child: GestureDetector(
+                              child: Container(
+                                height: height / 8.8,
+                                decoration: BoxDecoration(
+                                    color: staffProvider.status ==
+                                            StaffStatus.active
+                                        ? Colors.green.shade500
+                                        : Constants.bgBlueColor,
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(10)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Row(
+                                    children: [
+                                      const CircleAvatar(
+                                        radius: 30,
+                                        backgroundColor: Colors.white,
+                                        child: CircleAvatar(
+                                          radius: 29,
+                                          backgroundImage: NetworkImage(
+                                              "https://media.istockphoto.com/id/1320207978/photo/head-shot-smiling-businessman-wearing-glasses-standing-in-office.jpg?s=612x612&w=0&k=20&c=323jXWfxToNy8eQG8UhYHyWlmcJgXRo0CfoJjsBrS18="),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10, bottom: 10, left: 5),
-                                          child: Column(
-                                            // mainAxisAlignment:
-                                            //     MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                               Expanded(
-                                                child: Text(userData.name ?? "",
-                                                    style: TextStyle(
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 20,
-                                                        color: Colors.white)),
-                                              ),
-                                              const SizedBox(
-                                                height: 3,
-                                              ),
-                                              Row(
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8),
+                                        child: Column(
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Text(userData.name ?? "",
+                                                  style: const TextStyle(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 18,
+                                                      color: Colors.white)),
+                                            ),
+                                            const SizedBox(
+                                              height: 3,
+                                            ),
+                                            SizedBox(
+                                              width: width / 1.33,
+                                              child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
                                                   Row(
                                                     children: [
-                                                      Text(
+                                                      const Text(
                                                         "Phone: ",
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w500,
-                                                            fontSize: 14,
+                                                            fontSize: 12,
                                                             color:
-                                                                Colors.white),
+                                                                Colors.white70),
                                                       ),
                                                       Text(
                                                         userData.phone ?? "",
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             fontWeight:
-                                                                FontWeight.w600,
+                                                                FontWeight.w500,
                                                             fontSize: 14,
                                                             color:
                                                                 Colors.white),
                                                       )
                                                     ],
                                                   ),
-                                                  SizedBox(
-                                                    width: width / 4,
-                                                  ),
+                                                  // SizedBox(
+                                                  //   width: width / 4,
+                                                  // ),
                                                   Row(
                                                     children: [
                                                       GestureDetector(
@@ -424,15 +419,20 @@ class _StaffListScreenState extends State<StaffListScreen> {
                                                         //                     "",
                                                         //               )));
                                                         // },
-                                                        child: const Icon(
+                                                        child: Icon(
                                                           Icons.add_chart,
-                                                          size: 28,
-                                                          color: Colors
-                                                              .greenAccent,
+                                                          size: 25,
+                                                          color: staffProvider
+                                                                      .status !=
+                                                                  StaffStatus
+                                                                      .active
+                                                              ? Colors
+                                                                  .greenAccent
+                                                              : Colors.black,
                                                         ),
                                                       ),
                                                       const SizedBox(
-                                                        width: 10,
+                                                        width: 12,
                                                       ),
                                                       GestureDetector(
                                                         onTap: () {
@@ -470,19 +470,27 @@ class _StaffListScreenState extends State<StaffListScreen> {
                                                         },
                                                         child: Icon(
                                                           Icons.delete_forever,
-                                                          size: 30,
-                                                          color: Colors
-                                                              .red.shade300,
+                                                          size: 25,
+                                                          color: staffProvider
+                                                                      .status !=
+                                                                  StaffStatus
+                                                                      .active
+                                                              ? Colors
+                                                                  .greenAccent
+                                                              : Colors.black,
                                                         ),
                                                       ),
                                                     ],
                                                   )
                                                 ],
                                               ),
-                                              SizedBox(
-                                                height: 3,
-                                              ),
-                                              Row(
+                                            ),
+                                            const SizedBox(
+                                              height: 3,
+                                            ),
+                                            SizedBox(
+                                              width: width / 1.33,
+                                              child: const Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
@@ -494,23 +502,20 @@ class _StaffListScreenState extends State<StaffListScreen> {
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w500,
-                                                            fontSize: 14,
+                                                            fontSize: 12,
                                                             color:
-                                                                Colors.white),
+                                                                Colors.white70),
                                                       ),
                                                       Text(
-                                                        "10",
+                                                        "100",
                                                         style: TextStyle(
                                                             fontWeight:
-                                                                FontWeight.w600,
+                                                                FontWeight.w500,
                                                             fontSize: 14,
                                                             color:
                                                                 Colors.white),
                                                       )
                                                     ],
-                                                  ),
-                                                  SizedBox(
-                                                    width: width / 4.2,
                                                   ),
                                                   Row(
                                                     children: [
@@ -519,15 +524,15 @@ class _StaffListScreenState extends State<StaffListScreen> {
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w500,
-                                                            fontSize: 14,
+                                                            fontSize: 12,
                                                             color:
-                                                                Colors.white),
+                                                                Colors.white70),
                                                       ),
                                                       Text(
-                                                        "10",
+                                                        "1000",
                                                         style: TextStyle(
                                                             fontWeight:
-                                                                FontWeight.w600,
+                                                                FontWeight.w500,
                                                             fontSize: 14,
                                                             color:
                                                                 Colors.white),
@@ -536,106 +541,106 @@ class _StaffListScreenState extends State<StaffListScreen> {
                                                   ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                        // const Spacer(),
-                                        // Center(
-                                        //   child: Row(
-                                        //     children: [
-                                        //       GestureDetector(
-                                        //         // onTap: () {
-                                        //         //   Navigator.push(
-                                        //         //       context,
-                                        //         //       MaterialPageRoute(
-                                        //         //           builder: (context) =>
-                                        //         //               UserReportScreen(
-                                        //         //                 docId: userList[
-                                        //         //                 index]
-                                        //         //                     .docId ??
-                                        //         //                     "",
-                                        //         //                 mobile: userList[
-                                        //         //                 index]
-                                        //         //                     .phone ??
-                                        //         //                     "",
-                                        //         //                 name: userList[
-                                        //         //                 index]
-                                        //         //                     .name ??
-                                        //         //                     "",
-                                        //         //               )));
-                                        //         // },
-                                        //         child: const Icon(
-                                        //           Icons.add_chart,
-                                        //           size: 28,
-                                        //           color: Colors.green,
-                                        //         ),
-                                        //       ),
-                                        //       const SizedBox(
-                                        //         width: 10,
-                                        //       ),
-                                        //       GestureDetector(
-                                        //         onTap: () {
-                                        //           showDialog(
-                                        //               context: context,
-                                        //               builder: (context) =>
-                                        //                   AlertDialog(
-                                        //                     title: const Text(
-                                        //                         "Are you sure want to delete?"),
-                                        //                     actions: [
-                                        //                       TextButton(
-                                        //                           onPressed: () {
-                                        //                             Navigator.pop(
-                                        //                                 context);
-                                        //                           },
-                                        //                           child:
-                                        //                               Text("No")),
-                                        //                       TextButton(
-                                        //                           onPressed: () {
-                                        //                             // userList
-                                        //                             //     .remove(
-                                        //                             //     index);
-                                        //                             //
-                                        //                             // setState(
-                                        //                             //         () {});
-                                        //                             // onUserDelete(
-                                        //                             //     userList[index]
-                                        //                             //         .docId ??
-                                        //                             //         "");
-                                        //                             // print(
-                                        //                             //     "241 userList Length ${userList.length}");
-                                        //                           },
-                                        //                           child:
-                                        //                               Text("Yes")),
-                                        //                     ],
-                                        //                   ));
-                                        //         },
-                                        //         child: Icon(
-                                        //           Icons.delete_forever,
-                                        //           size: 28,
-                                        //           color: Colors.red,
-                                        //         ),
-                                        //       ),
-                                        //     ],
-                                        //   ),
-                                        // )
-                                      ],
-                                    ),
+                                      ),
+                                      // const Spacer(),
+                                      // Center(
+                                      //   child: Row(
+                                      //     children: [
+                                      //       GestureDetector(
+                                      //         // onTap: () {
+                                      //         //   Navigator.push(
+                                      //         //       context,
+                                      //         //       MaterialPageRoute(
+                                      //         //           builder: (context) =>
+                                      //         //               UserReportScreen(
+                                      //         //                 docId: userList[
+                                      //         //                 index]
+                                      //         //                     .docId ??
+                                      //         //                     "",
+                                      //         //                 mobile: userList[
+                                      //         //                 index]
+                                      //         //                     .phone ??
+                                      //         //                     "",
+                                      //         //                 name: userList[
+                                      //         //                 index]
+                                      //         //                     .name ??
+                                      //         //                     "",
+                                      //         //               )));
+                                      //         // },
+                                      //         child: const Icon(
+                                      //           Icons.add_chart,
+                                      //           size: 28,
+                                      //           color: Colors.green,
+                                      //         ),
+                                      //       ),
+                                      //       const SizedBox(
+                                      //         width: 10,
+                                      //       ),
+                                      //       GestureDetector(
+                                      //         onTap: () {
+                                      //           showDialog(
+                                      //               context: context,
+                                      //               builder: (context) =>
+                                      //                   AlertDialog(
+                                      //                     title: const Text(
+                                      //                         "Are you sure want to delete?"),
+                                      //                     actions: [
+                                      //                       TextButton(
+                                      //                           onPressed: () {
+                                      //                             Navigator.pop(
+                                      //                                 context);
+                                      //                           },
+                                      //                           child:
+                                      //                               Text("No")),
+                                      //                       TextButton(
+                                      //                           onPressed: () {
+                                      //                             // userList
+                                      //                             //     .remove(
+                                      //                             //     index);
+                                      //                             //
+                                      //                             // setState(
+                                      //                             //         () {});
+                                      //                             // onUserDelete(
+                                      //                             //     userList[index]
+                                      //                             //         .docId ??
+                                      //                             //         "");
+                                      //                             // print(
+                                      //                             //     "241 userList Length ${userList.length}");
+                                      //                           },
+                                      //                           child:
+                                      //                               Text("Yes")),
+                                      //                     ],
+                                      //                   ));
+                                      //         },
+                                      //         child: Icon(
+                                      //           Icons.delete_forever,
+                                      //           size: 28,
+                                      //           color: Colors.red,
+                                      //         ),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // )
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
                           );
                         })
-                  // else if (userList.isEmpty && isLoading == false)
-                  //   Center(
-                  //     child: Text("No Data"),
-                  //   )
-                  // else
-                  //   Center(child: CircularProgressIndicator()),
-                ],
+                    // else if (userList.isEmpty && isLoading == false)
+                    //   Center(
+                    //     child: Text("No Data"),
+                    //   )
+                    // else
+                    //   Center(child: CircularProgressIndicator()),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

@@ -55,7 +55,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                        radius: 50,
+                        radius: 40,
                         backgroundColor: Colors.white,
                         child: Padding(
                           padding: const EdgeInsets.all(5),
@@ -173,14 +173,15 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                           ])),
                     ),
                   ),
-                 if(adminType == 'admin') ...[
+                  if (adminType == 'admin') ...[
                     DrawerListTile(
                       text: 'Regions',
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const RegionListScreen()));
+                                builder: (context) =>
+                                    const RegionListScreen()));
                       },
                     ),
                     Center(
@@ -192,10 +193,10 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Colors.white12,
-                                  Colors.white70,
-                                  Colors.white10
-                                ])),
+                              Colors.white12,
+                              Colors.white70,
+                              Colors.white10
+                            ])),
                       ),
                     ),
                     DrawerListTile(
@@ -205,7 +206,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                const SubAdminsListScreen()));
+                                    const SubAdminsListScreen()));
                       },
                     ),
                     Center(
@@ -217,14 +218,12 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Colors.white12,
-                                  Colors.white70,
-                                  Colors.white10
-                                ])),
+                              Colors.white12,
+                              Colors.white70,
+                              Colors.white10
+                            ])),
                       ),
                     ),
-
-
                   ],
                   DrawerListTile(
                     text: 'Staffs',
@@ -317,16 +316,17 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Colors.white12,
-                                Colors.white70,
-                                Colors.white10
-                              ])),
+                            Colors.white12,
+                            Colors.white70,
+                            Colors.white10
+                          ])),
                     ),
                   ),
                   DrawerListTile(
                     text: 'Product Category',
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.productCategoryListScreen);
+                      Navigator.pushNamed(
+                          context, Routes.productCategoryListScreen);
                     },
                   ),
                   Center(
@@ -385,12 +385,11 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                       final sp = await SharedPreferences.getInstance();
                       sp.clear();
 
-
-
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginScreen()),
-                              (route) => false);
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                          (route) => false);
                     },
                   ),
                 ],

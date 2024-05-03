@@ -70,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(15)),
                 child: TextFormField(
                   // style: TextStyle(backgroundColor: Color(0xFF848DFF)),
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
 
                     prefixIcon: Icon(
@@ -93,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(15)),
                 child: TextFormField(
                   // style: TextStyle(backgroundColor: Color(0xFF848DFF)),
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
 
                     prefixIcon: Icon(
@@ -116,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(15)),
                 child: TextFormField(
                   // style: TextStyle(backgroundColor: Color(0xFF848DFF)),
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
 
                     prefixIcon: Icon(

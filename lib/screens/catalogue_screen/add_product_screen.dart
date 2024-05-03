@@ -69,7 +69,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       body: Column(
         children: [
           const SizedBox(
-            height: 60,
+            height: 20,
           ),
           Expanded(
             child: Container(
@@ -99,14 +99,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       ),
                       ReusableTextfield(
                           headingName: "Title",
-                          hintText: "Enter Region",
+                          hintText: "Enter Title",
                           controller: titleController),
                       const SizedBox(
                         height: 10,
                       ),
                       ReusableTextfield(
                           headingName: "Price",
-                          hintText: "Enter Region",
+                          hintText: "Enter Price",
                           controller: mrpController),
                       const SizedBox(
                         height: 10,
@@ -123,14 +123,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(22),
-                            side: const BorderSide(
+                            side: BorderSide(
                                 color: Constants.bgBlueColor, width: 1.5)),
                         child: Container(
-                          height: height / 5,
+                          height: height / 6,
                           child: TextField(
                             controller: descriptionController,
                             decoration: const InputDecoration(
-                              hintText: "Enter description",
+                              hintText: "Enter Description",
                               contentPadding: EdgeInsets.all(12),
                               border: InputBorder.none,
                             ),
@@ -144,53 +144,52 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(22),
-                            side: const BorderSide(
+                            side: BorderSide(
                                 color: Constants.bgBlueColor, width: 1.5)),
                         child: Container(
-                            height: height / 6,
+                            // height: height / 6,
                             width: width / 1,
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                const Text(
-                                  "Upload Picture",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 100,
-                                      width: 100,
-                                      color: Colors.red,
-                                    ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor: Colors.black45,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          _onPickFile();
-                                        },
-                                        child: Icon(
-                                          Icons.upload,
-                                          size: 40,
-                                          color: Colors.white,
-                                        ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  const Text(
+                                    "Upload Picture",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Center(
+                                      child: Container(
+                                        height: 100,
+                                        width: 100,
+                                        // color: Colors.red,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            border: Border.all(
+                                                color: Colors.black54)),
+                                        child: Center(
+                                            child: InkWell(
+                                                onTap: () {
+                                                  _onPickFile();
+                                                },
+                                                child: Icon(
+                                                  Icons.cloud_upload,
+                                                  size: 30,
+                                                  color: Constants.bgBlueColor,
+                                                ))),
                                       ),
                                     ),
-                                  ],
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             )),
                       ),
                       SizedBox(

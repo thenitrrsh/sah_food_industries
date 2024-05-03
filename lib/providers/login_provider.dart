@@ -13,7 +13,8 @@ class LoginProvider {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       if (credential.user?.email != null) {
-        UserModel? isAdminExist = await _firebaseServices.checkAdminExist(email);
+        UserModel? isAdminExist =
+            await _firebaseServices.checkAdminExist(email);
         if (isAdminExist == null) {
           ToastHelper.showToast("No user found for this email.");
         }
@@ -23,7 +24,7 @@ class LoginProvider {
       }
       return false;
     } on FirebaseAuthException catch (e) {
-      print("23 working ${e.stackTrace}");
+      print("23 working ${e.toString()}");
       // if (e.code == 'user-not-found') {
       //   ToastHelper.showToast("No user found for that email.");
       // } else if (e.code == 'wrong-password') {

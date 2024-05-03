@@ -141,7 +141,7 @@ class _CreateNotesScreenState extends State<CreateNotesScreen> {
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
-                                side: const BorderSide(
+                                side:  BorderSide(
                                     color: Constants.bgBlueColor, width: 1.5)),
                             child: Container(
                               height: height / 3,

@@ -159,7 +159,7 @@ class _CreateRegionScreenState extends State<CreateRegionScreen> {
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
-                                side: const BorderSide(
+                                side:  BorderSide(
                                     color: Constants.bgBlueColor, width: 1.5)),
                             child: DropdownButton<StateModel>(
                               isExpanded: true,

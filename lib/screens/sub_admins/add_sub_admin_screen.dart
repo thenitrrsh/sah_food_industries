@@ -159,7 +159,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
-                                side: const BorderSide(
+                                side:  BorderSide(
                                     color: Constants.bgBlueColor, width: 1.5)),
                             child: DropdownButton<StateModel>(
                               isExpanded: true,
@@ -217,7 +217,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
-                                side: const BorderSide(
+                                side:  BorderSide(
                                     color: Constants.bgBlueColor, width: 1.5)),
                             child: DropdownButton<RegionModel>(
                               isExpanded: true,

@@ -49,7 +49,7 @@ class ReusableTextfield extends StatelessWidget {
           color: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(22),
-              side: const BorderSide(color: Constants.bgBlueColor, width: 1.5)),
+              side:  BorderSide(color: Constants.bgBlueColor, width: 1.5)),
           child: TextField(
             controller: controller,
             keyboardType: keyboardType,
@@ -112,7 +112,7 @@ class SearchTextField extends StatelessWidget {
                 contentPadding: EdgeInsets.all(10),
                 border: InputBorder.none,
                 hintText: hintText,
-                hintStyle: const TextStyle(
+                hintStyle:  TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w300,
                     color: Constants.bgBlueColor),

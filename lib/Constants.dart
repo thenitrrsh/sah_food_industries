@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const Color bgBlueColor = Color(0xFF5663FF);
+  static Color bgBlueColor = Color(0xFF5663FF).withOpacity(0.9);
   static Color homeCardColor = Colors.blue.shade50;
 // Color subAdminCardColor = Colors.blueAccent.shade100;
   static const drawerBackgroundColor = Color(0xff000B23);

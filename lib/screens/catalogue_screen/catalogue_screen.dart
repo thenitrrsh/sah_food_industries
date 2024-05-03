@@ -47,7 +47,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                   height: 30,
                   // width: 60,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.circular(10),
+                      borderRadius: BorderRadiusDirectional.circular(5),
                       color: Colors.white),
                   child: Center(
                     child: GestureDetector(
@@ -58,7 +58,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                                 builder: (context) =>
                                     const AddProductScreen()));
                       },
-                      child: const Text(
+                      child: Text(
                         " Add Product ",
                         style: TextStyle(
                             fontSize: 17,
@@ -82,9 +82,10 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
           children: [
             Card(
               child: Container(
-                height: height / 15,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                height: height / 20,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -96,8 +97,8 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                         setState(() {});
                       },
                       child: Container(
-                          height: height / 15,
-                          width: width / 3.2,
+                          height: height / 20,
+                          width: width / 3.5,
                           decoration: BoxDecoration(
                               color: isAllSelected == true
                                   ? Constants.bgBlueColor
@@ -212,10 +213,10 @@ class Tealeaf extends StatelessWidget {
         height: height / 1,
         decoration: BoxDecoration(
           // color: Constants.homeCardColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(5),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -283,13 +284,13 @@ class Tealeaf extends StatelessWidget {
                   // width: width / ,
                   decoration: BoxDecoration(
                       // color: colors.first,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                       border: Border.all(color: Colors.black12)),
                   child: Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(5),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Icon(
                         //   icons[index],
@@ -303,7 +304,7 @@ class Tealeaf extends StatelessWidget {
                         // ),
                         Center(
                           child: Container(
-                            height: height / 5,
+                            height: height / 5.5,
                             width: width / 2.8,
                             decoration: BoxDecoration(
                                 // color: Colors.red,
@@ -324,15 +325,15 @@ class Tealeaf extends StatelessWidget {
                           width: width / 2.2,
                           // color: Colors.red,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
+                              const Row(
                                 children: [
                                   Expanded(
                                       child: Text(
                                     "Darjeeling Special Tea ( 500 g )",
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(fontSize: 14),
                                   )),
                                   // Text(""),
                                 ],
@@ -344,8 +345,8 @@ class Tealeaf extends StatelessWidget {
                                   Text(
                                     "₹ 200.00",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 5),
@@ -361,7 +362,7 @@ class Tealeaf extends StatelessWidget {
                                             return Icon(
                                               Icons.star,
                                               color: Colors.orangeAccent,
-                                              size: 20,
+                                              size: 16,
                                             );
                                           }),
                                     ),
@@ -402,10 +403,10 @@ class Spices extends StatelessWidget {
         height: height / 1,
         decoration: BoxDecoration(
           // color: Constants.homeCardColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(5),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -473,13 +474,13 @@ class Spices extends StatelessWidget {
                   // width: width / ,
                   decoration: BoxDecoration(
                       // color: colors.first,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                       border: Border.all(color: Colors.black12)),
                   child: Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(5),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Icon(
                         //   icons[index],
@@ -493,7 +494,7 @@ class Spices extends StatelessWidget {
                         // ),
                         Center(
                           child: Container(
-                            height: height / 5,
+                            height: height / 5.5,
                             width: width / 2.8,
                             decoration: BoxDecoration(
                                 // color: Colors.red,
@@ -505,7 +506,7 @@ class Spices extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
 
@@ -514,15 +515,15 @@ class Spices extends StatelessWidget {
                           width: width / 2.2,
                           // color: Colors.red,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
+                              const Row(
                                 children: [
                                   Expanded(
                                       child: Text(
                                     "Original Red Chilli Powder ( 1 KG )",
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(fontSize: 14),
                                   )),
                                   // Text(""),
                                 ],
@@ -531,11 +532,11 @@ class Spices extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "₹ 120",
+                                  const Text(
+                                    "₹ 120.00",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 5),
@@ -548,10 +549,10 @@ class Spices extends StatelessWidget {
                                           itemCount: 4,
                                           itemBuilder: (BuildContext context,
                                               int index) {
-                                            return Icon(
+                                            return const Icon(
                                               Icons.star,
                                               color: Colors.orangeAccent,
-                                              size: 20,
+                                              size: 16,
                                             );
                                           }),
                                     ),
@@ -597,10 +598,10 @@ class AllProduct extends StatelessWidget {
         height: height / 1,
         decoration: BoxDecoration(
           // color: Constants.homeCardColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(5),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -668,13 +669,13 @@ class AllProduct extends StatelessWidget {
                   // width: width / ,
                   decoration: BoxDecoration(
                       // color: colors.first,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                       border: Border.all(color: Colors.black12)),
                   child: Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(5),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Icon(
                         //   icons[index],
@@ -688,7 +689,7 @@ class AllProduct extends StatelessWidget {
                         // ),
                         Center(
                           child: Container(
-                            height: height / 5,
+                            height: height / 5.5,
                             width: width / 2.8,
                             decoration: BoxDecoration(
                               // color: Colors.red,
@@ -708,15 +709,15 @@ class AllProduct extends StatelessWidget {
                           width: width / 2.2,
                           // color: Colors.red,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Row(
+                              const Row(
                                 children: [
                                   Expanded(
                                       child: Text(
                                     "Original Red Chilli Powder ( 1 KG )",
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(fontSize: 14),
                                   )),
                                   // Text(""),
                                 ],
@@ -728,8 +729,8 @@ class AllProduct extends StatelessWidget {
                                   Text(
                                     "₹ 120.00",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 5),
@@ -745,7 +746,7 @@ class AllProduct extends StatelessWidget {
                                             return Icon(
                                               Icons.star,
                                               color: Colors.orangeAccent,
-                                              size: 20,
+                                              size: 16,
                                             );
                                           }),
                                     ),

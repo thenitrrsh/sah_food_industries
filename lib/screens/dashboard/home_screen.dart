@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                         Text(
                           "Today's Report",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Row(
                           children: [
-                            const Text(
+                             Text(
                               "Date: ",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: const EdgeInsets.all(3),
                                 child: Text(
                                   "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Constants.bgBlueColor,
                                       fontSize: 16),

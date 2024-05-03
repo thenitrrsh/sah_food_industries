@@ -102,7 +102,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                         //   init();
                         // });
                       },
-                      child: const Text(
+                      child:  Text(
                         "Add",
                         style: TextStyle(
                             fontSize: 17,
