@@ -17,7 +17,6 @@ class AddSubAdminScreen extends StatefulWidget {
   State<AddSubAdminScreen> createState() => _AddSubAdminScreenState();
 }
 
-
 class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
@@ -36,7 +35,6 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
   RegionListModel? regionListModel;
   RegionModel? selectedRegion;
 
-
   @override
   void initState() {
     super.initState();
@@ -51,7 +49,8 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
   }
 
   getRegion() async {
-    regionListModel = await _firebaseService.getRegions(stateId: selectedState?.docId ?? "");
+    regionListModel =
+        await _firebaseService.getRegions(stateId: selectedState?.docId ?? "");
     if (regionListModel != null) {
       setState(() {});
     }
@@ -99,7 +98,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
       body: Column(
         children: [
           const SizedBox(
-            height: 60,
+            height: 20,
           ),
           Expanded(
             child: Container(
@@ -144,11 +143,10 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-
                       const Padding(
                         padding: EdgeInsets.only(left: 15),
                         child: Text(
-                          "States",
+                          "State",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w500),
                         ),
@@ -159,11 +157,15 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
-                                side:  BorderSide(
+                                side: BorderSide(
                                     color: Constants.bgBlueColor, width: 1.5)),
                             child: DropdownButton<StateModel>(
                               isExpanded: true,
-                              hint: Text("Select State"),
+                              hint: Text(
+                                "Select State",
+                                style: TextStyle(fontSize: 14),
+                              ),
+
                               padding:
                                   const EdgeInsets.only(left: 12, right: 10),
                               value: selectedState,
@@ -183,23 +185,24 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                                 // print(widget.adminDashboardProvider.selectedYear);
                                 getRegion();
                               },
-                              items: stateListModel?.regionList?.isEmpty ?? true ? [] : stateListModel!.regionList!
-                                  .map<DropdownMenuItem<StateModel>>(
-                                      (StateModel value) {
-                                return DropdownMenuItem<StateModel>(
-                                  value: value,
-                                  child: Text(
-                                    value.stateName ?? "",
-                                    style: TextStyle(),
-                                  ),
-                                );
-                              }).toList(),
+                              items: stateListModel?.regionList?.isEmpty ?? true
+                                  ? []
+                                  : stateListModel!.regionList!
+                                      .map<DropdownMenuItem<StateModel>>(
+                                          (StateModel value) {
+                                      return DropdownMenuItem<StateModel>(
+                                        value: value,
+                                        child: Text(
+                                          value.stateName ?? "",
+                                          style: TextStyle(),
+                                        ),
+                                      );
+                                    }).toList(),
                             )),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-
                       const SizedBox(
                         height: 10,
                       ),
@@ -217,14 +220,17 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
-                                side:  BorderSide(
+                                side: BorderSide(
                                     color: Constants.bgBlueColor, width: 1.5)),
                             child: DropdownButton<RegionModel>(
                               isExpanded: true,
-                              hint: Text("Select Region"),
+                              hint: Text(
+                                "Select Region",
+                                style: TextStyle(fontSize: 14),
+                              ),
 
                               padding:
-                              const EdgeInsets.only(left: 12, right: 10),
+                                  const EdgeInsets.only(left: 12, right: 10),
                               value: selectedRegion,
                               iconDisabledColor: Colors.transparent,
                               underline: Container(
@@ -242,22 +248,25 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                                 // print(widget.adminDashboardProvider.selectedYear);
                                 setState(() {});
                               },
-                              items: regionListModel?.regionList?.isEmpty ?? true ? [] : regionListModel!.regionList!.map<DropdownMenuItem<RegionModel>>(
-                                      (RegionModel value) {
-                                    return DropdownMenuItem<RegionModel>(
-                                      value: value,
-                                      child: Text(
-                                        value.regionName ?? "",
-                                        style: TextStyle(),
-                                      ),
-                                    );
-                                  }).toList(),
+                              items:
+                                  regionListModel?.regionList?.isEmpty ?? true
+                                      ? []
+                                      : regionListModel!.regionList!
+                                          .map<DropdownMenuItem<RegionModel>>(
+                                              (RegionModel value) {
+                                          return DropdownMenuItem<RegionModel>(
+                                            value: value,
+                                            child: Text(
+                                              value.regionName ?? "",
+                                              style: TextStyle(),
+                                            ),
+                                          );
+                                        }).toList(),
                             )),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-
                       ReusableTextfield(
                           headingName: "Email",
                           hintText: "Enter Email",
@@ -272,7 +281,12 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                       SizedBox(
                         height: height / 14,
                       ),
-                      SaveButton(width: width, onTap: () { onUserAdd(); },),
+                      SaveButton(
+                        width: width,
+                        onTap: () {
+                          onUserAdd();
+                        },
+                      ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -292,12 +306,20 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
         phoneController.text.isEmpty ||
         nameController.text.isEmpty ||
         passwordController.text.isEmpty ||
-    selectedRegion == null || selectedState == null) {
+        selectedRegion == null ||
+        selectedState == null) {
       ToastHelper.showToast("All fields are required");
       return;
     }
-    var response = await userProvider.createAdmin(phoneController.text,
-        passwordController.text, nameController.text, emailController.text, selectedRegion!.docId!, selectedState!.docId!, selectedRegion!.regionName!, selectedState!.stateName!);
+    var response = await userProvider.createAdmin(
+        phoneController.text,
+        passwordController.text,
+        nameController.text,
+        emailController.text,
+        selectedRegion!.docId!,
+        selectedState!.docId!,
+        selectedRegion!.regionName!,
+        selectedState!.stateName!);
     if (response && mounted) {
       Navigator.pop(context);
     }

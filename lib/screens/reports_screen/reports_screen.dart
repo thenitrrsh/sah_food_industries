@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sah_food_industries/ReusableContents/reusable_contents.dart';
 
 import '../../Constants.dart';
 import '../side_menu_screen/side_drawer_screen.dart';
@@ -34,6 +35,17 @@ class _ReportsScreenState extends State<ReportsScreen> {
       body: Container(
         height: height / 1,
         color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: NoDataFoundImage(
+                textMessage: 'No Data Found',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

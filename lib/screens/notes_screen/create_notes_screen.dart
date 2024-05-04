@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sah_food_industries/Constants.dart';
 
@@ -75,13 +76,13 @@ class _CreateNotesScreenState extends State<CreateNotesScreen> {
           ),
           backgroundColor: Constants.bgBlueColor,
           title: const Text(
-            'Create Region',
+            'Create Notes',
             style: TextStyle(fontSize: 20, color: Colors.white),
           )),
       body: Column(
         children: [
           const SizedBox(
-            height: 60,
+            height: 20,
           ),
           Expanded(
             child: Container(
@@ -110,7 +111,7 @@ class _CreateNotesScreenState extends State<CreateNotesScreen> {
                         height: 20,
                       ),
                       ReusableTextfield(
-                          hintText: "Enter text",
+                          hintText: "Enter Text",
                           headingName: "Heading",
                           controller: nameController),
                       const SizedBox(
@@ -141,14 +142,15 @@ class _CreateNotesScreenState extends State<CreateNotesScreen> {
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
-                                side:  BorderSide(
+                                side: BorderSide(
                                     color: Constants.bgBlueColor, width: 1.5)),
                             child: Container(
                               height: height / 3,
                               child: TextField(
                                 controller: phoneController,
                                 decoration: const InputDecoration(
-                                  hintText: "Enter description",
+                                  hintText: "Enter Description",
+                                  hintStyle: TextStyle(fontSize: 14),
                                   contentPadding: EdgeInsets.all(12),
                                   border: InputBorder.none,
                                 ),
@@ -160,7 +162,10 @@ class _CreateNotesScreenState extends State<CreateNotesScreen> {
                       SizedBox(
                         height: height / 14,
                       ),
-                      SaveButton(width: width, onTap: () {  },),
+                      SaveButton(
+                        width: width,
+                        onTap: () {},
+                      ),
                       const SizedBox(
                         height: 15,
                       ),

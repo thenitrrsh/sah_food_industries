@@ -49,12 +49,13 @@ class ReusableTextfield extends StatelessWidget {
           color: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(22),
-              side:  BorderSide(color: Constants.bgBlueColor, width: 1.5)),
+              side: BorderSide(color: Constants.bgBlueColor, width: 1.5)),
           child: TextField(
             controller: controller,
             keyboardType: keyboardType,
             decoration: InputDecoration(
               hintText: hintText,
+              hintStyle: TextStyle(fontSize: 14),
               contentPadding: EdgeInsets.all(12),
               border: InputBorder.none,
             ),
@@ -112,7 +113,7 @@ class SearchTextField extends StatelessWidget {
                 contentPadding: EdgeInsets.all(10),
                 border: InputBorder.none,
                 hintText: hintText,
-                hintStyle:  TextStyle(
+                hintStyle: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w300,
                     color: Constants.bgBlueColor),
@@ -214,5 +215,29 @@ class SaveButton extends StatelessWidget {
             )),
       ),
     );
+  }
+}
+
+class NoDataFoundImage extends StatelessWidget {
+  const NoDataFoundImage({super.key, required this.textMessage});
+
+  final String textMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Column(
+      children: [
+        SizedBox(
+            width: MediaQuery.of(context).size.width / 1.8,
+            child: Text(
+              textAlign: TextAlign.center,
+              textMessage,
+              style: TextStyle(color: Colors.black54),
+            )),
+        Image.network(
+            "https://img.freepik.com/free-vector/hand-drawn-no-data-concept_52683-127823.jpg")
+      ],
+    ));
   }
 }

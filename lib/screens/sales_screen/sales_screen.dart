@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../Constants.dart';
+import '../../ReusableContents/reusable_contents.dart';
 import '../side_menu_screen/side_drawer_screen.dart';
 
 class SalesScreen extends StatefulWidget {
@@ -31,6 +32,17 @@ class _ReportsScreenState extends State<SalesScreen> {
       body: Container(
         height: height / 1,
         color: Colors.white,
+        child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: NoDataFoundImage(
+                textMessage: 'No Data Found',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -188,7 +188,14 @@ class _RegionListScreenState extends State<RegionListScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      ListView.builder(
+                      GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 1.5,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: regionList.length,
@@ -197,116 +204,103 @@ class _RegionListScreenState extends State<RegionListScreen> {
                             RegionModel itemData = regionList[index];
                             return Padding(
                               padding: const EdgeInsets.all(5),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadiusDirectional.circular(10)),
-                                elevation: 3,
-                                child: GestureDetector(
-                                  child: Container(
-                                    // height: height / 8.2,
-                                    decoration: BoxDecoration(
-                                        color: Constants.bgBlueColor,
-                                        borderRadius:
-                                            BorderRadiusDirectional.circular(
-                                                10)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5),
-                                      child: Container(
-                                        width: width / 1.2,
-                                        // color: Colors.red,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      "State: ",
-                                                      style: TextStyle(
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 16,
-                                                          color:
-                                                              Colors.white70),
-                                                    ),
-                                                    Text(
-                                                      itemData.regionName ?? "",
-                                                      style: const TextStyle(
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 16,
-                                                          color: Colors.white),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Region: ",
-                                                      style: TextStyle(
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 16,
-                                                          color:
-                                                              Colors.white70),
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: width / 1.5,
-                                                          child: Text(
-                                                            maxLines: 2,
-                                                            itemData.regionName ??
-                                                                "",
-                                                            style: const TextStyle(
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 16,
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Utils.alertDialog(context,
-                                                    () async {
-                                                  await FirebaseServices()
-                                                      .deleteRegion(
-                                                          itemData.docId ?? "");
-                                                  await init();
-                                                });
-                                              },
-                                              child: Icon(
-                                                Icons.delete_forever,
-                                                color: Colors.red.shade300,
-                                                size: 30,
+                              child: GestureDetector(
+                                child: Container(
+                                  // height: height / 8.2,
+                                  decoration: BoxDecoration(
+                                      color: Constants.bgBlueColor,
+                                      borderRadius:
+                                          BorderRadiusDirectional.circular(10)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Container(
+                                      width: width / 1.2,
+                                      // color: Colors.red,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "State: ",
+                                                    style: TextStyle(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 12,
+                                                        color: Colors.white70),
+                                                  ),
+                                                  Text(
+                                                    itemData.regionName ?? "",
+                                                    style: const TextStyle(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 16,
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
                                               ),
-                                            )
-                                          ],
-                                        ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Utils.alertDialog(context,
+                                                      () async {
+                                                    await FirebaseServices()
+                                                        .deleteRegion(
+                                                            itemData.docId ??
+                                                                "");
+                                                    await init();
+                                                  });
+                                                },
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.white,
+                                                  child: Icon(
+                                                    Icons.delete_forever,
+                                                    color: Colors.red.shade300,
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          const Text(
+                                            "Region: ",
+                                            style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                color: Colors.white70),
+                                          ),
+                                          SizedBox(
+                                            width: width / 1.5,
+                                            child: Text(
+                                              maxLines: 2,
+                                              itemData.regionName ?? "",
+                                              style: const TextStyle(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),

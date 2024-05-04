@@ -16,7 +16,6 @@ class AddProductCategory extends StatefulWidget {
 class _AddProductCategoryState extends State<AddProductCategory> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
-
   TextEditingController nameController = TextEditingController();
 
   String docID = "";
@@ -31,7 +30,6 @@ class _AddProductCategoryState extends State<AddProductCategory> {
       resizeToAvoidBottomInset: true,
       key: _key,
       appBar: AppBar(
-
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
@@ -43,7 +41,7 @@ class _AddProductCategoryState extends State<AddProductCategory> {
       body: Column(
         children: [
           const SizedBox(
-            height: 60,
+            height: 20,
           ),
           Expanded(
             child: Container(
@@ -72,10 +70,9 @@ class _AddProductCategoryState extends State<AddProductCategory> {
                         height: 20,
                       ),
                       ReusableTextfield(
-                          hintText: "Enter Name",
-                          headingName: "Name",
+                          hintText: "Enter Category",
+                          headingName: "Category",
                           controller: nameController),
-
                       SizedBox(
                         height: height / 14,
                       ),
@@ -100,15 +97,14 @@ class _AddProductCategoryState extends State<AddProductCategory> {
   }
 
   onCategoryAdd() async {
-    if (
-        nameController.text.isEmpty ) {
+    if (nameController.text.isEmpty) {
       ToastHelper.showToast("All fields are required");
       return;
     }
-    var response = await FirebaseServices().createProductCategory(nameController.text.trim());
+    var response = await FirebaseServices()
+        .createProductCategory(nameController.text.trim());
     if (response && mounted) {
       Navigator.pop(context);
     }
   }
-
 }
