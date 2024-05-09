@@ -241,3 +241,26 @@ class NoDataFoundImage extends StatelessWidget {
     ));
   }
 }
+
+class CustomText extends StatelessWidget {
+  CustomText(
+      {super.key,
+        required this.text,
+        this.color,
+        this.fontSize,
+        this.fontWeight});
+
+  String? text;
+  double? fontSize;
+  FontWeight? fontWeight;
+  Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text!,
+      style:
+      TextStyle(fontSize: fontSize, color: color, fontWeight: fontWeight),
+    );
+  }
+}

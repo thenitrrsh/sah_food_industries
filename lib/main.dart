@@ -5,6 +5,7 @@ import 'package:sah_food_industries/providers/admin_subadmin_provider.dart';
 import 'package:sah_food_industries/providers/staffProvider.dart';
 import 'package:sah_food_industries/routes/routes.dart';
 import 'package:sah_food_industries/screens/login_register_screen.dart/login_screen.dart';
+import 'package:sah_food_industries/screens/productCategories/provider/add_product_screen_provider.dart';
 import 'package:sah_food_industries/screens/splash_screen.dart';
 import 'package:sah_food_industries/screens/staffs/staff_list_screen.dart';
 
@@ -26,7 +27,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AdminSubAdminProvider>( create: (context) => AdminSubAdminProvider()),
+        ChangeNotifierProvider<AdminSubAdminProvider>(
+            create: (context) => AdminSubAdminProvider()),
+        ChangeNotifierProvider<AddProductProvider>(
+            create: (context) => AddProductProvider()),
         // ChangeNotifierProvider<StaffProvider>( create: (context) => StaffProvider()),
       ],
       child: MaterialApp(

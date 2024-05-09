@@ -1,5 +1,8 @@
 import 'dart:ui';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sah_food_industries/Constants.dart';
 import 'package:sah_food_industries/models/region_model.dart';
 import 'package:sah_food_industries/models/state_model.dart';
@@ -34,6 +37,10 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
 
   RegionListModel? regionListModel;
   RegionModel? selectedRegion;
+
+  String imageUpload = "";
+  String? imagePath;
+  String? selectedItem;
 
   @override
   void initState() {
@@ -194,7 +201,10 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                                         value: value,
                                         child: Text(
                                           value.stateName ?? "",
-                                          style: TextStyle(),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400),
                                         ),
                                       );
                                     }).toList(),
@@ -258,7 +268,10 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                                             value: value,
                                             child: Text(
                                               value.regionName ?? "",
-                                              style: TextStyle(),
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400),
                                             ),
                                           );
                                         }).toList(),
@@ -278,6 +291,69 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                           headingName: "Password",
                           hintText: "Enter Password",
                           controller: passwordController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(22),
+                            side: BorderSide(
+                                color: Constants.bgBlueColor, width: 1.5)),
+                        child: Container(
+                            // height: height / 6,
+                            width: width / 1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Upload Picture",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black54),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Center(
+                                      child: Container(
+                                        height: 100,
+                                        width: 100,
+                                        // color: Colors.red,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            border: Border.all(
+                                                color: Colors.black54)),
+                                        child: Center(
+                                            child: InkWell(
+                                                onTap: () {
+                                                  _onPickFile();
+                                                },
+                                                child: imageUpload.isNotEmpty
+                                                    ? Image.file(
+                                                        File(imageUpload),
+                                                        fit: BoxFit.cover,
+                                                        width: double.infinity,
+                                                        height: double.infinity,
+                                                      )
+                                                    : Icon(
+                                                        Icons.cloud_upload,
+                                                        size: 35,
+                                                        color: Constants
+                                                            .bgBlueColor,
+                                                      ))),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )),
+                      ),
                       SizedBox(
                         height: height / 14,
                       ),
@@ -299,6 +375,20 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
         ],
       ),
     );
+  }
+
+  _onPickFile() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.image);
+    if (result != null) {
+      File file = File(result.files.single.path ?? "");
+      imagePath = file.path;
+      setState(() {
+        imageUpload = imagePath ?? "";
+      });
+    } else {
+      Fluttertoast.showToast(msg: "Cancelled");
+    }
   }
 
   onUserAdd() async {

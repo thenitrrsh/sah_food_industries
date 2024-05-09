@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/src/material/dropdown.dart';
 
-class ProductCategoryModelList{
+class ProductCategoryModelList {
   List<ProductCategoryModel>? categoryList;
   String? error;
 
@@ -12,7 +13,8 @@ class ProductCategoryModelList{
   factory ProductCategoryModelList.fromMap(List<QueryDocumentSnapshot> map) {
     List<ProductCategoryModel> regionList = [];
     map.forEach((element) {
-      regionList.add(ProductCategoryModel.fromMap(element.id, element.data() as Map<String, dynamic>));
+      regionList.add(ProductCategoryModel.fromMap(
+          element.id, element.data() as Map<String, dynamic>));
     });
     return ProductCategoryModelList(categoryList: regionList);
   }
@@ -22,6 +24,7 @@ class ProductCategoryModelList{
       'productCategoryList': categoryList!.map((e) => e.toMap()).toList(),
     };
   }
+
   ProductCategoryModelList.error(String this.error);
 }
 
@@ -29,11 +32,9 @@ class ProductCategoryModel {
   String? name;
   String? docId;
 
-
   ProductCategoryModel({
     this.name,
     this.docId,
-
   });
 
   factory ProductCategoryModel.fromMap(String docId, Map<String, dynamic> map) {
@@ -46,9 +47,11 @@ class ProductCategoryModel {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-
     };
   }
+
+  map(
+      DropdownMenuItem<ProductCategoryModel> Function(
+              List<ProductCategoryModel> value)
+          param0) {}
 }
-
-

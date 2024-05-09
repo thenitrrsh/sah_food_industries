@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 import '../../Constants.dart';
 import '../../helper.dart';
+import '../productCategories/provider/add_product_screen_provider.dart';
 import '../side_menu_screen/side_drawer_screen.dart';
 import 'add_product_screen.dart';
 
@@ -17,9 +19,11 @@ class CatalogueScreen extends StatefulWidget {
 }
 
 class _CatalogueScreenState extends State<CatalogueScreen> {
+  late AddProductProvider addProductProvider;
   bool isAllSelected = true;
   bool isSpicsSelected = false;
   bool isTealeafSelected = false;
+  int selectedCategory = 0;
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   List<String> imageList = [
     'assets/chilli.jpeg',
@@ -27,7 +31,16 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addProductProvider = Provider.of(context, listen: false);
+    addProductProvider.getProductCategory();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    addProductProvider = Provider.of(context);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -80,97 +93,52 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Card(
-              child: Container(
-                height: height / 20,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        isAllSelected = true;
-                        isSpicsSelected = false;
-                        isTealeafSelected = false;
-                        setState(() {});
-                      },
-                      child: Container(
-                          height: height / 20,
-                          width: width / 3.5,
-                          decoration: BoxDecoration(
-                              color: isAllSelected == true
-                                  ? Constants.bgBlueColor
-                                  : Colors.white,
-                              borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  topLeft: Radius.circular(10))),
-                          child: Center(
-                              child: Text(
-                            "All",
-                            style: TextStyle(
-                                color: isAllSelected == true
-                                    ? Colors.white
-                                    : Constants.bgBlueColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ))),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        isAllSelected = false;
-                        isSpicsSelected = true;
-                        isTealeafSelected = false;
-                        setState(() {});
-                      },
-                      child: Container(
-                          height: height / 15,
-                          width: width / 3.2,
-                          color: isSpicsSelected == true
-                              ? Constants.bgBlueColor
-                              : Colors.white,
-                          child: Center(
-                              child: Text(
-                            "Spices",
-                            style: TextStyle(
-                                color: isSpicsSelected == true
-                                    ? Colors.white
-                                    : Constants.bgBlueColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ))),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        isAllSelected = false;
-                        isSpicsSelected = false;
-                        isTealeafSelected = true;
-                        setState(() {});
-                      },
-                      child: Container(
-                          height: height / 15,
-                          width: width / 3.2,
-                          decoration: BoxDecoration(
-                              color: isTealeafSelected == true
-                                  ? Constants.bgBlueColor
-                                  : Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(10),
-                                  topRight: Radius.circular(10))),
-                          child: Center(
-                              child: Text(
-                            "Tea leaf",
-                            style: TextStyle(
-                                color: isTealeafSelected == true
-                                    ? Colors.white
-                                    : Constants.bgBlueColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ))),
-                    ),
-                  ],
-                ),
+            Container(
+              height: height / 17,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.transparent),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: addProductProvider.categoryList?.length,
+                itemBuilder: (context, index) {
+                  final categoryList = addProductProvider.categoryList![index];
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedCategory = index;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2),
+                          child: Container(
+                              height: height / 17,
+                              width: width / 3.5,
+                              decoration: BoxDecoration(
+                                  color: selectedCategory == index
+                                      ? Constants.bgBlueColor
+                                      : Colors.black12,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10))),
+                              child: Center(
+                                  child: Text(
+                                categoryList.name ?? "NA",
+                                style: TextStyle(
+                                    // color: Colors.white,
+                                    color: selectedCategory == index
+                                        ? Colors.white
+                                        : Constants.bgBlueColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                              ))),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
             const SizedBox(

@@ -6,6 +6,7 @@ import 'package:sah_food_industries/services/firebase_services.dart';
 
 import '../../Constants.dart';
 import '../../ReusableContents/reusable_contents.dart';
+import '../../helper.dart';
 import '../../utils/utils.dart';
 import '../side_menu_screen/side_drawer_screen.dart';
 import 'add_region_screen.dart';
@@ -202,15 +203,19 @@ class _RegionListScreenState extends State<RegionListScreen> {
                           itemBuilder: (context, index) {
                             // print("137 checking userlist${userList.length}");
                             RegionModel itemData = regionList[index];
+                            List<Color> colors =
+                                Helper.getRandomColorIndex(seed: index);
                             return Padding(
                               padding: const EdgeInsets.all(5),
                               child: GestureDetector(
                                 child: Container(
                                   // height: height / 8.2,
                                   decoration: BoxDecoration(
-                                      color: Constants.bgBlueColor,
+                                      // color: Constants.bgBlueColor,
                                       borderRadius:
-                                          BorderRadiusDirectional.circular(10)),
+                                          BorderRadiusDirectional.circular(10),
+                                      border: Border.all(
+                                          color: colors.first, width: 1.5)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(5),
                                     child: Container(
@@ -240,17 +245,18 @@ class _RegionListScreenState extends State<RegionListScreen> {
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         fontSize: 12,
-                                                        color: Colors.white70),
+                                                        color: Colors.black54),
                                                   ),
                                                   Text(
                                                     itemData.regionName ?? "",
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         fontSize: 16,
-                                                        color: Colors.white),
+                                                        color: Constants
+                                                            .bgBlueColor),
                                                   ),
                                                 ],
                                               ),
@@ -266,7 +272,8 @@ class _RegionListScreenState extends State<RegionListScreen> {
                                                   });
                                                 },
                                                 child: CircleAvatar(
-                                                  backgroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      Colors.black12,
                                                   child: Icon(
                                                     Icons.delete_forever,
                                                     color: Colors.red.shade300,
@@ -285,19 +292,19 @@ class _RegionListScreenState extends State<RegionListScreen> {
                                                 overflow: TextOverflow.ellipsis,
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 12,
-                                                color: Colors.white70),
+                                                color: Colors.black54),
                                           ),
                                           SizedBox(
                                             width: width / 1.5,
                                             child: Text(
                                               maxLines: 2,
                                               itemData.regionName ?? "",
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 16,
-                                                  color: Colors.white),
+                                                  color: Constants.bgBlueColor),
                                             ),
                                           ),
                                         ],

@@ -247,9 +247,10 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                             child: GestureDetector(
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: colors.first,
                                     borderRadius:
-                                        BorderRadiusDirectional.circular(10)),
+                                        BorderRadiusDirectional.circular(10),
+                                    border: Border.all(
+                                        color: colors.first, width: 1.5)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Row(
@@ -257,12 +258,12 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Text(categoryData.name ?? "",
-                                          style: const TextStyle(
+                                      Text(categoryData.name!.toUpperCase(),
+                                          style: TextStyle(
                                               overflow: TextOverflow.ellipsis,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 18,
-                                              color: Colors.white)),
+                                              color: Constants.bgBlueColor)),
                                     ],
                                   ),
                                 ),

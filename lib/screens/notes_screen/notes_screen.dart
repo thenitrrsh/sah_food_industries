@@ -89,7 +89,9 @@ class _NotesScreenState extends State<NotesScreen> {
                               child: Container(
                                 // height: height / 7,
                                 decoration: BoxDecoration(
-                                    color: colors.first,
+                                    border: Border.all(
+                                      color: colors.first,
+                                    ),
                                     borderRadius:
                                         BorderRadiusDirectional.circular(10)),
                                 child: Padding(
@@ -106,23 +108,24 @@ class _NotesScreenState extends State<NotesScreen> {
                                           children: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                  color: Colors.white,
+                                                  color: Colors.black54,
+                                                  border: Border.all(
+                                                      color: Colors.black12),
                                                   borderRadius:
                                                       BorderRadius.circular(5)),
                                               child: Text(
-                                                  " Monday 11/03/2024 12:15 PM ",
+                                                  " Monday 11/03/2024, 12:15 PM ",
                                                   style: TextStyle(
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontSize: 12,
-                                                      color: Constants
-                                                          .bgBlueColor)),
+                                                      color: Colors.white)),
                                             ),
                                             SizedBox(
                                               width: width / 1.1,
-                                              child: const Row(
+                                              child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
@@ -132,15 +135,16 @@ class _NotesScreenState extends State<NotesScreen> {
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 20,
-                                                          color: Colors.white)),
-                                                  CircleAvatar(
+                                                              FontWeight.w500,
+                                                          fontSize: 18,
+                                                          color: Constants
+                                                              .bgBlueColor)),
+                                                  const CircleAvatar(
                                                     backgroundColor:
-                                                        Colors.white,
+                                                        Colors.black12,
                                                     child: Icon(
                                                       Icons.delete_forever,
-                                                      color: Colors.black,
+                                                      color: Colors.red,
                                                       size: 30,
                                                     ),
                                                   )
@@ -154,14 +158,14 @@ class _NotesScreenState extends State<NotesScreen> {
                                               // color: Colors.red,
                                               width: width / 1.1,
                                               child: const Text(
-                                                maxLines: 2,
+                                                // maxLines: 2,
                                                 "Indian spices include a variety of spices grown across the Indian subcontinent (a sub-region of South Asia). With different climates in different parts of the country, India produces a variety of spices, many of which are native to the subcontinent.",
                                                 style: TextStyle(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    fontWeight: FontWeight.w600,
+                                                    // overflow:
+                                                    //     TextOverflow.ellipsis,
+                                                    fontWeight: FontWeight.w400,
                                                     fontSize: 14,
-                                                    color: Colors.white),
+                                                    color: Colors.black54),
                                               ),
                                             ),
                                           ],
