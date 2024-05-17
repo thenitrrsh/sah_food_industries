@@ -301,10 +301,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                   DrawerListTile(
                     text: 'Catalogue',
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CatalogueScreen()));
+                      Navigator.pushNamed(context, Routes.catalogScreen);
                     },
                   ),
                   Center(

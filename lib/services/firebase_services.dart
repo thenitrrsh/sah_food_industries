@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sah_food_industries/app/shared_preferences_helper.dart';
 import 'package:sah_food_industries/enums/enums.dart';
 import 'package:sah_food_industries/models/product_category_model.dart';
@@ -381,14 +384,18 @@ class FirebaseServices {
     }
   }
 
-  Future<ProductListModel> getProductList() async {
+  Future<ProductListModel> getProductList({String? catId}) async {
     try {
-      var response = await firestore.collection(FirebaseConstants.stateCollection).get();
+      Query<Map<String, dynamic>> query = firestore.collection(FirebaseConstants.productCollection);
+      if(catId != null){
+         query = firestore.collection(FirebaseConstants.productCollection).where('category_id', isEqualTo: catId);
+      }
+      var response = await query.get();
       if (response.size > 0) {
         var data= ProductListModel.fromMap(response.docs);
         return data;
       }
-      return ProductListModel(regionList: []);
+      return ProductListModel(productList: []);
     } catch (e) {
       return ProductListModel.error("Something went wrong");
       throw Exception(e);
@@ -396,7 +403,7 @@ class FirebaseServices {
   }
 
 
-  Future<bool> createProduct(String productName, String productPrice, String productDescription, String productImage) async {
+  Future<bool> createProduct(String productName, double productPrice, String productDescription, String productImage, String categoryId, int quantity, String qtyType) async {
     try {
       var response = await firestore
           .collection(FirebaseConstants.productCollection)
@@ -407,6 +414,9 @@ class FirebaseServices {
         'description': productDescription,
         'image': productImage,
         'created_at': Timestamp.now(),
+        'category_id': categoryId,
+        'qty': quantity,
+        'qty_type': qtyType
       });
       return true;
     } catch (e) {
@@ -511,6 +521,14 @@ class FirebaseServices {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<String> uploadImageToFirebaseStorage(String imagePath, String uploadFolder, {String? extension}) async {
+    final Reference storageReference = FirebaseStorage.instance.ref().child(uploadFolder).child(DateTime.now().toString() + (imagePath.split('.').last) );
+    final UploadTask uploadTask = storageReference.putFile(File(imagePath));
+    final TaskSnapshot downloadUrl = (await uploadTask);
+    final String url = await downloadUrl.ref.getDownloadURL();
+    return url;
   }
 
 

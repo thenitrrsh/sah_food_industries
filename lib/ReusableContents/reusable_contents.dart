@@ -177,16 +177,17 @@ class ReusableSaveButton extends StatelessWidget {
 }
 
 class SaveButton extends StatelessWidget {
-  SaveButton({super.key, required this.width, required this.onTap});
+  SaveButton({super.key, required this.width, required this.onTap, this.isLoading = false});
 
   final double width;
   void Function()? onTap;
+  bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: onTap,
+        onTap: !isLoading ?  onTap : null,
         // onTap: () {
         //   UserScreenProvider userScreenProvider =
         //   Provider.of(context, listen: false);
@@ -204,8 +205,8 @@ class SaveButton extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Constants.bgBlueColor,
                 borderRadius: BorderRadiusDirectional.circular(15)),
-            child: const Center(
-              child: Text(
+            child:  Center(
+              child: isLoading ? const CircularProgressIndicator(): const Text(
                 "Save",
                 style: TextStyle(
                     color: Colors.white,

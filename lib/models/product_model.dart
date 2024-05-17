@@ -1,51 +1,68 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductListModel{
-  List<ProductModel>? regionList;
+  List<ProductModel>? productList;
   String? error;
 
   ProductListModel({
-    this.regionList,
+    this.productList,
     this.error,
   });
 
   factory ProductListModel.fromMap(List<QueryDocumentSnapshot> map) {
-    List<ProductModel> regionList = [];
+    List<ProductModel> productList = [];
     map.forEach((element) {
-      regionList.add(ProductModel.fromMap(element.id, element.data() as Map<String, dynamic>));
+      productList.add(ProductModel.fromMap(element.id, element.data() as Map<String, dynamic>));
     });
-    return ProductListModel(regionList: regionList);
+    return ProductListModel(productList: productList);
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'regionList': regionList!.map((e) => e.toMap()).toList(),
+      'productList': productList!.map((e) => e.toMap()).toList(),
     };
   }
   ProductListModel.error(String this.error);
 }
 
 class ProductModel {
-  String? stateName;
+  String? name;
   String? docId;
+  String? catId;
+  String? image;
+  double? price;
+  String? description;
+
 
 
   ProductModel({
-    this.stateName,
+    this.name,
     this.docId,
+    this.catId,
+    this.image,
+    this.price,
+    this.description
 
   });
 
   factory ProductModel.fromMap(String docId, Map<String, dynamic> map) {
     return ProductModel(
       docId: docId,
-      stateName: map['name'],
+      name: map['name'],
+      catId: map['category_id'],
+      image: map['image'],
+      price: map['price'],
+      description: map['description']
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'name': stateName,
+      'name': name,
+      'category_id': catId,
+      'image': image,
+      'price': price,
+      'description': description
 
     };
   }

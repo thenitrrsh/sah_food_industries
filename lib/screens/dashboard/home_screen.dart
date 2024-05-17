@@ -297,11 +297,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             const SalesScreen()));
                               } else {
                                 if (index == 4) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const CatalogueScreen()));
+                                  Navigator.pushNamed(context, Routes.catalogScreen);
+
                                 } else {
                                   if (index == 5) {
                                     Navigator.push(

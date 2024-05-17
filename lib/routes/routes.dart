@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sah_food_industries/screens/catalogue_screen/catalogue_screen.dart';
 import 'package:sah_food_industries/screens/dashboard/home_screen.dart';
 import 'package:sah_food_industries/screens/productCategories/product_category_list_screen.dart';
 
@@ -43,6 +44,7 @@ class Routes{
   static const String editCustomer = '/editCustomer';
   static const String customerList = '/customerList';
   static const String productCategoryListScreen = '/productListCategoryScreen';
+  static const String catalogScreen = '/catalogue_screen';
 
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
 
@@ -51,7 +53,8 @@ class Routes{
     staffList: StaffListScreen.builder,
     addStaff: (context) => const AddStaffScreen(),
     home: (context) => const HomeScreen(),
-    productCategoryListScreen:  CategoryListScreen.builder
+    productCategoryListScreen:  CategoryListScreen.builder,
+    catalogScreen: CatalogueScreen.builder
 
 
   };
