@@ -8,8 +8,8 @@ import 'package:sah_food_industries/models/product_model.dart';
 import 'package:sah_food_industries/providers/product_category_provider.dart';
 
 import '../../Constants.dart';
-import '../../helper.dart';
-import '../productCategories/provider/add_product_screen_provider.dart';
+import '../../routes/routes.dart';
+import '../productDetailScreen/product_detail_screen.dart';
 import '../side_menu_screen/side_drawer_screen.dart';
 import 'add_product_screen.dart';
 
@@ -34,7 +34,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
   bool isAllSelected = true;
   bool isSpicsSelected = false;
   bool isTealeafSelected = false;
-  int selectedCategory = 0;
+  int? selectedCategory;
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   List<String> imageList = [
     'assets/chilli.jpeg',
@@ -45,7 +45,8 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    productProvider = Provider.of<ProductCategoryProvider>(context, listen: false);
+    productProvider =
+        Provider.of<ProductCategoryProvider>(context, listen: false);
     productProvider.getProductCategory();
     productProvider.getProducts(null);
   }
@@ -80,8 +81,9 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                         await Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                     AddProductScreen(addProductProvider: productProvider,)));
+                                builder: (context) => AddProductScreen(
+                                      addProductProvider: productProvider,
+                                    )));
                       },
                       child: Text(
                         " Add Product ",
@@ -118,11 +120,48 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      if (index == 0) ...[
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedCategory = null;
+                              productProvider.getProducts(null);
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 2),
+                            child: Container(
+                                height: height / 17,
+                                width: width / 3.5,
+                                decoration: BoxDecoration(
+                                    color: selectedCategory == null
+                                        ? Constants.bgBlueColor
+                                        : Colors.black12,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                child: Center(
+                                    child: Text(
+                                  'All',
+                                  style: TextStyle(
+                                      // color: Colors.white,
+                                      color: selectedCategory == null
+                                          ? Colors.white
+                                          : Constants.bgBlueColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ))),
+                          ),
+                        ),
+                        SizedBox(
+                          width: .5,
+                        ),
+                      ],
                       GestureDetector(
                         onTap: () {
                           setState(() {
                             selectedCategory = index;
-                            productProvider.getProducts(productProvider.categoryList?[index].docId);
+                            productProvider.getProducts(
+                                productProvider.categoryList?[index].docId);
                           });
                         },
                         child: Padding(
@@ -158,7 +197,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
               height: 10,
             ),
             // if (isAllSelected == true)
-              Expanded(child: AllProduct(height: height, width: width)),
+            Expanded(child: AllProduct(height: height, width: width)),
             // if (isSpicsSelected == true)
             //   Expanded(child: Spices(height: height, width: width)),
             // if (isTealeafSelected == true)
@@ -573,8 +612,10 @@ class AllProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductCategoryProvider productProvider = Provider.of<ProductCategoryProvider>(context);
+    ProductCategoryProvider productProvider =
+        Provider.of<ProductCategoryProvider>(context);
     List<ProductModel> productList = productProvider.productList ?? [];
+    List<ProductModel> filteredProductList = productProvider.productList ?? [];
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
@@ -598,56 +639,36 @@ class AllProduct extends StatelessWidget {
               // List<Color> colors =
               //     Helper.getRandomColorIndex(seed: index);
               ProductModel item = productList[index];
+              //  = productProvider
+              //     .getProducts(productProvider.categoryList?[index].docId);
+              // // ProductModel filteredProductList = item.docId == categoryDocId;
+              // final filteredProductList = productList.where((item) {
+              //   final categoryDocId = productProvider.getProducts(
+              //     productProvider.categoryList
+              //         ?.firstWhere((category) => category.docId == item.docId,
+              //             orElse: () => ProductCategoryModel(docId: ''))
+              //         .docId,
+              //   );
+              //   return item.docId == categoryDocId;
+              // }).toList();
+              print("616 working${filteredProductList.length}");
+
               return GestureDetector(
-                // onTap: () {
-                //   if (index == 0) {
-                //     Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //             builder: (context) =>
-                //             const SubAdminsListScreen()));
-                //   } else {
-                //     if (index == 1) {
-                //       Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //               builder: (context) =>
-                //               const StaffListScreen()));
-                //     } else {
-                //       if (index == 2) {
-                //         Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //                 builder: (context) =>
-                //                 const ReportsScreen()));
-                //       } else {
-                //         if (index == 3) {
-                //           Navigator.push(
-                //               context,
-                //               MaterialPageRoute(
-                //                   builder: (context) =>
-                //                   const SalesScreen()));
-                //         } else {
-                //           if (index == 4) {
-                //             Navigator.push(
-                //                 context,
-                //                 MaterialPageRoute(
-                //                     builder: (context) =>
-                //                     const CatalogueScreen()));
-                //           } else {
-                //             if (index == 5) {
-                //               Navigator.push(
-                //                   context,
-                //                   MaterialPageRoute(
-                //                       builder: (context) =>
-                //                       const NotesScreen()));
-                //             }
-                //           }
-                //         }
-                //       }
-                //     }
-                //   }
-                // },
+                onTap: () {
+                  print("Working 685");
+                  print("Working 659 ${item.price}");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProductDetailScreen(
+                                title: item.name,
+                                image: item.image,
+                                weight: item.weight,
+                                price: item.price.toString(),
+                                description: item.description,
+                              )));
+                  // Navigator.pushNamed(context, Routes.productDetailScreen);
+                },
                 child: Container(
                   // height: height / 3,
                   // width: width / ,
@@ -672,24 +693,34 @@ class AllProduct extends StatelessWidget {
                         //   TextStyle(fontSize: 18, color: Colors.white),
                         // ),
                         Center(
-                          child: Container(
-                            height: height / 5.5,
-                            width: width / 2.8,
-                            decoration: BoxDecoration(
-                              // color: Colors.red,
-                              borderRadius: BorderRadius.circular(5),
+                          child: IgnorePointer(
+                            // onTap: () {
+                            //   // // print("Working 685");
+                            //   // Navigator.push(
+                            //   //     context,
+                            //   //     MaterialPageRoute(
+                            //   //         builder: (context) =>
+                            //   //             const ProductDetailScreen()));
+                            // },
+                            child: Container(
+                              height: height / 5.5,
+                              width: width / 2.8,
+                              decoration: BoxDecoration(
+                                // color: Colors.red,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Image.network(item.image ?? ''),
+                              // child: Image.asset(
+                              //   imageList[Random().nextInt(2)],
+                              // ),
                             ),
-                            child: Image.network(item.image ?? ''),
-                            // child: Image.asset(
-                            //   imageList[Random().nextInt(2)],
-                            // ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
 
-                        Container(
+                        SizedBox(
                           height: height / 11,
                           width: width / 2.2,
                           // color: Colors.red,
@@ -697,14 +728,17 @@ class AllProduct extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                               Row(
+                              Row(
                                 children: [
                                   Expanded(
                                       child: Text(
-                                        item.name ?? "",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    item.name ?? "",
                                     // "Original Red Chilli Powder ( 1 KG )",
                                     style: const TextStyle(fontSize: 14),
                                   )),
+                                  Text(item.weight ?? "NA")
                                   // Text(""),
                                 ],
                               ),

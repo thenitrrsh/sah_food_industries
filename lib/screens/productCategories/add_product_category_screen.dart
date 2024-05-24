@@ -77,6 +77,7 @@ class _AddProductCategoryState extends State<AddProductCategory> {
                         height: height / 14,
                       ),
                       SaveButton(
+                        buttonText: "Add",
                         width: width,
                         onTap: () {
                           onCategoryAdd();

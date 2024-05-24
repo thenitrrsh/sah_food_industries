@@ -55,7 +55,7 @@ class ReusableTextfield extends StatelessWidget {
             keyboardType: keyboardType,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: TextStyle(fontSize: 14),
+              hintStyle: TextStyle(fontSize: 15),
               contentPadding: EdgeInsets.all(12),
               border: InputBorder.none,
             ),
@@ -177,17 +177,23 @@ class ReusableSaveButton extends StatelessWidget {
 }
 
 class SaveButton extends StatelessWidget {
-  SaveButton({super.key, required this.width, required this.onTap, this.isLoading = false});
+  SaveButton(
+      {super.key,
+      required this.width,
+      required this.onTap,
+      this.isLoading = false,
+      this.buttonText = "Save"});
 
   final double width;
   void Function()? onTap;
   bool isLoading;
+  String? buttonText;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: !isLoading ?  onTap : null,
+        onTap: !isLoading ? onTap : null,
         // onTap: () {
         //   UserScreenProvider userScreenProvider =
         //   Provider.of(context, listen: false);
@@ -205,14 +211,16 @@ class SaveButton extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Constants.bgBlueColor,
                 borderRadius: BorderRadiusDirectional.circular(15)),
-            child:  Center(
-              child: isLoading ? const CircularProgressIndicator(): const Text(
-                "Save",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500),
-              ),
+            child: Center(
+              child: isLoading
+                  ? CircularProgressIndicator()
+                  : Text(
+                      buttonText ?? "",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500),
+                    ),
             )),
       ),
     );
@@ -246,10 +254,10 @@ class NoDataFoundImage extends StatelessWidget {
 class CustomText extends StatelessWidget {
   CustomText(
       {super.key,
-        required this.text,
-        this.color,
-        this.fontSize,
-        this.fontWeight});
+      required this.text,
+      this.color,
+      this.fontSize,
+      this.fontWeight});
 
   String? text;
   double? fontSize;
@@ -261,7 +269,7 @@ class CustomText extends StatelessWidget {
     return Text(
       text!,
       style:
-      TextStyle(fontSize: fontSize, color: color, fontWeight: fontWeight),
+          TextStyle(fontSize: fontSize, color: color, fontWeight: fontWeight),
     );
   }
 }

@@ -164,7 +164,7 @@ class _CreateRegionScreenState extends State<CreateRegionScreen> {
                                   child: DropdownButton<StateModel>(
                                     hint: const Text(
                                       "Select State",
-                                      style: TextStyle(fontSize: 14),
+                                      style: TextStyle(fontSize: 15),
                                     ),
                                     isExpanded: true,
                                     padding: const EdgeInsets.only(
@@ -212,6 +212,7 @@ class _CreateRegionScreenState extends State<CreateRegionScreen> {
                               height: height / 14,
                             ),
                             SaveButton(
+                              buttonText: "Create",
                               width: width,
                               onTap: () async {
                                 if (regionController.text.isEmpty) {

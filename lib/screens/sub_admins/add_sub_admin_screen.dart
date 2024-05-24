@@ -170,7 +170,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                               isExpanded: true,
                               hint: Text(
                                 "Select State",
-                                style: TextStyle(fontSize: 14),
+                                style: TextStyle(fontSize: 15),
                               ),
 
                               padding:
@@ -236,7 +236,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                               isExpanded: true,
                               hint: Text(
                                 "Select Region",
-                                style: TextStyle(fontSize: 14),
+                                style: TextStyle(fontSize: 15),
                               ),
 
                               padding:
@@ -313,7 +313,7 @@ class _AddSubAdminScreenState extends State<AddSubAdminScreen> {
                                   const Text(
                                     "Upload Picture",
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black54),
                                   ),

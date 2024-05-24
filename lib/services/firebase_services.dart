@@ -58,9 +58,8 @@ class FirebaseServices {
 
   Future<bool?> checkUserExist(String email, String type) async {
     String userCollection = FirebaseConstants.adminCollection;
-    if(type == 'staff'){
+    if (type == 'staff') {
       userCollection = FirebaseConstants.staffCollection;
-
     }
     try {
       var response = await firestore
@@ -76,24 +75,19 @@ class FirebaseServices {
     }
   }
 
-
-
   Future<bool?> handleSignUp(String email, String password) async {
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
     //10
-    try{
-
+    try {
       final result = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       //11
       return true;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
-
-
 
   Future<bool> updateStaff(String phone, String name, String password,
       String tvId, String email, String docId) async {
@@ -131,7 +125,7 @@ class FirebaseServices {
     List<UserModel> userList = [];
     try {
       var response =
-      await firestore.collection(FirebaseConstants.staffCollection).get();
+          await firestore.collection(FirebaseConstants.staffCollection).get();
       if (response.size > 0) {
         for (var i in response.docs) {
           UserModel userModel = UserModel();
@@ -150,17 +144,23 @@ class FirebaseServices {
     }
   }
 
-
   Future<bool> createNewAdmin(
-      {required String phone, required String name, required String password,required String email, required AdminType type, required String regionId, required String stateId,required String regionName, required String stateName}) async {
+      {required String phone,
+      required String name,
+      required String password,
+      required String email,
+      required AdminType type,
+      required String regionId,
+      required String stateId,
+      required String regionName,
+      required String stateName}) async {
     String adminType = 'sub-admin';
-    if(type == AdminType.admin){
+    if (type == AdminType.admin) {
       adminType = 'admin';
     }
     try {
-
       bool? userCreateResponse = await handleSignUp(email, password);
-      if(userCreateResponse == null || userCreateResponse == false){
+      if (userCreateResponse == null || userCreateResponse == false) {
         return false;
       }
       var response = await firestore
@@ -172,7 +172,7 @@ class FirebaseServices {
         'phone': phone,
         'created_at': Timestamp.now(),
         'email': email,
-        'type' : adminType,
+        'type': adminType,
         'region_id': regionId,
         'region_name': regionName,
         'state_name': stateName,
@@ -184,7 +184,8 @@ class FirebaseServices {
     }
   }
 
-  Future<bool> updateAdmin(String phone, String name, String password, String email, String docId) async {
+  Future<bool> updateAdmin(String phone, String name, String password,
+      String email, String docId) async {
     try {
       var response = await firestore
           .collection(FirebaseConstants.adminCollection)
@@ -214,17 +215,17 @@ class FirebaseServices {
     }
   }
 
-
-  Future<AdminModel> getAdminList(String query, DocumentSnapshot? lastDoc, int limit) async {
+  Future<AdminModel> getAdminList(
+      String query, DocumentSnapshot? lastDoc, int limit) async {
     List<UserModel> userList = [];
     AdminModel finalResponse = AdminModel();
-    if(limit == 0){
+    if (limit == 0) {
       limit = 10;
     }
     try {
-
-      var firestoreQuery = firestore.collection(FirebaseConstants.adminCollection).where("");
-      if(query != ""){
+      var firestoreQuery =
+          firestore.collection(FirebaseConstants.adminCollection).where("");
+      if (query != "") {
         firestoreQuery = firestoreQuery.where("name", isEqualTo: query);
       }
 
@@ -232,13 +233,11 @@ class FirebaseServices {
 
       firestoreQuery = firestoreQuery.orderBy('created_at', descending: true);
       firestoreQuery = firestoreQuery.where('type', isEqualTo: 'sub-admin');
-      if(lastDoc != null){
+      if (lastDoc != null) {
         firestoreQuery = firestoreQuery.startAfterDocument(lastDoc!);
-
       }
 
-      var response= await firestoreQuery.get();
-
+      var response = await firestoreQuery.get();
 
       if (response.size > 0) {
         finalResponse.lastDocument = response.docs.last;
@@ -250,18 +249,19 @@ class FirebaseServices {
           userModel.docId = i.id;
           userModel.password = i.data()['password'];
 
-
-          AggregateQuerySnapshot aggregateQuerySnapshot =
-           await firestore.collection(FirebaseConstants.staffCollection).where('created_by', isEqualTo: userModel.docId).count().get(source: AggregateSource.server);
+          AggregateQuerySnapshot aggregateQuerySnapshot = await firestore
+              .collection(FirebaseConstants.staffCollection)
+              .where('created_by', isEqualTo: userModel.docId)
+              .count()
+              .get(source: AggregateSource.server);
           userModel.totalStaff = aggregateQuerySnapshot.count ?? 0;
 
           userList.add(userModel);
         }
-      }else{
+      } else {
         finalResponse.allDataLoaded = true;
       }
       finalResponse.data = userList;
-
     } catch (e) {
       finalResponse.allDataLoaded = true;
       finalResponse.error = "Something went wrong";
@@ -271,19 +271,26 @@ class FirebaseServices {
     return finalResponse;
   }
 
-  Future<bool> createStaff({required String name, required String phone, required String email, required String password}) async{
+  Future<bool> createStaff(
+      {required String name,
+      required String phone,
+      required String email,
+      required String password}) async {
     UserModel? userModel = SharedPreferencesHelper.getUserData();
-    try{
+    try {
       bool? isUserExist = await checkUserExist(email, 'staff');
-      if(isUserExist == true){
+      if (isUserExist == true) {
         return false;
       }
 
       bool? userCreateResponse = await handleSignUp(email, password);
-      if(userCreateResponse == null || userCreateResponse == false){
+      if (userCreateResponse == null || userCreateResponse == false) {
         return false;
       }
-      var response = await firestore.collection(FirebaseConstants.staffCollection).doc().set({
+      var response = await firestore
+          .collection(FirebaseConstants.staffCollection)
+          .doc()
+          .set({
         'phone': phone,
         'name': name,
         'email': email,
@@ -297,12 +304,10 @@ class FirebaseServices {
         'status': 'offline'
       });
       return true;
-    }catch(e){
+    } catch (e) {
       return false;
     }
   }
-
-
 
   // Future<CountryListModel> getCountries() async {
   //
@@ -319,14 +324,19 @@ class FirebaseServices {
   Future<RegionListModel> getRegions({String? stateId}) async {
     List<RegionModel> regionList = [];
     try {
-      var response ;
-      if(stateId != null){
-        response = await firestore.collection(FirebaseConstants.regionCollection).where('state_id', isEqualTo: stateId).get();}
-      else{
-        response = await firestore.collection(FirebaseConstants.regionCollection).get();
+      var response;
+      if (stateId != null) {
+        response = await firestore
+            .collection(FirebaseConstants.regionCollection)
+            .where('state_id', isEqualTo: stateId)
+            .get();
+      } else {
+        response = await firestore
+            .collection(FirebaseConstants.regionCollection)
+            .get();
       }
       if (response.size > 0) {
-        var data= RegionListModel.fromMap(response.docs);
+        var data = RegionListModel.fromMap(response.docs);
         return data;
       }
       return RegionListModel(regionList: regionList);
@@ -336,12 +346,15 @@ class FirebaseServices {
     }
   }
 
-
-
-  Future<String?> createRegion(String regionName, String stateId, String stateName) async {
+  Future<String?> createRegion(
+      String regionName, String stateId, String stateName) async {
     try {
-      var existingRegion = await firestore.collection(FirebaseConstants.regionCollection).where('name', isEqualTo: regionName).where('state_id', isEqualTo:  stateId).get();
-      if(existingRegion.size > 0){
+      var existingRegion = await firestore
+          .collection(FirebaseConstants.regionCollection)
+          .where('name', isEqualTo: regionName)
+          .where('state_id', isEqualTo: stateId)
+          .get();
+      if (existingRegion.size > 0) {
         return "Region already exist";
       }
       var response = await firestore
@@ -359,11 +372,12 @@ class FirebaseServices {
     }
   }
 
-
-
   Future<bool> deleteRegion(String docId) async {
     try {
-      await firestore.collection(FirebaseConstants.regionCollection).doc(docId).delete();
+      await firestore
+          .collection(FirebaseConstants.regionCollection)
+          .doc(docId)
+          .delete();
       return true;
     } catch (e) {
       return false;
@@ -372,9 +386,10 @@ class FirebaseServices {
 
   Future<StateListModel> getStates() async {
     try {
-      var response = await firestore.collection(FirebaseConstants.stateCollection).get();
+      var response =
+          await firestore.collection(FirebaseConstants.stateCollection).get();
       if (response.size > 0) {
-        var data= StateListModel.fromMap(response.docs);
+        var data = StateListModel.fromMap(response.docs);
         return data;
       }
       return StateListModel(regionList: []);
@@ -385,25 +400,39 @@ class FirebaseServices {
   }
 
   Future<ProductListModel> getProductList({String? catId}) async {
+    print("403 working $catId");
     try {
-      Query<Map<String, dynamic>> query = firestore.collection(FirebaseConstants.productCollection);
-      if(catId != null){
-         query = firestore.collection(FirebaseConstants.productCollection).where('category_id', isEqualTo: catId);
+      Query<Map<String, dynamic>> query =
+          firestore.collection(FirebaseConstants.productCollection);
+      if (catId != null) {
+        query = firestore
+            .collection(FirebaseConstants.productCollection)
+            .where('category_id', isEqualTo: catId);
       }
       var response = await query.get();
       if (response.size > 0) {
-        var data= ProductListModel.fromMap(response.docs);
+        var data = ProductListModel.fromMap(response.docs);
         return data;
       }
+      print("416 working ${response.size}");
       return ProductListModel(productList: []);
     } catch (e) {
-      return ProductListModel.error("Something went wrong");
+      // return ProductListModel.error("Something went wrong");
       throw Exception(e);
     }
   }
 
-
-  Future<bool> createProduct(String productName, double productPrice, String productDescription, String productImage, String categoryId, int quantity, String qtyType) async {
+  Future<bool> createProduct(
+    String productName,
+    double productPrice,
+    String productDescription,
+    String productImage,
+    String categoryName,
+    int quantity,
+    String qtyType,
+    String categoryId,
+    String weight,
+  ) async {
     try {
       var response = await firestore
           .collection(FirebaseConstants.productCollection)
@@ -414,8 +443,10 @@ class FirebaseServices {
         'description': productDescription,
         'image': productImage,
         'created_at': Timestamp.now(),
+        'categoryname': categoryName,
         'category_id': categoryId,
         'qty': quantity,
+        'weight': weight,
         'qty_type': qtyType
       });
       return true;
@@ -424,7 +455,8 @@ class FirebaseServices {
     }
   }
 
-  Future<bool> updateProduct(String productName, String productPrice, String productDescription, String productImage, String docId) async {
+  Future<bool> updateProduct(String productName, String productPrice,
+      String productDescription, String productImage, String docId) async {
     try {
       var response = await firestore
           .collection(FirebaseConstants.productCollection)
@@ -444,13 +476,15 @@ class FirebaseServices {
 
   Future<bool> deleteProduct(String docId) async {
     try {
-      await firestore.collection(FirebaseConstants.productCollection).doc(docId).delete();
+      await firestore
+          .collection(FirebaseConstants.productCollection)
+          .doc(docId)
+          .delete();
       return true;
     } catch (e) {
       return false;
     }
   }
-
 
   Future<bool> createProductCategory(String categoryName) async {
     try {
@@ -469,9 +503,11 @@ class FirebaseServices {
 
   Future<ProductCategoryModelList> getProductsCategory() async {
     try {
-      var response = await firestore.collection(FirebaseConstants.productCategoryCollection).get();
+      var response = await firestore
+          .collection(FirebaseConstants.productCategoryCollection)
+          .get();
       if (response.size > 0) {
-        var data= ProductCategoryModelList.fromMap(response.docs);
+        var data = ProductCategoryModelList.fromMap(response.docs);
         return data;
       }
       return ProductCategoryModelList(categoryList: []);
@@ -480,7 +516,6 @@ class FirebaseServices {
       throw Exception(e);
     }
   }
-
 
   Future<bool> updateProductCategory(String categoryName, String docId) async {
     try {
@@ -499,15 +534,18 @@ class FirebaseServices {
 
   Future<bool> deleteProductCategory(String docId) async {
     try {
-      await firestore.collection(FirebaseConstants.productCategoryCollection).doc(docId).delete();
+      await firestore
+          .collection(FirebaseConstants.productCategoryCollection)
+          .doc(docId)
+          .delete();
       return true;
     } catch (e) {
       return false;
     }
   }
 
-
-  Future<bool> updateRegion(String regionName, String stateId, String docId) async {
+  Future<bool> updateRegion(
+      String regionName, String stateId, String docId) async {
     try {
       var response = await firestore
           .collection(FirebaseConstants.regionCollection)
@@ -523,17 +561,18 @@ class FirebaseServices {
     }
   }
 
-  Future<String> uploadImageToFirebaseStorage(String imagePath, String uploadFolder, {String? extension}) async {
-    final Reference storageReference = FirebaseStorage.instance.ref().child(uploadFolder).child(DateTime.now().toString() + (imagePath.split('.').last) );
+  Future<String> uploadImageToFirebaseStorage(
+      String imagePath, String uploadFolder,
+      {String? extension}) async {
+    final Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child(uploadFolder)
+        .child(DateTime.now().toString() + (imagePath.split('.').last));
     final UploadTask uploadTask = storageReference.putFile(File(imagePath));
     final TaskSnapshot downloadUrl = (await uploadTask);
     final String url = await downloadUrl.ref.getDownloadURL();
     return url;
   }
-
-
-
-
 
 ////deleteAds
 //   Future<bool> deleteAd(String doc) async {
@@ -581,7 +620,6 @@ class FirebaseServices {
   //   }
   // }
 
-
   ////Company
   // Future<List<CompanyModel>> getCompanyList() async {
   //   List<CompanyModel> companyList = [];
@@ -604,7 +642,6 @@ class FirebaseServices {
   //     return [];
   //   }
   // }
-
 
   String getFormatedDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");

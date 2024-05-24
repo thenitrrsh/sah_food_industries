@@ -247,6 +247,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                             child: GestureDetector(
                               child: Container(
                                 decoration: BoxDecoration(
+                                    color: colors.first,
                                     borderRadius:
                                         BorderRadiusDirectional.circular(10),
                                     border: Border.all(
@@ -263,7 +264,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                               overflow: TextOverflow.ellipsis,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 18,
-                                              color: Constants.bgBlueColor)),
+                                              color: Colors.white)),
                                     ],
                                   ),
                                 ),

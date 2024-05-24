@@ -4,12 +4,12 @@ import 'package:sah_food_industries/screens/dashboard/home_screen.dart';
 import 'package:sah_food_industries/screens/productCategories/product_category_list_screen.dart';
 
 import '../screens/login_register_screen.dart/login_screen.dart';
+import '../screens/productDetailScreen/product_detail_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/staffs/add_staff_screen.dart';
 import '../screens/staffs/staff_list_screen.dart';
 
-class Routes{
-
+class Routes {
   static const String home = '/home';
   static const String splashScreen = '/';
   static const String login = '/login';
@@ -45,19 +45,16 @@ class Routes{
   static const String customerList = '/customerList';
   static const String productCategoryListScreen = '/productListCategoryScreen';
   static const String catalogScreen = '/catalogue_screen';
+  static const String productDetailScreen = '/product_detail_screen';
 
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
-
-    splashScreen: (context) =>const SplashScreen(),
-    login: (context) =>const LoginScreen(),
+    splashScreen: (context) => const SplashScreen(),
+    login: (context) => const LoginScreen(),
     staffList: StaffListScreen.builder,
     addStaff: (context) => const AddStaffScreen(),
     home: (context) => const HomeScreen(),
-    productCategoryListScreen:  CategoryListScreen.builder,
-    catalogScreen: CatalogueScreen.builder
-
-
+    productCategoryListScreen: CategoryListScreen.builder,
+    catalogScreen: CatalogueScreen.builder,
+    productDetailScreen: (context) => const ProductDetailScreen()
   };
 }
-
-

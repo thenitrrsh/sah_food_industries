@@ -14,6 +14,7 @@ import '../../helper.dart';
 import '../../models/product_category_model.dart';
 import '../../models/state_model.dart';
 import '../../providers/admin_subadmin_provider.dart';
+import '../../routes/routes.dart';
 import '../productCategories/provider/add_product_screen_provider.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -32,12 +33,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
   TextEditingController imageController = TextEditingController();
   TextEditingController mrpController = TextEditingController();
   TextEditingController qtyController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
   // List<ProductCategoryModel>? categoryList;
   // ProductCategoryModel? productCategoryList;
 
   String imageUpload = "";
   String? imagePath;
-  String? selectedItem;
+  ProductCategoryModel? selectedItem;
   String selectedQtyType = 'kg';
 
   String docID = "";
@@ -75,376 +77,414 @@ class _AddProductScreenState extends State<AddProductScreen> {
     double height = MediaQuery.of(context).size.height;
 
     return ChangeNotifierProvider<ProductCategoryProvider>(
-      create: (BuildContext context) => addProductProvider,
-      builder: (ctx, snapshot) {
-        return Scaffold(
-          backgroundColor: Constants.bgBlueColor,
-          resizeToAvoidBottomInset: true,
-          key: _key,
-          appBar: AppBar(
-              iconTheme: const IconThemeData(
-                color: Colors.white,
-              ),
-              backgroundColor: Constants.bgBlueColor,
-              title: const Text(
-                'Add Product',
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              )),
-          body: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Expanded(
-                child: Container(
-                  // height: height / 1,
-                  width: width / 1,
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(55),
-                          topRight: Radius.circular(55)),
-                      color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20, right: 22, left: 22),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              height: 2,
-                              width: width / 2.8,
-                              color: Colors.black26,
+        create: (BuildContext context) => addProductProvider,
+        builder: (ctx, snapshot) {
+          return Scaffold(
+            backgroundColor: Constants.bgBlueColor,
+            resizeToAvoidBottomInset: true,
+            key: _key,
+            appBar: AppBar(
+                iconTheme: const IconThemeData(
+                  color: Colors.white,
+                ),
+                backgroundColor: Constants.bgBlueColor,
+                title: const Text(
+                  'Add Product',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                )),
+            body: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: Container(
+                    // height: height / 1,
+                    width: width / 1,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(55),
+                            topRight: Radius.circular(55)),
+                        color: Colors.white),
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20, right: 22, left: 22),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Container(
+                                height: 2,
+                                width: width / 2.8,
+                                color: Colors.black26,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          ReusableTextfield(
-                              headingName: "Title",
-                              hintText: "Enter Title",
-                              controller: titleController),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 15),
-                            child: Text(
-                              "Category",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            const SizedBox(
+                              height: 20,
                             ),
-                          ),
-                          // SizedBox(
-                          //   width: width / 1.1,
-                          //   child: Card(
-                          //       color: Colors.white,
-                          //       shape: RoundedRectangleBorder(
-                          //           borderRadius: BorderRadius.circular(22),
-                          //           side: BorderSide(
-                          //               color: Constants.bgBlueColor, width: 1.5)),
-                          //       child: DropdownButton<List<ProductCategoryModel>>(
-                          //         isExpanded: true,
-                          //         hint: Text(
-                          //           "Select Category",
-                          //           style: TextStyle(fontSize: 14),
-                          //         ),
-                          //
-                          //         padding:
-                          //             const EdgeInsets.only(left: 12, right: 10),
-                          //         value: addProductProvider.categoryList,
-                          //         iconDisabledColor: Colors.transparent,
-                          //         underline: Container(
-                          //           // width: width / 1.1,
-                          //           color: Colors.transparent,
-                          //         ),
-                          //         // icon: const Icon(Icons.arrow_downward),
-                          //         elevation: 16,
-                          //         style: const TextStyle(
-                          //             color: Colors.black54,
-                          //             fontSize: 16,
-                          //             fontWeight: FontWeight.w500),
-                          //         onChanged: (List<ProductCategoryModel>? value) {
-                          //           addProductProvider.categoryList = value;
-                          //           // print(widget.adminDashboardProvider.selectedYear);
-                          //           // getRegion();
-                          //         },
-                          //         items: addProductProvider.categoryList?.isEmpty ??
-                          //                 true
-                          //             ? []
-                          //             : addProductProvider.categoryList!.first.map<
-                          //                     DropdownMenuItem<
-                          //                         List<ProductCategoryModel>>>(
-                          //                 (List<ProductCategoryModel> value) {
-                          //                 return DropdownMenuItem<
-                          //                     List<ProductCategoryModel>>(
-                          //                   value: value,
-                          //                   child: Text(
-                          //                     value.name ?? "",
-                          //                     style: TextStyle(),
-                          //                   ),
-                          //                 );
-                          //               }).toList(),
-                          //       )),
-                          // ),
-                          SizedBox(
-                            width: width / 1.1,
-                            child: Card(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22),
-                                  side: BorderSide(
-                                      color: Constants.bgBlueColor, width: 1.5)),
-                              child: GestureDetector(
-                                onTap: () {
-                                  _showProductCategoryDropdown(context);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
+                            ReusableTextfield(
+                                headingName: "Title",
+                                hintText: "Enter Title",
+                                controller: titleController),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                "Category",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            // SizedBox(
+                            //   width: width / 1.1,
+                            //   child: Card(
+                            //       color: Colors.white,
+                            //       shape: RoundedRectangleBorder(
+                            //           borderRadius: BorderRadius.circular(22),
+                            //           side: BorderSide(
+                            //               color: Constants.bgBlueColor, width: 1.5)),
+                            //       child: DropdownButton<List<ProductCategoryModel>>(
+                            //         isExpanded: true,
+                            //         hint: Text(
+                            //           "Select Category",
+                            //           style: TextStyle(fontSize: 14),
+                            //         ),
+                            //
+                            //         padding:
+                            //             const EdgeInsets.only(left: 12, right: 10),
+                            //         value: addProductProvider.categoryList,
+                            //         iconDisabledColor: Colors.transparent,
+                            //         underline: Container(
+                            //           // width: width / 1.1,
+                            //           color: Colors.transparent,
+                            //         ),
+                            //         // icon: const Icon(Icons.arrow_downward),
+                            //         elevation: 16,
+                            //         style: const TextStyle(
+                            //             color: Colors.black54,
+                            //             fontSize: 16,
+                            //             fontWeight: FontWeight.w500),
+                            //         onChanged: (List<ProductCategoryModel>? value) {
+                            //           addProductProvider.categoryList = value;
+                            //           // print(widget.adminDashboardProvider.selectedYear);
+                            //           // getRegion();
+                            //         },
+                            //         items: addProductProvider.categoryList?.isEmpty ??
+                            //                 true
+                            //             ? []
+                            //             : addProductProvider.categoryList!.first.map<
+                            //                     DropdownMenuItem<
+                            //                         List<ProductCategoryModel>>>(
+                            //                 (List<ProductCategoryModel> value) {
+                            //                 return DropdownMenuItem<
+                            //                     List<ProductCategoryModel>>(
+                            //                   value: value,
+                            //                   child: Text(
+                            //                     value.name ?? "",
+                            //                     style: TextStyle(),
+                            //                   ),
+                            //                 );
+                            //               }).toList(),
+                            //       )),
+                            // ),
+                            SizedBox(
+                              width: width / 1.1,
+                              child: Card(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(22),
+                                    side: BorderSide(
+                                        color: Constants.bgBlueColor,
+                                        width: 1.5)),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _showProductCategoryDropdown(context);
+                                  },
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.only(right: 5, left: 5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            selectedItem == null
-                                                ? "Select category"
-                                                : selectedItem!,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize:
-                                                    selectedItem == null ? 14 : 16,
-                                                color: selectedItem == null
-                                                    ? Colors.black54
-                                                    : Colors.black,
-                                                fontWeight: selectedItem == null
-                                                    ? FontWeight.w500
-                                                    : FontWeight.w400),
+                                    padding: const EdgeInsets.all(12),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 5, left: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              selectedItem?.docId == null
+                                                  ? "Select Category"
+                                                  : selectedItem?.name ?? "",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: selectedItem == null
+                                                      ? 15
+                                                      : 16,
+                                                  color: selectedItem == null
+                                                      ? Colors.black54
+                                                      : Colors.black,
+                                                  fontWeight:
+                                                      selectedItem == null
+                                                          ? FontWeight.w500
+                                                          : FontWeight.w400),
+                                            ),
                                           ),
-                                        ),
-                                        Icon(Icons.arrow_drop_down),
-                                      ],
+                                          Icon(Icons.arrow_drop_down),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          ReusableTextfield(
-                              headingName: "Price",
-                              hintText: "Enter Price",
-                              controller: mrpController),
-                          const SizedBox(
-                            height: 10,
-                          ),
-
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          ReusableTextfield(
-                              headingName: "Quantity",
-                              hintText: "Enter quantity",
-                              controller: qtyController),
-                          const SizedBox(
-                            height: 10,
-                          ),
-
-
-                          const Padding(
-                            padding: EdgeInsets.only(left: 15),
-                            child: Text(
-                              "Quantity Type",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-
-
-                          SizedBox(
-                            width: width / 1.1,
-                            child: Card(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(22),
-                                    side: BorderSide(
-                                        color: Constants.bgBlueColor, width: 1.5)),
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  hint: Text(
-                                    "Select type",
-                                    style: TextStyle(fontSize: 14),
-                                  ),
-
-                                  padding:
-                                  const EdgeInsets.only(left: 12, right: 10),
-                                  value: selectedQtyType,
-                                  iconDisabledColor: Colors.transparent,
-                                  underline: Container(
-                                    // width: width / 1.1,
-                                    color: Colors.transparent,
-                                  ),
-                                  // icon: const Icon(Icons.arrow_downward),
-                                  elevation: 16,
-                                  style: const TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                  onChanged: (String? value) {
-                                    selectedQtyType = value ?? 'kg';
-                                    setState(() {
-
-                                    });
-                                  },
-                                  items: ['kg', 'ml', 'gm', 'l'].map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(
-                                            value ?? "",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        );
-                                      }).toList(),
-                                )),
-                          ),
-
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 15),
-                            child: Text(
-                              "Description",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            ReusableTextfield(
+                                headingName: "Price",
+                                hintText: "Enter Price",
+                                controller: mrpController),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          Card(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(22),
-                                side: BorderSide(
-                                    color: Constants.bgBlueColor, width: 1.5)),
-                            child: Container(
-                              height: height / 6,
-                              child: TextField(
-                                controller: descriptionController,
-                                decoration: const InputDecoration(
-                                  hintText: "Enter Description",
-                                  contentPadding: EdgeInsets.all(12),
-                                  border: InputBorder.none,
+
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            ReusableTextfield(
+                                headingName: "Quantity (In Stock)",
+                                hintText: "Enter Quantity",
+                                controller: qtyController),
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            const Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                "Quantity Type",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+
+                            SizedBox(
+                              width: width / 1.1,
+                              child: Card(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(22),
+                                      side: BorderSide(
+                                          color: Constants.bgBlueColor,
+                                          width: 1.5)),
+                                  child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    hint: Text(
+                                      "Select type",
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+
+                                    padding: const EdgeInsets.only(
+                                        left: 12, right: 10),
+                                    value: selectedQtyType,
+                                    iconDisabledColor: Colors.transparent,
+                                    underline: Container(
+                                      // width: width / 1.1,
+                                      color: Colors.transparent,
+                                    ),
+                                    // icon: const Icon(Icons.arrow_downward),
+                                    elevation: 16,
+                                    style: const TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    onChanged: (String? value) {
+                                      selectedQtyType = value ?? 'kg';
+                                      setState(() {});
+                                    },
+                                    items: ['kg', 'ml', 'gm', 'l']
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value ?? "",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  )),
+                            ),
+
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            ReusableTextfield(
+                                headingName: "Weight",
+                                hintText: "Enter Weight",
+                                controller: weightController),
+
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                "Description",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            Card(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(22),
+                                  side: BorderSide(
+                                      color: Constants.bgBlueColor,
+                                      width: 1.5)),
+                              child: Container(
+                                height: height / 6,
+                                child: TextField(
+                                  maxLines: 5,
+                                  controller: descriptionController,
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter Description",
+                                    contentPadding: EdgeInsets.all(12),
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Card(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(22),
-                                side: BorderSide(
-                                    color: Constants.bgBlueColor, width: 1.5)),
-                            child: Container(
-                                // height: height / 6,
-                                width: width / 1,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "Upload Picture",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black54),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Center(
-                                          child: Container(
-                                            height: 150,
-                                            width: 150,
-                                            // color: Colors.red,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                border: Border.all(
-                                                    color: Colors.black54)),
-                                            child: Center(
-                                                child: InkWell(
-                                                    onTap: () {
-                                                      _onPickFile();
-                                                    },
-                                                    child: imageUpload.isNotEmpty
-                                                        ? Image.file(
-                                                            File(imageUpload),
-                                                            fit: BoxFit.cover,
-                                                            width: double.infinity,
-                                                            height: double.infinity,
-                                                          )
-                                                        : Icon(
-                                                            Icons.cloud_upload,
-                                                            size: 35,
-                                                            color: Constants
-                                                                .bgBlueColor,
-                                                          ))),
-                                          ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Card(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(22),
+                                  side: BorderSide(
+                                      color: Constants.bgBlueColor,
+                                      width: 1.5)),
+                              child: Container(
+                                  // height: height / 6,
+                                  width: width / 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "Upload Picture",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black54),
                                         ),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding: const EdgeInsets.all(5),
+                                          child: Center(
+                                            child: Container(
+                                              height: 150,
+                                              width: 150,
+                                              // color: Colors.red,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  border: Border.all(
+                                                      color: Colors.black54)),
+                                              child: Center(
+                                                  child: InkWell(
+                                                      onTap: () {
+                                                        _onPickFile();
+                                                      },
+                                                      child: imageUpload
+                                                              .isNotEmpty
+                                                          ? Image.file(
+                                                              File(imageUpload),
+                                                              fit: BoxFit.cover,
+                                                              width: double
+                                                                  .infinity,
+                                                              height: double
+                                                                  .infinity,
+                                                            )
+                                                          : Icon(
+                                                              Icons
+                                                                  .cloud_upload,
+                                                              size: 35,
+                                                              color: Constants
+                                                                  .bgBlueColor,
+                                                            ))),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                            SizedBox(
+                              height: height / 14,
+                            ),
+                            addProductProvider.productLoading == true
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Constants.bgBlueColor,
+                                    ),
+                                  )
+                                : SaveButton(
+                                    buttonText: "Upload",
+                                    width: width,
+                                    isLoading: ctx
+                                        .watch<ProductCategoryProvider>()
+                                        .productLoading,
+                                    onTap: () {
+                                      addProductProvider.createProduct(
+                                          context: context,
+                                          productName: titleController.text,
+                                          productPrice: mrpController.text,
+                                          productDescription:
+                                              descriptionController.text,
+                                          productImage: imageUpload,
+                                          categoryName:
+                                              selectedItem?.name ?? "",
+                                          quantity: qtyController.text,
+                                          qtyType: selectedQtyType ?? '',
+                                          categoryId: selectedItem?.docId ?? '',
+                                          weight: weightController.text);
+                                      // if (addProductProvider.productLoading ==
+                                      //     false)
+                                      //   Navigator.pushNamed(
+                                      //       context, Routes.catalogScreen);
+                                    },
                                   ),
-                                )),
-                          ),
-                          SizedBox(
-                            height: height / 14,
-                          ),
-                          SaveButton(
-                            width: width,
-                            isLoading:  ctx.watch<ProductCategoryProvider>().productLoading,
-                            onTap: () {
-                              addProductProvider.createProduct(productName: titleController.text, productPrice: mrpController.text,
-                                  productDescription: descriptionController.text,
-                                  productImage: imageUpload, categoryId: selectedItem ?? "",
-                              quantity: qtyController.text,
-                              qtyType: selectedQtyType ?? '');
-                            },
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 15,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-        );
-      }
-    );
+                )
+              ],
+            ),
+          );
+        });
   }
 
   void _showProductCategoryDropdown(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).size.height / 3,
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -465,7 +505,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 child: InkWell(
                   onTap: () {
                     setState(() {
-                      selectedItem = categoryList.name ?? "NA";
+                      selectedItem = categoryList;
                     });
                     Navigator.pop(context);
                   },
