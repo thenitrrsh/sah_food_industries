@@ -28,7 +28,14 @@ class AdminSubAdminProvider extends ChangeNotifier {
   }
 
   Future<bool> createAdmin(
-      String phone, String password, String name, String email, String regionId, String stateId, String regionName, String stateName) async {
+      String phone,
+      String password,
+      String name,
+      String email,
+      String regionId,
+      String stateId,
+      String regionName,
+      String stateName) async {
     bool? response = await _firebaseServices.checkUserExist(email, 'admin');
     if (response == null) {
       ToastHelper.showToast("Something went wrong");
@@ -45,11 +52,10 @@ class AdminSubAdminProvider extends ChangeNotifier {
         password: password,
         phone: phone,
         name: name,
-      regionId: regionId,
-      stateId: stateId,
-      regionName: regionName,
-      stateName: stateName
-    );
+        regionId: regionId,
+        stateId: stateId,
+        regionName: regionName,
+        stateName: stateName);
     if (userResponse) {
       ToastHelper.showToast("Created Successfully");
       return true;
@@ -94,7 +100,7 @@ class AdminSubAdminProvider extends ChangeNotifier {
       paginationLoading = false;
       return;
     }
-    notifyListeners();
+    // notifyListeners();
     try {
       UserModel? userModel = SharedPreferencesHelper.getUserData();
       print("100 working");

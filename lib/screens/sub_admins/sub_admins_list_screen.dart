@@ -67,7 +67,7 @@ class _SubAdminsListScreenState extends State<SubAdminsListScreen> {
       ),
       appBar: AppBar(
           title: const Text(
-            "All Sub Admins",
+            "Sub Admins",
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           backgroundColor: Constants.bgBlueColor,
@@ -317,15 +317,47 @@ class _SubAdminsListScreenState extends State<SubAdminsListScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Expanded(
-                                                  child: Text(
-                                                      userData.name ?? '',
-                                                      style: const TextStyle(
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 18,
-                                                          color: Colors.white)),
+                                                  child: SizedBox(
+                                                    width: width / 1.33,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                            userData.name ?? '',
+                                                            style: const TextStyle(
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .white)),
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.location_on,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                            Text(
+                                                              "Dehradun",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .white),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                                 const SizedBox(
                                                   height: 3,
@@ -337,34 +369,72 @@ class _SubAdminsListScreenState extends State<SubAdminsListScreen> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Row(
+                                                      Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          const Text(
-                                                            "Phone: ",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .white70),
+                                                          Row(
+                                                            children: [
+                                                              const Text(
+                                                                "Phone: ",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .white70),
+                                                              ),
+                                                              Text(
+                                                                userData.phone ??
+                                                                    "",
+                                                                style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .white),
+                                                              )
+                                                            ],
                                                           ),
-                                                          Text(
-                                                            userData.phone ??
-                                                                "",
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 14,
-                                                                color: Colors
-                                                                    .white),
-                                                          )
+                                                          Row(
+                                                            children: [
+                                                              const Text(
+                                                                "Total Staff: ",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .white70),
+                                                              ),
+                                                              Text(
+                                                                "${userData.totalStaff ?? 0}",
+                                                                style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .white),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          // SizedBox(
+                                                          //   width: width / 4,
+                                                          // ),
                                                         ],
                                                       ),
-                                                      // SizedBox(
-                                                      //   width: width / 4,
-                                                      // ),
                                                       Row(
                                                         children: [
                                                           GestureDetector(
@@ -390,9 +460,9 @@ class _SubAdminsListScreenState extends State<SubAdminsListScreen> {
                                                             // },
                                                             child: const Icon(
                                                               Icons.add_chart,
-                                                              size: 25,
-                                                              color: Colors
-                                                                  .greenAccent,
+                                                              size: 30,
+                                                              color:
+                                                                  Colors.white,
                                                             ),
                                                           ),
                                                           const SizedBox(
@@ -436,7 +506,7 @@ class _SubAdminsListScreenState extends State<SubAdminsListScreen> {
                                                             child: Icon(
                                                               Icons
                                                                   .delete_forever,
-                                                              size: 25,
+                                                              size: 30,
                                                               color: Colors
                                                                   .red.shade300,
                                                             ),
@@ -446,174 +516,9 @@ class _SubAdminsListScreenState extends State<SubAdminsListScreen> {
                                                     ],
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  height: 3,
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      vertical: 3,
-                                                      horizontal: 2),
-                                                  child: Container(
-                                                    width: width / 1.35,
-                                                    // color: Colors.red,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              "Total Staff: ",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 12,
-                                                                  color: Colors
-                                                                      .white70),
-                                                            ),
-                                                            Text(
-                                                              "${userData.totalStaff ?? 0}",
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .white),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        // SizedBox(
-                                                        //   width: width / 15,
-                                                        // ),
-                                                        Row(
-                                                          children: [
-                                                            const Text(
-                                                              "Region: ",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 12,
-                                                                  color: Colors
-                                                                      .white70),
-                                                            ),
-                                                            Container(
-                                                              width:
-                                                                  width / 3.3,
-                                                              height: 20,
-                                                              decoration: BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5)),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "Bihar",
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          14,
-                                                                      color: Constants
-                                                                          .bgBlueColor),
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
                                               ],
                                             ),
                                           ),
-                                          // const Spacer(),
-                                          // Center(
-                                          //   child: Row(
-                                          //     children: [
-                                          //       GestureDetector(
-                                          //         // onTap: () {
-                                          //         //   Navigator.push(
-                                          //         //       context,
-                                          //         //       MaterialPageRoute(
-                                          //         //           builder: (context) =>
-                                          //         //               UserReportScreen(
-                                          //         //                 docId: userList[
-                                          //         //                 index]
-                                          //         //                     .docId ??
-                                          //         //                     "",
-                                          //         //                 mobile: userList[
-                                          //         //                 index]
-                                          //         //                     .phone ??
-                                          //         //                     "",
-                                          //         //                 name: userList[
-                                          //         //                 index]
-                                          //         //                     .name ??
-                                          //         //                     "",
-                                          //         //               )));
-                                          //         // },
-                                          //         child: const Icon(
-                                          //           Icons.add_chart,
-                                          //           size: 28,
-                                          //           color: Colors.green,
-                                          //         ),
-                                          //       ),
-                                          //       const SizedBox(
-                                          //         width: 10,
-                                          //       ),
-                                          //       GestureDetector(
-                                          //         onTap: () {
-                                          //           showDialog(
-                                          //               context: context,
-                                          //               builder: (context) =>
-                                          //                   AlertDialog(
-                                          //                     title: const Text(
-                                          //                         "Are you sure want to delete?"),
-                                          //                     actions: [
-                                          //                       TextButton(
-                                          //                           onPressed: () {
-                                          //                             Navigator.pop(
-                                          //                                 context);
-                                          //                           },
-                                          //                           child:
-                                          //                               Text("No")),
-                                          //                       TextButton(
-                                          //                           onPressed: () {
-                                          //                             // userList
-                                          //                             //     .remove(
-                                          //                             //     index);
-                                          //                             //
-                                          //                             // setState(
-                                          //                             //         () {});
-                                          //                             // onUserDelete(
-                                          //                             //     userList[index]
-                                          //                             //         .docId ??
-                                          //                             //         "");
-                                          //                             // print(
-                                          //                             //     "241 userList Length ${userList.length}");
-                                          //                           },
-                                          //                           child:
-                                          //                               Text("Yes")),
-                                          //                     ],
-                                          //                   ));
-                                          //         },
-                                          //         child: Icon(
-                                          //           Icons.delete_forever,
-                                          //           size: 28,
-                                          //           color: Colors.red,
-                                          //         ),
-                                          //       ),
-                                          //     ],
-                                          //   ),
-                                          // )
                                         ],
                                       ),
                                     ),

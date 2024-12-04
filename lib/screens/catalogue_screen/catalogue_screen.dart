@@ -47,6 +47,10 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
     super.initState();
     productProvider =
         Provider.of<ProductCategoryProvider>(context, listen: false);
+    init();
+  }
+
+  init() {
     productProvider.getProductCategory();
     productProvider.getProducts(null);
   }
@@ -81,9 +85,10 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                         await Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AddProductScreen(
-                                      addProductProvider: productProvider,
-                                    )));
+                              builder: (context) => AddProductScreen(
+                                addProductProvider: productProvider,
+                              ),
+                            ));
                       },
                       child: Text(
                         " Add Product ",
@@ -197,7 +202,13 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
               height: 10,
             ),
             // if (isAllSelected == true)
-            Expanded(child: AllProduct(height: height, width: width)),
+            Expanded(
+                child: AllProduct(
+                    height: height,
+                    width: width,
+                    onRefresh: () {
+                      init();
+                    })),
             // if (isSpicsSelected == true)
             //   Expanded(child: Spices(height: height, width: width)),
             // if (isTealeafSelected == true)
@@ -600,10 +611,12 @@ class AllProduct extends StatelessWidget {
     super.key,
     required this.height,
     required this.width,
+    required this.onRefresh,
   });
 
   final double height;
   final double width;
+  final Function() onRefresh;
 
   List<String> imageList = [
     'assets/images/chilli.jpeg',
@@ -651,13 +664,10 @@ class AllProduct extends StatelessWidget {
               //   );
               //   return item.docId == categoryDocId;
               // }).toList();
-              print("616 working${filteredProductList.length}");
 
               return GestureDetector(
-                onTap: () {
-                  print("Working 685");
-                  print("Working 659 ${item.price}");
-                  Navigator.push(
+                onTap: () async {
+                  await Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ProductDetailScreen(
@@ -666,7 +676,10 @@ class AllProduct extends StatelessWidget {
                                 weight: item.weight,
                                 price: item.price.toString(),
                                 description: item.description,
+                                docId: item.docId,
+                                provider: productProvider,
                               )));
+                  onRefresh();
                   // Navigator.pushNamed(context, Routes.productDetailScreen);
                 },
                 child: Container(

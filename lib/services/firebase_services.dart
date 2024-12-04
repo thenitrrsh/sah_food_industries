@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +14,9 @@ import 'package:sah_food_industries/models/state_model.dart';
 import '../constants/firebase_constants.dart';
 
 import '../models/admin_subadmin_model.dart';
+import '../models/notes_list_model.dart';
 import '../models/user_model.dart';
+import '../screens/dealers/get_dealer_list_model.dart';
 
 class FirebaseServices {
   static final FirebaseServices _singleton = FirebaseServices._internal();
@@ -501,6 +504,22 @@ class FirebaseServices {
     }
   }
 
+  // Future<bool> createOrder(String categoryName) async {
+  //   try {
+  //     var response = await firestore
+  //         .collection(FirebaseConstants.orderCollection)
+  //         .doc()
+  //         .set({
+  //       'address': address,
+  //       'created_at': Timestamp.now(),
+  //       'status': 'pending',
+  //     });
+  //     return true;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
+
   Future<ProductCategoryModelList> getProductsCategory() async {
     try {
       var response = await firestore
@@ -561,6 +580,48 @@ class FirebaseServices {
     }
   }
 
+  Future<List<GetNotesModel>> getNotes() async {
+    try {
+      var response =
+          await firestore.collection(FirebaseConstants.notesCollection).get();
+      print("Fetched ${response.size} notes.");
+
+      // Check if the collection has documents
+      if (response.docs.isNotEmpty) {
+        // Map each document to a GetNotesModel instance
+        List<GetNotesModel> notesList = response.docs.map((doc) {
+          print("length: ${response.docs.length}");
+          return GetNotesModel.fromMap(
+              doc.id, doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        return notesList;
+      }
+
+      // Return an empty list if no notes are found
+      return [];
+    } catch (e) {
+      print("Error fetching notes: $e");
+      throw Exception("Something went wrong while fetching notes.");
+    }
+  }
+
+  Future<bool> createNotes(String title, String description) async {
+    try {
+      var response = await firestore
+          .collection(FirebaseConstants.notesCollection)
+          .doc()
+          .set({
+        'title': title,
+        'description': description,
+        'created_at': Timestamp.now(),
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<String> uploadImageToFirebaseStorage(
       String imagePath, String uploadFolder,
       {String? extension}) async {
@@ -572,6 +633,52 @@ class FirebaseServices {
     final TaskSnapshot downloadUrl = (await uploadTask);
     final String url = await downloadUrl.ref.getDownloadURL();
     return url;
+  }
+
+  Future<List<GetDealerListModel>> getDealersList() async {
+    try {
+      var response =
+          await firestore.collection(FirebaseConstants.dealersCollection).get();
+
+      if (response.size > 0) {
+        // Map each document to a GetDealerListModel object.
+        List<GetDealerListModel> dealerList = response.docs.map((doc) {
+          return GetDealerListModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        return dealerList;
+      }
+      return [];
+    } catch (e) {
+      throw Exception("Error fetching dealers: $e");
+    }
+  }
+
+  Future<bool> createDealer({
+    required String name,
+    required String region,
+    required int phone,
+    required String createdBy,
+    required String docId,
+    required String shopName,
+  }) async {
+    try {
+      var response = await firestore
+          .collection(FirebaseConstants.dealersCollection)
+          .doc()
+          .set({
+        'name': name,
+        'region': region,
+        'phone': phone,
+        'created_at': Timestamp.now(),
+        'created_by': createdBy,
+        'doc_id': docId,
+        'shop_name': shopName,
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
 ////deleteAds

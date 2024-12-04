@@ -235,6 +235,12 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                       Navigator.pushNamed(context, Routes.staffList);
                     },
                   ),
+                  DrawerListTile(
+                    text: 'Dealers',
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.dealerListScreen);
+                    },
+                  ),
                   Center(
                     child: Container(
                       height: 1,

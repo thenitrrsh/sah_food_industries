@@ -3,41 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sah_food_industries/screens/dealers/view/create_dealer_screen.dart';
 
-import '../../Constants.dart';
-import '../../providers/notes_provider.dart';
-import '../side_menu_screen/side_drawer_screen.dart';
-import 'create_notes_screen.dart';
+import '../../../Constants.dart';
+import '../../side_menu_screen/side_drawer_screen.dart';
+import '../dealer_provider.dart';
 
-class NotesScreen extends StatefulWidget {
-  const NotesScreen({super.key});
+class DealerListScreen extends StatefulWidget {
+  const DealerListScreen({super.key});
 
-  static ChangeNotifierProvider<NotesProvider> builder(BuildContext context) {
-    return ChangeNotifierProvider<NotesProvider>(
-        create: (context) => NotesProvider(),
+  static ChangeNotifierProvider<DealerProvider> builder(BuildContext context) {
+    return ChangeNotifierProvider<DealerProvider>(
+        create: (context) => DealerProvider(),
         builder: (context, snapshot) {
-          return const NotesScreen();
+          return const DealerListScreen();
         });
   }
 
   @override
-  State<NotesScreen> createState() => _NotesScreenState();
+  State<DealerListScreen> createState() => _DealerListScreenState();
 }
 
-class _NotesScreenState extends State<NotesScreen> {
-  late NotesProvider notesProvider;
+class _DealerListScreenState extends State<DealerListScreen> {
+  late DealerProvider dealerListProvider;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    notesProvider = Provider.of<NotesProvider>(context, listen: false);
+    dealerListProvider = Provider.of<DealerProvider>(context, listen: false);
 
-    notesProvider.getNotes();
+    dealerListProvider.getDealers();
   }
 
   @override
   Widget build(BuildContext context) {
-    notesProvider = Provider.of(context);
+    dealerListProvider = Provider.of(context);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -48,7 +48,7 @@ class _NotesScreenState extends State<NotesScreen> {
             ),
             backgroundColor: Constants.bgBlueColor,
             title: const Text(
-              'My Notes',
+              'Dealers',
               style: TextStyle(fontSize: 20, color: Colors.white),
             )),
         // backgroundColor: Constants.bgBlueColor,
@@ -59,7 +59,7 @@ class _NotesScreenState extends State<NotesScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const CreateNotesScreen()));
+                    builder: (context) => const CreateDealerScreen()));
           },
           elevation: 5,
           child: Icon(
@@ -74,9 +74,9 @@ class _NotesScreenState extends State<NotesScreen> {
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: notesProvider.notesList?.length ?? 0,
+                  itemCount: dealerListProvider.dealerList?.length ?? 0,
                   itemBuilder: (context, index) {
-                    final noteData = notesProvider.notesList?[index];
+                    final noteData = dealerListProvider.dealerList?[index];
                     String formatDateTime(DateTime dateTime) {
                       final DateFormat formatter =
                           DateFormat('yyyy-MM-dd, hh:mm a');
@@ -125,11 +125,11 @@ class _NotesScreenState extends State<NotesScreen> {
                                   ),
                                 ),
                                 Text(
-                                  noteData?.title ?? '',
+                                  noteData?.name ?? '',
                                   style: TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     color: Constants.bgBlueColor,
                                   ),
                                 ),
@@ -137,13 +137,48 @@ class _NotesScreenState extends State<NotesScreen> {
                                 SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width / 1.1,
-                                  child: Text(
-                                    noteData?.description ?? "",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      color: Colors.black54,
-                                    ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.storefront_rounded,
+                                          size: 20, color: Colors.grey),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        noteData?.shopName ?? "",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          color: Constants.textColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 1),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.1,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.location_on_rounded,
+                                          size: 20, color: Colors.grey),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        noteData?.region ?? "",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          color: Constants.textColor,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

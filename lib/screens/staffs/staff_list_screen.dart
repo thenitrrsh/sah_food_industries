@@ -352,14 +352,44 @@ class _StaffListScreenState extends State<StaffListScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Expanded(
-                                              child: Text(userData.name ?? "",
-                                                  style: const TextStyle(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 18,
-                                                      color: Colors.white)),
+                                              child: SizedBox(
+                                                width: width / 1.33,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(userData.name ?? "",
+                                                        style: const TextStyle(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 18,
+                                                            color:
+                                                                Colors.white)),
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.location_on,
+                                                          color: Colors.white,
+                                                        ),
+                                                        Text(
+                                                          "Dehradun",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.white),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
                                             ),
                                             const SizedBox(
                                               height: 3,
@@ -421,65 +451,65 @@ class _StaffListScreenState extends State<StaffListScreen> {
                                                         // },
                                                         child: Icon(
                                                           Icons.add_chart,
-                                                          size: 25,
+                                                          size: 30,
                                                           color: staffProvider
                                                                       .status !=
                                                                   StaffStatus
                                                                       .active
                                                               ? Colors
                                                                   .greenAccent
-                                                              : Colors.black,
+                                                              : Colors.white,
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                        width: 12,
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (context) =>
-                                                                      AlertDialog(
-                                                                        title: const Text(
-                                                                            "Are you sure want to delete?"),
-                                                                        actions: [
-                                                                          TextButton(
-                                                                              onPressed: () {
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                              child: Text("No")),
-                                                                          TextButton(
-                                                                              onPressed: () {
-                                                                                // userList
-                                                                                //     .remove(
-                                                                                //     index);
-                                                                                //
-                                                                                // setState(
-                                                                                //         () {});
-                                                                                // onUserDelete(
-                                                                                //     userList[index]
-                                                                                //         .docId ??
-                                                                                //         "");
-                                                                                // print(
-                                                                                //     "241 userList Length ${userList.length}");
-                                                                              },
-                                                                              child: Text("Yes")),
-                                                                        ],
-                                                                      ));
-                                                        },
-                                                        child: Icon(
-                                                          Icons.delete_forever,
-                                                          size: 25,
-                                                          color: staffProvider
-                                                                      .status !=
-                                                                  StaffStatus
-                                                                      .active
-                                                              ? Colors
-                                                                  .greenAccent
-                                                              : Colors.black,
-                                                        ),
-                                                      ),
+                                                      // const SizedBox(
+                                                      //   width: 12,
+                                                      // ),
+                                                      // GestureDetector(
+                                                      //   onTap: () {
+                                                      //     showDialog(
+                                                      //         context: context,
+                                                      //         builder:
+                                                      //             (context) =>
+                                                      //                 AlertDialog(
+                                                      //                   title: const Text(
+                                                      //                       "Are you sure want to delete?"),
+                                                      //                   actions: [
+                                                      //                     TextButton(
+                                                      //                         onPressed: () {
+                                                      //                           Navigator.pop(context);
+                                                      //                         },
+                                                      //                         child: Text("No")),
+                                                      //                     TextButton(
+                                                      //                         onPressed: () {
+                                                      //                           // userList
+                                                      //                           //     .remove(
+                                                      //                           //     index);
+                                                      //                           //
+                                                      //                           // setState(
+                                                      //                           //         () {});
+                                                      //                           // onUserDelete(
+                                                      //                           //     userList[index]
+                                                      //                           //         .docId ??
+                                                      //                           //         "");
+                                                      //                           // print(
+                                                      //                           //     "241 userList Length ${userList.length}");
+                                                      //                         },
+                                                      //                         child: Text("Yes")),
+                                                      //                   ],
+                                                      //                 ));
+                                                      //   },
+                                                      //   child: Icon(
+                                                      //     Icons.delete_forever,
+                                                      //     size: 25,
+                                                      //     color: staffProvider
+                                                      //                 .status !=
+                                                      //             StaffStatus
+                                                      //                 .active
+                                                      //         ? Colors
+                                                      //             .greenAccent
+                                                      //         : Colors.black,
+                                                      //   ),
+                                                      // ),
                                                     ],
                                                   )
                                                 ],

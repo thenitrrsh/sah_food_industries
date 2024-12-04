@@ -2,13 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sah_food_industries/providers/admin_subadmin_provider.dart';
-import 'package:sah_food_industries/providers/staffProvider.dart';
+import 'package:sah_food_industries/providers/notes_provider.dart';
+import 'package:sah_food_industries/providers/product_category_provider.dart';
 import 'package:sah_food_industries/routes/routes.dart';
-import 'package:sah_food_industries/screens/login_register_screen.dart/login_screen.dart';
+import 'package:sah_food_industries/screens/dealers/dealer_provider.dart';
 import 'package:sah_food_industries/screens/productCategories/provider/add_product_screen_provider.dart';
-import 'package:sah_food_industries/screens/splash_screen.dart';
-import 'package:sah_food_industries/screens/staffs/staff_list_screen.dart';
-
 import 'app/shared_preferences_helper.dart';
 
 Future<void> main() async {
@@ -31,7 +29,12 @@ class MyApp extends StatelessWidget {
             create: (context) => AdminSubAdminProvider()),
         ChangeNotifierProvider<AddProductProvider>(
             create: (context) => AddProductProvider()),
-        // ChangeNotifierProvider<StaffProvider>( create: (context) => StaffProvider()),
+        ChangeNotifierProvider<ProductCategoryProvider>(
+            create: (context) => ProductCategoryProvider()),
+        ChangeNotifierProvider<NotesProvider>(
+            create: (context) => NotesProvider()),
+        ChangeNotifierProvider<DealerProvider>(
+            create: (context) => DealerProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

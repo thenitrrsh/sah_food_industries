@@ -6,5 +6,7 @@ class FirebaseConstants {
   static const String regionCollection = 'city';
   static const String productCollection = 'product';
   static const String productCategoryCollection = 'product_category';
-
+  static const String orderCollection = 'orders';
+  static const String notesCollection = 'notes';
+  static const String dealersCollection = 'dealers';
 }

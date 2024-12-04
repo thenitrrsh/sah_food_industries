@@ -89,6 +89,58 @@ class ProductCategoryProvider extends ChangeNotifier {
     Navigator.pushNamed(context, Routes.catalogScreen);
   }
 
+  updateProduct(
+      {context,
+      required String productName,
+      required String productPrice,
+      required String productDescription,
+      required String productImage,
+      required String categoryName,
+      required String categoryId,
+      required String quantity,
+      required String qtyType,
+      required String weight,
+      required String docId}) async {
+    print("104 Working update product");
+    if (productPrice.isEmpty ||
+        productName.isEmpty ||
+        productDescription.isEmpty ||
+        productImage.isEmpty ||
+        categoryName.isEmpty ||
+        quantity.isEmpty ||
+        qtyType.isEmpty ||
+        categoryId.isEmpty ||
+        weight.isEmpty) {
+      ToastHelper.showToast("all fields are required");
+      return;
+    }
+
+    double price = double.tryParse(productPrice) ?? 0;
+    int qty = int.tryParse(quantity) ?? 0;
+    productLoading = true;
+    notifyListeners();
+    String url = await _firebaseServices.uploadImageToFirebaseStorage(
+        productImage, 'productUploads');
+    var data = await _firebaseServices.updateProduct(
+      productName,
+      // price,
+      productDescription,
+      url,
+      categoryName,
+      // qty,
+      qtyType,
+      // categoryId,
+      // weight,
+      // docId
+    );
+
+    getProducts(categoryId);
+    productLoading = false;
+    notifyListeners();
+    ToastHelper.showToast("Product Updated");
+    Navigator.pushNamed(context, Routes.catalogScreen);
+  }
+
   searchData() {
     if (searchController.text.isEmpty) {
       staffListSearch = categoryList;

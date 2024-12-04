@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sah_food_industries/screens/catalogue_screen/catalogue_screen.dart';
 import 'package:sah_food_industries/screens/dashboard/home_screen.dart';
+import 'package:sah_food_industries/screens/notes_screen/notes_screen.dart';
 import 'package:sah_food_industries/screens/productCategories/product_category_list_screen.dart';
 
+import '../providers/product_category_provider.dart';
+import '../screens/catalogue_screen/add_product_screen.dart';
+import '../screens/dealers/view/dealers_list_screen.dart';
 import '../screens/login_register_screen.dart/login_screen.dart';
+import '../screens/my_profile_screen/my_profile.dart';
 import '../screens/productDetailScreen/product_detail_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/staffs/add_staff_screen.dart';
@@ -46,6 +51,9 @@ class Routes {
   static const String productCategoryListScreen = '/productListCategoryScreen';
   static const String catalogScreen = '/catalogue_screen';
   static const String productDetailScreen = '/product_detail_screen';
+  static const String notesListScreen = '/notes_screen';
+  static const String myProfileScreen = '/profile_screen';
+  static const String dealerListScreen = '/dealer_screen';
 
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     splashScreen: (context) => const SplashScreen(),
@@ -55,6 +63,10 @@ class Routes {
     home: (context) => const HomeScreen(),
     productCategoryListScreen: CategoryListScreen.builder,
     catalogScreen: CatalogueScreen.builder,
-    productDetailScreen: (context) => const ProductDetailScreen()
+    productDetailScreen: (context) => const ProductDetailScreen(),
+    addProduct: AddProductScreen.builder,
+    notesListScreen: (context) => const NotesScreen(),
+    myProfileScreen: MyProfileScreen.builder,
+    dealerListScreen: DealerListScreen.builder,
   };
 }

@@ -27,6 +27,7 @@ class _RegionListScreenState extends State<RegionListScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    // TODO: implement initState
     super.initState();
     init();
   }
@@ -276,7 +277,7 @@ class _RegionListScreenState extends State<RegionListScreen> {
                                                       Colors.black12,
                                                   child: Icon(
                                                     Icons.delete_forever,
-                                                    color: Colors.red.shade300,
+                                                    color: Colors.red.shade600,
                                                     size: 30,
                                                   ),
                                                 ),

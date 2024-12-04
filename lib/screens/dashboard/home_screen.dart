@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sah_food_industries/Constants.dart';
 import 'package:sah_food_industries/routes/routes.dart';
+import 'package:sah_food_industries/screens/my_profile_screen/my_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../ReusableContents/reusable_contents.dart';
 import '../../helper.dart';
@@ -26,23 +27,29 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> homeCardNames = [
     'Sub-Admins',
     'Staffs',
-    'Reports',
+    'Orders',
     'Sales',
+    'Reports',
     'Catalogue',
     'Notes',
+    'Dealers',
   ];
   List<IconData> icons = [
     Icons.person,
     Icons.supervised_user_circle_sharp,
-    Icons.sticky_note_2,
+    Icons.point_of_sale_sharp,
     Icons.currency_rupee,
+    Icons.sticky_note_2,
     Icons.production_quantity_limits,
     Icons.note_alt_sharp,
+    Icons.person_pin_outlined
   ];
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    final List<Map<String, Color>> shuffledColors = Helper.getShuffledColors();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       drawer: DashboardDrawer(height: height, width: width),
@@ -51,43 +58,39 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // const Icon(
-                //   Icons.add_box,
-                //   size: 28,
-                // ),
-                // const SizedBox(
-                //   width: 5,
-                // ),
-                // const Icon(
-                //   Icons.notifications,
-                //   size: 28,
-                // ),
+                IconButton(
+                  onPressed: () async {
+                    // TimeSheetProvider timeSheetProvider =
+                    // Provider.of(context, listen: false);
+                    // timeSheetProvider.selectedEmployeeController.clear();
+                    // _showLogoutAlertDialog();
+                    final sp = await SharedPreferences.getInstance();
+                    sp.clear();
+
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (route) => false);
+                  },
+                  icon: const Icon(
+                    Icons.logout,
+                    size: 30,
+                  ),
+                ),
                 const SizedBox(
                   width: 5,
                 ),
-                Hero(
-                  tag: "preview",
-                  child: IconButton(
-                    onPressed: () async {
-                      // TimeSheetProvider timeSheetProvider =
-                      // Provider.of(context, listen: false);
-                      // timeSheetProvider.selectedEmployeeController.clear();
-                      // _showLogoutAlertDialog();
-                      final sp = await SharedPreferences.getInstance();
-                      sp.clear();
-
-
-
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginScreen()),
-                          (route) => false);
-                    },
-                    icon: const Icon(
-                      Icons.logout,
-                      size: 28,
-                    ),
+                IconButton(
+                  onPressed: () async {
+                    Navigator.pushNamed(context, Routes.myProfileScreen);
+                  },
+                  icon: const Icon(
+                    Icons.person,
+                    size: 30,
                   ),
+                ),
+                SizedBox(
+                  width: 10,
                 )
               ],
             )
@@ -100,251 +103,264 @@ class _HomeScreenState extends State<HomeScreen> {
           )),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Container(
-              height: height / 5.5,
-              width: width / 1,
-              decoration: BoxDecoration(
-                  // color: homeCardColor,
-                  borderRadius: BorderRadius.circular(20),
-                  border:
-                      Border.all(color: Constants.homeCardColor, width: 1.5)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                         Text(
-                          "Today's Report",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Constants.bgBlueColor,
-                              fontSize: 20),
-                        ),
-                        Row(
-                          children: [
-                             Text(
-                              "Date: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Constants.bgBlueColor,
-                                  fontSize: 16),
-                            ),
-                            Container(
-                              decoration: (BoxDecoration(
-                                  // color: homeCardColor,
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(8),
-                                  border: Border.all(
-                                      color: Constants.bgBlueColor,
-                                      width: 1.5))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(3),
-                                child: Text(
-                                  "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                                  style:  TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Constants.bgBlueColor,
-                                      fontSize: 16),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: height / 5.5,
+                width: width / 1,
+                decoration: BoxDecoration(
+                    // color: homeCardColor,
+                    borderRadius: BorderRadius.circular(20),
+                    border:
+                        Border.all(color: Constants.homeCardColor, width: 1.5)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Today's Report",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Constants.bgBlueColor,
+                                fontSize: 20),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Date: ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Constants.bgBlueColor,
+                                    fontSize: 16),
+                              ),
+                              Container(
+                                decoration: (BoxDecoration(
+                                    // color: homeCardColor,
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(8),
+                                    border: Border.all(
+                                        color: Constants.bgBlueColor,
+                                        width: 1.5))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Text(
+                                    "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Constants.bgBlueColor,
+                                        fontSize: 16),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 55,
-                              width: 55,
-                              decoration: (BoxDecoration(
-                                  color: Constants.greenlightbgColor,
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(8))),
-                              child: const Center(
-                                  child: Text(
-                                "20",
-                                style: TextStyle(
-                                    color: Constants.greenColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                            ),
-                            const ReusableDashboardSmallText(
-                                text: "Active Staff",
-                                color: Constants.greenColor)
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 55,
-                              width: 55,
-                              decoration: (BoxDecoration(
-                                  color: Constants.homeCardColor,
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(8))),
-                              child: const Center(
-                                  child: Text(
-                                "5",
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                            ),
-                            const ReusableDashboardSmallText(
-                                text: "Total Order", color: Colors.blue)
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 55,
-                              width: 55,
-                              decoration: (BoxDecoration(
-                                  color: Colors.purple.shade50,
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(8))),
-                              child: const Center(
-                                  child: Text(
-                                "200",
-                                style: TextStyle(
-                                    color: Colors.purple,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                            ),
-                            const ReusableDashboardSmallText(
-                                text: "Total Sale", color: Colors.purple)
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 55,
+                                width: 55,
+                                decoration: (BoxDecoration(
+                                    color: Constants.greenlightbgColor,
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(8))),
+                                child: const Center(
+                                    child: Text(
+                                  "20",
+                                  style: TextStyle(
+                                      color: Constants.greenColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                )),
+                              ),
+                              const ReusableDashboardSmallText(
+                                  text: "Active Staff",
+                                  color: Constants.greenColor)
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 55,
+                                width: 55,
+                                decoration: (BoxDecoration(
+                                    color: Constants.homeCardColor,
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(8))),
+                                child: const Center(
+                                    child: Text(
+                                  "5",
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                )),
+                              ),
+                              const ReusableDashboardSmallText(
+                                  text: "Total Order", color: Colors.blue)
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 55,
+                                width: 55,
+                                decoration: (BoxDecoration(
+                                    color: Colors.purple.shade50,
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(8))),
+                                child: const Center(
+                                    child: Text(
+                                  "200",
+                                  style: TextStyle(
+                                      color: Colors.purple,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                )),
+                              ),
+                              const ReusableDashboardSmallText(
+                                  text: "Total Sale", color: Colors.purple)
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              // height: height / 2.2,
-              decoration: BoxDecoration(
-                color: Constants.homeCardColor,
-                borderRadius: BorderRadius.circular(20),
+              const SizedBox(
+                height: 10,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemCount: 6,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    List<Color> colors =
-                        Helper.getRandomColorIndex(seed: index);
-                    return GestureDetector(
-                      onTap: () {
-                        if (index == 0) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SubAdminsListScreen()));
-                        } else {
-                          if (index == 1) {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             ChangeNotifierProvider(
-                            //               create: (context) => StaffProvider(),
-                            //                 child: const StaffListScreen())));
+              Container(
+                // height: height / 2.2,
+                decoration: BoxDecoration(
+                  color: Constants.homeCardColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: 8,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Map<String, Color> colorPair =
+                          shuffledColors[index]; // Get color for current index
 
-                            Navigator.pushNamed(context, Routes.staffList);
-                          } else {
-                            if (index == 2) {
+                      return GestureDetector(
+                        onTap: () {
+                          // Handle navigation logic based on index
+                          switch (index) {
+                            case 0:
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SubAdminsListScreen()));
+                              break;
+                            case 1:
+                              Navigator.pushNamed(context, Routes.staffList);
+                              break;
+                            case 2:
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SalesScreen()));
+
+                              break;
+                            case 3:
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SalesScreen()));
+
+                              break;
+                            case 4:
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           const ReportsScreen()));
-                            } else {
-                              if (index == 3) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SalesScreen()));
-                              } else {
-                                if (index == 4) {
-                                  Navigator.pushNamed(context, Routes.catalogScreen);
 
-                                } else {
-                                  if (index == 5) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const NotesScreen()));
-                                  }
-                                }
-                              }
-                            }
+                              break;
+                            case 5:
+                              Navigator.pushNamed(
+                                  context, Routes.catalogScreen);
+
+                              break;
+                            case 6:
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const NotesScreen()));
+                              break;
+                            case 7:
+                              Navigator.pushNamed(
+                                  context, Routes.dealerListScreen);
+                              break;
+
+                            // Add other cases if needed
                           }
-                        }
-                      },
-                      child: Container(
-                        height: height / 5,
-                        width: width / 2.3,
-                        decoration: BoxDecoration(
-                            color: colors.first,
+                        },
+                        child: Container(
+                          height: height / 5,
+                          width: width / 2.3,
+                          decoration: BoxDecoration(
+                            color: colorPair['background'],
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: colors.first)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              icons[index],
-                              color: Colors.white,
-                              size: 60,
-                            ),
-                            Text(
-                              homeCardNames[index],
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white),
-                            ),
-                          ],
+                            border: Border.all(color: colorPair['background']!),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                icons[index],
+                                color: Colors.white,
+                                size: 60,
+                              ),
+                              Text(
+                                homeCardNames[index],
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.white),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
       ),
     );

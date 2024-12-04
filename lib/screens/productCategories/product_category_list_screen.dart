@@ -11,6 +11,9 @@ import '../../ReusableContents/reusable_contents.dart';
 import '../../helper.dart';
 import '../../models/user_model.dart';
 import '../../providers/product_category_provider.dart';
+import '../../services/firebase_services.dart';
+import '../../utils/toast_helper.dart';
+import '../../utils/utils.dart';
 import '../side_menu_screen/side_drawer_screen.dart';
 import '../sub_admins/add_sub_admin_screen.dart';
 
@@ -240,22 +243,24 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                         itemBuilder: (context, index) {
                           ProductCategoryModel categoryData =
                               productCategoryProvider.staffListSearch![index];
-                          List<Color> colors =
-                              Helper.getRandomColorIndex(seed: index);
+                          // List<Color> colors =
+                          //     Helper.getRandomColorIndex(seed: index);
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: colors.first,
+                                    // color: colors.first,
                                     borderRadius:
                                         BorderRadiusDirectional.circular(10),
                                     border: Border.all(
-                                        color: colors.first, width: 1.5)),
+                                        color: Constants.bgBlueColor,
+                                        width: 1.5)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
@@ -263,8 +268,57 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                           style: TextStyle(
                                               overflow: TextOverflow.ellipsis,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 18,
-                                              color: Colors.white)),
+                                              fontSize: 16,
+                                              color: Constants
+                                                  .drawerBackgroundColor)),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                    title: const Text(
+                                                        "Are you sure want to delete?"),
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text("No")),
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Utils.alertDialog(
+                                                                context,
+                                                                () async {
+                                                              await FirebaseServices()
+                                                                  .deleteProductCategory(
+                                                                      categoryData
+                                                                              .docId ??
+                                                                          "");
+                                                              setState(() {
+                                                                productCategoryProvider
+                                                                    .getProductCategory();
+                                                                ToastHelper
+                                                                    .showToast(
+                                                                        "Category Deleted Successfully");
+                                                              });
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                          },
+                                                          child: Text("Yes")),
+                                                    ],
+                                                  ));
+                                        },
+                                        child: Icon(
+                                          Icons.delete_forever,
+                                          size: 30,
+                                          color: Colors.red.shade600,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
