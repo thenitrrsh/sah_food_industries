@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sah_food_industries/Constants.dart';
 import 'package:sah_food_industries/routes/routes.dart';
-import 'package:sah_food_industries/screens/my_profile_screen/my_profile.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../ReusableContents/reusable_contents.dart';
 import '../../helper.dart';
 import '../../providers/staffProvider.dart';
-import '../catalogue_screen/catalogue_screen.dart';
-import '../login_register_screen.dart/login_screen.dart';
 import '../notes_screen/notes_screen.dart';
 import '../reports_screen/reports_screen.dart';
 import '../sales_screen/sales_screen.dart';
 import '../side_menu_screen/side_drawer_screen.dart';
-import '../staffs/staff_list_screen.dart';
 import '../sub_admins/sub_admins_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,11 +39,20 @@ class _HomeScreenState extends State<HomeScreen> {
     Icons.note_alt_sharp,
     Icons.person_pin_outlined
   ];
+
+  late StaffProvider staffProvider;
   @override
   Widget build(BuildContext context) {
+    staffProvider = Provider.of(context);
+    // StaffProvider staffProvider = context.watch<StaffProvider>();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     final List<Map<String, Color>> shuffledColors = Helper.getShuffledColors();
+
+    int activeStaff = staffProvider.staffListSearch
+            ?.where((staff) => staff.status == 'online')
+            .length ??
+        0;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -58,28 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: () async {
-                    // TimeSheetProvider timeSheetProvider =
-                    // Provider.of(context, listen: false);
-                    // timeSheetProvider.selectedEmployeeController.clear();
-                    // _showLogoutAlertDialog();
-                    final sp = await SharedPreferences.getInstance();
-                    sp.clear();
-
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                        (route) => false);
-                  },
-                  icon: const Icon(
-                    Icons.logout,
-                    size: 30,
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
                 IconButton(
                   onPressed: () async {
                     Navigator.pushNamed(context, Routes.myProfileScreen);
@@ -177,9 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Constants.greenlightbgColor,
                                     borderRadius:
                                         BorderRadiusDirectional.circular(8))),
-                                child: const Center(
+                                child: Center(
                                     child: Text(
-                                  "20",
+                                  activeStaff.toString(),
+                                  // "${staffProvider.staffListSearch?.length ?? 0}",
                                   style: TextStyle(
                                       color: Constants.greenColor,
                                       fontSize: 18,
@@ -284,11 +267,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.pushNamed(context, Routes.staffList);
                               break;
                             case 2:
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SalesScreen()));
+                              Navigator.pushNamed(
+                                  context, Routes.orderListScreen);
 
                               break;
                             case 3:

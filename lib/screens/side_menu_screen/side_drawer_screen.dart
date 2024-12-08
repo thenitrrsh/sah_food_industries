@@ -5,6 +5,7 @@ import 'package:sah_food_industries/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Constants.dart';
+import '../../utils/utils.dart';
 import '../catalogue_screen/catalogue_screen.dart';
 import '../dashboard/home_screen.dart';
 import '../login_register_screen.dart/login_screen.dart';
@@ -72,8 +73,8 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Mukesh Sah",
+                        Text(
+                          '${userData?.name ?? ""}',
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,
@@ -82,9 +83,9 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                         SizedBox(
                           width: widget.width / 2.7,
                           // color: Colors.red,
-                          child: const Text(
+                          child: Text(
                             overflow: TextOverflow.ellipsis,
-                            "Admin",
+                            '${userData?.type ?? ""}',
                             style:
                                 TextStyle(fontSize: 12, color: Colors.white70),
                           ),
@@ -375,18 +376,10 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                     text: 'Logout',
                     icon: Icons.logout,
                     onTap: () async {
-                      // TimeSheetProvider timeSheetProvider =
-                      //     Provider.of(context, listen: false);
-                      // timeSheetProvider.selectedEmployeeController.clear();
-                      // _showLogoutAlertDialog(context);
-                      // Navigator.pushAndRemoveUntil(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => LoginScreen()),
-                      //     (route) => false);
-
-                      final sp = await SharedPreferences.getInstance();
-                      sp.clear();
+                      Utils.alertDialog(context, () async {
+                        final sp = await SharedPreferences.getInstance();
+                        sp.clear();
+                      });
 
                       Navigator.pushAndRemoveUntil(
                           context,

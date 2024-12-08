@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,13 +40,16 @@ class SharedPreferencesHelper {
   }
 
   static Future<bool?> setUserData(UserModel userModel) async {
+    print("46 check user data: ${jsonEncode(userModel.toMap())}");
 
-    return await prefs?.setString(ConstantsValues.userData, jsonEncode(userModel.toMap()));
+    return await prefs?.setString(
+        ConstantsValues.userData, jsonEncode(userModel.toMap()));
   }
 
   static UserModel? getUserData() {
     var userData = prefs?.getString(ConstantsValues.userData);
     if (userData != null) {
+      print("54 check get user data: ${jsonDecode(userData)}");
       return UserModel.fromMap(jsonDecode(userData));
     }
     return null;
@@ -61,8 +62,5 @@ class SharedPreferencesHelper {
   static logout() async {
     await FirebaseAuth.instance.signOut();
     clearSharedPreferences();
-
   }
-
-
 }

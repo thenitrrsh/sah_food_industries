@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sah_food_industries/widgets/common_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Constants.dart';
+import '../../ReusableContents/reusable_contents.dart';
 import '../../app/shared_preferences_helper.dart';
 import '../../models/user_model.dart';
+import '../../utils/utils.dart';
+import '../login_register_screen.dart/login_screen.dart';
 import 'my_profile_provider.dart';
 
 class MyProfileScreen extends StatefulWidget {
@@ -26,9 +30,12 @@ class MyProfileScreen extends StatefulWidget {
 class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     MyProfileProvider myProfileProvider = MyProfileProvider();
     UserModel? userData = SharedPreferencesHelper.getUserData();
-    myProfileProvider.nameController.text = userData!.name ?? '';
+    myProfileProvider.nameController.text =
+        userData!.name ?? '' + '(${userData.type ?? ""})';
     myProfileProvider.emailController.text = userData.email ?? '';
     myProfileProvider.passwordController.text = userData.password ?? '';
 
@@ -87,6 +94,42 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 controller: myProfileProvider.passwordController,
                 isRequired: true,
                 readonly: true,
+              ),
+            ),
+            SizedBox(
+              height: height / 10,
+            ),
+            Center(
+              child: GestureDetector(
+                onTap: () async {
+                  Utils.alertDialog(context, () async {
+                    final sp = await SharedPreferences.getInstance();
+                    sp.clear();
+                  });
+
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      (route) => false);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Container(
+                      height: 35,
+                      // width: width / 5,
+                      decoration: BoxDecoration(
+                          color: Constants.redColor,
+                          borderRadius: BorderRadiusDirectional.circular(15)),
+                      child: const Center(
+                        child: Text(
+                          "Logout",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      )),
+                ),
               ),
             ),
           ],

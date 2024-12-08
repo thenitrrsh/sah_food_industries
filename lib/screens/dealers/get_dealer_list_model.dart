@@ -21,13 +21,13 @@ class GetDealerListModel {
     this.shopName,
   });
 
-  factory GetDealerListModel.fromMap(Map<String, dynamic> json) {
+  factory GetDealerListModel.fromMap(String docId, Map<String, dynamic> json) {
     DateTime? date = (json['created_at'] as Timestamp?)?.toDate();
 
     return GetDealerListModel(
       createdAt: date,
       createdBy: json["created_by"],
-      docId: json["doc_id"],
+      docId: docId,
       name: json["name"],
       phone: json["phone"],
       region: json["region"],

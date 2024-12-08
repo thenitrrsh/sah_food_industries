@@ -34,7 +34,10 @@ class DealerProvider extends ChangeNotifier {
     required String region,
     required String shopName,
   }) async {
-    if (name.isEmpty || region.isEmpty || phone.toString().isEmpty || shopName.isEmpty) {
+    if (name.isEmpty ||
+        region.isEmpty ||
+        phone.toString().isEmpty ||
+        shopName.isEmpty) {
       ToastHelper.showToast("All fields are required");
       return;
     }
@@ -68,6 +71,32 @@ class DealerProvider extends ChangeNotifier {
       ToastHelper.showToast("Failed to create note. Please try again.");
     } finally {
       // Ensure isLoading is updated in both success and failure scenarios
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteDealer({
+    required BuildContext context,
+    required String docID,
+  }) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      print("87 check delaer doc: $docID");
+
+      print("78 check delaer delete: ${dealerList?.length}");
+      var data = await _firebaseServices.deleteDealer(docID);
+      print("dealer deleted: $data");
+      ToastHelper.showToast("Dealer deleted successfully");
+      print("91 check delaer delete: ${dealerList?.length}");
+      getDealers();
+      notifyListeners();
+    } catch (e) {
+      print("Error deleting dealer: $e");
+      ToastHelper.showToast("Failed to delete dealer. Please try again.");
+    } finally {
       isLoading = false;
       notifyListeners();
     }

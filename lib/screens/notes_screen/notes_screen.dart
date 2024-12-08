@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../Constants.dart';
 import '../../providers/notes_provider.dart';
+import '../../utils/utils.dart';
 import '../side_menu_screen/side_drawer_screen.dart';
 import 'create_notes_screen.dart';
 
@@ -76,6 +77,8 @@ class _NotesScreenState extends State<NotesScreen> {
                 child: ListView.builder(
                   itemCount: notesProvider.notesList?.length ?? 0,
                   itemBuilder: (context, index) {
+                    print(
+                        "80 check notes list ${notesProvider.notesList?.length}");
                     final noteData = notesProvider.notesList?[index];
                     String formatDateTime(DateTime dateTime) {
                       final DateFormat formatter =
@@ -116,10 +119,20 @@ class _NotesScreenState extends State<NotesScreen> {
                                           color: Constants.textColor,
                                         ),
                                       ),
-                                      Icon(
-                                        Icons.delete_rounded,
-                                        color: Colors.grey,
-                                        size: 30,
+                                      InkWell(
+                                        onTap: () {
+                                          Utils.alertDialog(context, () async {
+                                            notesProvider.deleteNotes(
+                                              context: context,
+                                              docID: noteData?.docId ?? '',
+                                            );
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.delete_rounded,
+                                          color: Colors.grey,
+                                          size: 30,
+                                        ),
                                       )
                                     ],
                                   ),

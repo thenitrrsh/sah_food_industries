@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sah_food_industries/screens/dealers/view/create_dealer_screen.dart';
 
 import '../../../Constants.dart';
+import '../../../utils/utils.dart';
 import '../../side_menu_screen/side_drawer_screen.dart';
 import '../dealer_provider.dart';
 
@@ -76,12 +77,17 @@ class _DealerListScreenState extends State<DealerListScreen> {
                 child: ListView.builder(
                   itemCount: dealerListProvider.dealerList?.length ?? 0,
                   itemBuilder: (context, index) {
-                    final noteData = dealerListProvider.dealerList?[index];
+                    print(
+                        "80 check dealer list: ${dealerListProvider.dealerList?.length}");
+                    final dealerData = dealerListProvider.dealerList?[index];
                     String formatDateTime(DateTime dateTime) {
                       final DateFormat formatter =
                           DateFormat('yyyy-MM-dd, hh:mm a');
                       return formatter.format(dateTime);
                     }
+
+                    print(
+                        "89 check dealer list: ${dealerListProvider.dealerList?.first.docId}");
 
                     return Padding(
                       padding: const EdgeInsets.all(5),
@@ -104,9 +110,9 @@ class _DealerListScreenState extends State<DealerListScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        noteData?.createdAt != null
+                                        dealerData?.createdAt != null
                                             ? formatDateTime(
-                                                noteData?.createdAt! ??
+                                                dealerData?.createdAt! ??
                                                     DateTime.now())
                                             : "No Date",
                                         style: TextStyle(
@@ -116,16 +122,28 @@ class _DealerListScreenState extends State<DealerListScreen> {
                                           color: Constants.textColor,
                                         ),
                                       ),
-                                      Icon(
-                                        Icons.delete_rounded,
-                                        color: Colors.grey,
-                                        size: 30,
+                                      InkWell(
+                                        onTap: () {
+                                          print(
+                                              "check dealer docId: ${dealerData?.docId}");
+                                          Utils.alertDialog(context, () async {
+                                            dealerListProvider.deleteDealer(
+                                              context: context,
+                                              docID: dealerData?.docId ?? '',
+                                            );
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.delete_rounded,
+                                          color: Colors.grey,
+                                          size: 30,
+                                        ),
                                       )
                                     ],
                                   ),
                                 ),
                                 Text(
-                                  noteData?.name ?? '',
+                                  dealerData?.name ?? '',
                                   style: TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                     fontWeight: FontWeight.w500,
@@ -147,7 +165,7 @@ class _DealerListScreenState extends State<DealerListScreen> {
                                         width: 5,
                                       ),
                                       Text(
-                                        noteData?.shopName ?? "",
+                                        dealerData?.shopName ?? "",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
@@ -171,7 +189,7 @@ class _DealerListScreenState extends State<DealerListScreen> {
                                         width: 5,
                                       ),
                                       Text(
-                                        noteData?.region ?? "",
+                                        dealerData?.region ?? "",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,

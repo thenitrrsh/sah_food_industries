@@ -67,6 +67,31 @@ class NotesProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> deleteNotes({
+    required BuildContext context,
+    required String docID,
+  }) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      var data = await _firebaseServices.deleteNotes(docID);
+
+      print("Note deleted: $data");
+      ToastHelper.showToast("Note deleted successfully");
+
+      // Navigate to the notes list screen
+      getNotes();
+    } catch (e) {
+      print("Error deleting note: $e");
+      ToastHelper.showToast("Failed to delete note. Please try again.");
+    } finally {
+      // Ensure isLoading is updated in both success and failure scenarios
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   void clearControllers() {
     titleController.clear();
     descController.clear();

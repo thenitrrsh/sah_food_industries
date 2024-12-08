@@ -622,6 +622,18 @@ class FirebaseServices {
     }
   }
 
+  Future<bool> deleteNotes(String docId) async {
+    try {
+      await firestore
+          .collection(FirebaseConstants.notesCollection)
+          .doc(docId)
+          .delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<String> uploadImageToFirebaseStorage(
       String imagePath, String uploadFolder,
       {String? extension}) async {
@@ -640,10 +652,11 @@ class FirebaseServices {
       var response =
           await firestore.collection(FirebaseConstants.dealersCollection).get();
 
-      if (response.size > 0) {
+      if (response.docs.isNotEmpty) {
         // Map each document to a GetDealerListModel object.
         List<GetDealerListModel> dealerList = response.docs.map((doc) {
-          return GetDealerListModel.fromMap(doc.data() as Map<String, dynamic>);
+          return GetDealerListModel.fromMap(
+              doc.id, doc.data() as Map<String, dynamic>);
         }).toList();
 
         return dealerList;
@@ -675,6 +688,18 @@ class FirebaseServices {
         'doc_id': docId,
         'shop_name': shopName,
       });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteDealer(String docId) async {
+    try {
+      await firestore
+          .collection(FirebaseConstants.dealersCollection)
+          .doc(docId)
+          .delete();
       return true;
     } catch (e) {
       return false;
